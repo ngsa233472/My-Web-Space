@@ -1,0 +1,2 @@
+2025-04-30 06:58:22.391 [info] Log level: Info
+2025-04-30 06:58:23.709 [warning] [GitHubBranchProtectionProvider][updateRepositoryBranchProtection] Failed to update repository branch protection: Bad credentials - https://docs.github.com/graphql
