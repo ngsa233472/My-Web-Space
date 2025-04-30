@@ -4,3 +4,6 @@
 .ssh
 .viminfo
 html/unsorted/
+.cache
+.vscode-server
+.wget-hsts
