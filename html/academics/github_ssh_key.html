@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full steps to sync GitHub and your local Git repo via SSH keys:</title>
+</head>
+<body>
+    <header>
+        <h1>Full steps to sync GitHub and your local Git repo via SSH keys:</h1>
+        <h2>1. Generate an SSH key for GitHub (if you don't have one yet)</h2>
+✅ On your Ubuntu server, generate a new SSH key:<br>
+ssh-keygen -t ed25519 -C "your_email@example.com"<br>
+2. Add your SSH key to the SSH agent<br>
+✅ Start the SSH agent:<br>
+eval "$(ssh-agent -s)"<br>
+✅ Then add your private key to the agent:<br>
+ssh-add ~/.ssh/id_ed25519<br>
+3. Add your SSH public key to GitHub<br>
+✅ Now display your public key:<br>
+cat ~/.ssh/id_ed25519.pub<br>
+	It will look something like:<br>
+    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICvN... your_email@example.com<br>
+✅ Copy the entire line.<br>
+
+✅ Go to GitHub → Settings → SSH and GPG keys → New SSH key.<br>
+✅ Title it something like "Ubuntu Server SSH Key".<br>
+✅ Paste your copied SSH public key.<br>
+✅ Save.<br>
+4. Test your SSH connection to GitHub<br>
+- Run:<br>
+ssh -T git@github.com<br>
+✅ If everything is set up properly, you’ll see:<br>
+	Hi username! You've successfully authenticated, but GitHub does not provide shell access.<br>
+✅ That’s what you want!<br>
+5. Set GitHub to use SSH in your local Git repo<br>
+✅ Initially clone the repository<br>
+git clone https://github.com/ngsa233472/Bash.git<br>
+✅ Check the current remote URL:<br>
+git remote -v<br>
+✅ If it shows something like:<br>
+	https://github.com/username/repo.git<br>
+✅ You need to change it to use SSH instead of HTTPS:<br>
+git remote set-url origin git@github.com:ngsa233472/Bash.git<br>
+Format:<br>
+git@github.com:USERNAME/REPOSITORY.git<br>
+6. Now you can git push and git pull without entering your username and password<br>
+✅ git pull origin main<br>
+✅ git push origin main<br>
+✅ And it's secure over SSH!<br>
+    </header>
+</body>
+</html>
