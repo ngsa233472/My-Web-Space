@@ -1,0 +1,145 @@
+* {
+  margin: 0;
+  padding: 2px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  font-size: 10;
+}
+
+.container {
+  background-color: white;
+}
+
+.box {
+}
+
+.prerequisites {
+  background-color: rgb(217, 154, 217);
+  border: 1px solid slategray;
+  margin: 10px 10px;
+  overflow: auto;
+  padding-left: 1em;
+  word-wrap: break-word;
+  font-family: monospace;
+}
+
+.command {
+  background-color: steelblue;
+  border: 1px solid slategray;
+  margin: 10px 10px;
+  overflow: auto;
+  padding-left: 1em;
+  word-wrap: break-word;
+  font-family: monospace;
+}
+
+.input {
+  background: moccasin;
+  border: 1px solid slategray;
+  margin: 10px;
+  padding-left: 1em;
+  overflow: auto;
+  word-wrap: break-word;
+  font-family: monospace;
+}
+
+.required {
+  background-color: moccasin;
+  border: 1px solid slategray;
+  margin: 10px;
+  overflow: auto;
+  padding-left: 1em;
+  word-wrap: break-word;
+  font-family: monospace;
+}
+
+.optional {
+  background-color: cornflowerblue;
+  border: 1px solid slategray;
+  margin: 10px;
+  overflow: auto;
+  padding-left: 1em;
+  word-wrap: break-word;
+  font-family: monospace;
+}
+
+.code-block {
+  position: relative;
+  background-color: whitesmoke;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-family: monospace;
+  white-space: pre-wrap;
+}
+
+.verification {
+  background-color: slateblue;
+  border: 1px solid slategray;
+  margin: 10px;
+  overflow: auto;
+  padding-left: 1em;
+  word-wrap: break-word;
+  font-family: monospace;
+}
+
+.checkthis {
+  background-color: salmon;
+  border: 1px solid slategray;
+  margin: 10px 10px;
+  overflow: auto;
+  padding-left: 1em;
+  word-wrap: break-word;
+  font-family: monospace;
+}
+
+.checkthisalso {
+  background-color: coral;
+  border: 1px solid slategray;
+  margin: 10px 10px;
+  overflow: auto;
+  padding-left: 1em;
+  word-wrap: break-word;
+  font-family: monospace;
+}
+.output {
+  background: whitesmoke;
+  border: 1px solid slategray;
+  margin: 10px;
+  padding-left: 1em;
+  overflow: auto;
+  word-wrap: break-word;
+  font-family: monospace;
+}
+
+.blanked {
+  background: slategray;
+  border: 1px solid slategray;
+  margin: 10px;
+  padding-left: 1em;
+  overflow: auto;
+  word-wrap: break-word;
+  font-family: monospace;
+  color: slategray;
+}
+
+.code {
+  margin: 10px;
+  background: chartreuse;
+  border: 1px solid slategray;
+  padding: 10px;
+}
+.usercode {
+  margin: 10px;
+  background: chartreuse;
+  border: 1px solid;
+  border-color: slategray;
+  padding: 10px;
+}
+
+.note {
+  background: DarkKhaki;
+  border: 1px solid black;
+  margin: 10px;
+}

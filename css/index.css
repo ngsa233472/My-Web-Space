@@ -1,0 +1,75 @@
+* {
+  font-family: "Playwrite CU", "sans-serif";
+}
+
+.header {
+  background: chocolate;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+}
+
+p {
+  font-weight: 25;
+}
+
+A {
+  color: silver;
+  text-decoration: underline;
+}
+A:link {
+  color: silver;
+  text-decoration: underline;
+}
+A:visited {
+  color: silver;
+  text-decoration: underline;
+}
+A:active {
+  color: silver;
+}
+A:hover {
+  color: silver;
+}
+
+#background {
+  background: #171717;
+}
+
+#title {
+  color: silver;
+}
+
+#headerBar {
+  height: 30px;
+  background: #dc580e;
+  position: fixed;
+  top: 75;
+  width: 100%;
+  z-index: -1;
+}
+
+#stripe {
+  height: 10px;
+  background: #9d1c00;
+  position: fixed;
+  top: 60;
+  width: 100%;
+  z-index: -1;
+}
+
+#body {
+  top: 100;
+  position: fixed;
+  width: 100%;
+  A:link {
+    color: silver;
+    text-decoration: underline;
+  }
+}
