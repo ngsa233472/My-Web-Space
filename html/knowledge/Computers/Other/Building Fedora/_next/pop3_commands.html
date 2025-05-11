@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a href="">Testing a pop3 connection from telnet</a></font></h2>
+
+<a href="">a. Log in using the port </a>
+<div class="command"><pre>
+telnet localhost pop3
+</pre></div>
+For the connection, and each command that you enter, the mail server will respond:
+<div class="output"><pre>
+-ERR 999 message text
+</div>
+
+for commands it doesn't like (the 999 is an optional error required that varies)
+<p>or</p>
+<div class="output"><pre>
++OK message text
+</div>
+if it likes the command. After each response, you can enter a new command.
+
+
+<P>Commands that you can/must use are:</P>
+
+<div class="command"><pre>
+USER userid
+</pre></div>
+This must be the first command after the connect. Supply your e-mail userid (not the full e-mail address). Example: USER john.smith
+
+<div class="command"><pre>
+PASS password
+</pre></div>
+This must be the next command after USER. Supply your e-mail password. The password may be case sensitive.
+
+The following commands may be used as needed:
+
+<div class="command"><pre>
+STAT
+</pre></div>
+The response to this is: +OK #msgs #bytes Where #msgs is the number of messages in the mail box and #bytes is the total bytes used by all messages. Sample response: +OK 3 345910
+
+<div class="command"><pre>
+LIST
+</pre></div>
+The response to this lists a line for each message with its number and size in bytes, ending with a period on a line by itself. Sample response:
++OK 3 messages
+1 1205
+2 305
+3 344400
+.
+
+<div class="command"><pre>
+RETR msg#
+</pre></div>
+This sends message number msg# to you (displays on the Telnet screen). You probably don't want to do this in Telnet (unless you have turned on Telnet logging). Example: RETR 2
+
+<div class="command"><pre>
+TOP msg# #lines
+</pre></div>
+This is an optional POP3 command. Not all POP3 servers support it. It lists the header for msg# and the first #lines of the message text. For example, TOP 1 0 would list just the headers for message 1, where as TOP 1 5 would list the headers and first 5 lines of the message text.
+
+<div class="command"><pre>
+DELE msg#
+</pre></div>
+This marks message number msg# for deletion from the server. This is the way to get rid a problem causing message. It is not actually deleted until the QUIT command is issued. If you lose the connection to the mail server before issuing the QUIT command, the server should not delete any messages. Example: DELE 3
+
+<div class="command"><pre>
+RSET
+</pre></div>
+This resets (unmarks) any messages previously marked for deletion in this session so that the QUIT command will not delete them.
+
+<div class="command"><pre>
+QUIT
+</pre></div>
+This deletes any messages marked for deletion, and then logs you off of the mail server. This is the last command to use. This does not disconnect you from the ISP, just the mailbox.
+
+There are other POP3 commands. For some more information on this topic, see:
+
+RFC 1939 which defines POP3 commands and error requireds
+</pre>
+
+
+</body>
+</html>

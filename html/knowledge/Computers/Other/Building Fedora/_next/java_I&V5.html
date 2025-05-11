@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" media="screen,print" href="/stylesheets/Welcome./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="/stylesheets/install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a  href="">Java SDK Installation and Verification</a></h2>
+
+<h4><a>Login with Putty and continue configuration</a></h4>
+
+<h4><a>Install the JDK</a></h4>
+
+Install the runtime</font>
+<div class="code"><pre>
+yum install -y java-1.8.0-openjdk.x86_64 
+</pre></div>
+
+Install the development rpm</font>
+<div class="code"><pre>
+yum install -y java-1.8.0-openjdk-devel.x86_64
+</pre></div>
+
+Check the installation</font>
+<div class="code"><pre>
+java -version
+</pre></div>
+
+You should get something like this
+<div class="output"><pre>
+openjdk version "1.8.0_25"
+OpenJDK Runtime Environment (build 1.8.0_25-b18)
+OpenJDK 64-Bit Server VM (build 25.25-b02, mixed mode)
+</pre></div>
+
+<h4><a>Test the JDK</a></h4>
+
+Create and run Test Program</font>
+
+<div class="code"><pre>
+mkdir -p /usr/src/java 
+</pre></div>
+
+<div class="code"><pre>
+cat << CODE > /usr/src/java/HelloWorld.java
+/*************************************************************************
+*  Compilation:  javac HelloWorld.java
+*  Execution:    java HelloWorld
+*
+*  Prints "Hello, World". By tradition, this is everyone's first program.
+*
+*  % java HelloWorld
+*  Hello, World
+*
+*  These 17 lines of text are comments. They are not part of the program;
+*  they serve to remind us about its properties. The first two lines tell
+*  us what to type to compile and test the program. The next line describes
+*  the purpose of the program. The next few lines give a sample execution
+*  of the program and the resulting output. We will always include such
+*  lines in our programs and encourage you to do the same.
+*
+*************************************************************************/
+
+public class HelloWorld {
+
+    public static void main(String[] args) {
+        System.out.println("Hello, World");
+    }
+
+}
+CODE
+</pre></div>
+
+<div class="code"><pre>
+cd /usr/src/java
+</pre></div>
+
+<div class="code"><pre>
+javac HelloWorld.java
+</pre></div>
+
+<div class="code"><pre>
+java HelloWorld
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="code"><pre>
+/usr/local/bin/note.sh java_IandV
+</pre></div>
+
+</font></body>
+</html>

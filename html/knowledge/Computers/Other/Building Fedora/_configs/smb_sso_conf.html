@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../install./css/fedora_install.css"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a name href="#Index">/etc/samba/smb.conf</a></h2>
+
+    <div class="command">
+      <pre>
+vi /etc/samba/smb.conf
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+i
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+#======================= Global Settings =====================================
+[global]
+	workgroup = ISLANDS
+        server string = Samba Server Version %v on Fedora
+        netbios name = orcas
+        security = user
+        encrypt passwords = yes
+        localmaster = yes
+        os level = 33
+        preferred master = yes
+        load printers = no
+        printing = bsd
+        printcap name = /dev/null
+        disable spoolss = yes
+        passdb backend = ldapsam:ldap://127.0.0.1
+        ldap admin dn = cn=Manager,dc=local,dc=graysaustin,dc=com
+        ldap user suffix = ou=People
+        ldap group suffix = ou=Groups
+        ldap machine suffix = ou=Computers
+        ldap suffix = dc=local,dc=graysaustin,dc=com
+        ldap passwd sync = yes
+        ldap delete dn = no
+        ldap ssl = no
+        
+#============================ Share Definitions ==============================
+[homes]
+	comment = Home Directory
+        path = /data/home/%S
+        force user = %S
+        read only = No
+	create mask = 0664
+	directory mask = 0775
+	browseable = no
+
+[tmp]
+	comment = Temporary file space
+	path = /tmp
+	read only = No
+
+[Home]
+	comment = House files
+	path = /data/house
+	valid users = tempuser
+	force user = root
+	read only = No
+	create mask = 0755
+
+[WWW]
+	comment = Web Server
+	path = /data/www
+	valid users = tempuser
+	force user = apache
+	read only = No
+	create mask = 0700
+
+[Photos]
+	comment = Photos
+	path = /data/photos
+	valid users = tempuser
+	force user = root
+	browseable = yes
+	read only = No
+	create mask = 0755
+
+[Music]
+	comment = Music
+	path = /data/music
+	valid users = tempuser
+	force user = root
+	browseable = yes
+	read only = No
+	create mask = 0755
+<!--
+[CDRW]
+	comment = CDRom
+	path = /data/cdrw
+	valid users = tempuser
+	force user = root
+	read only = No
+	create mask = 0700
+	locking = No
+-->
+[Data]
+	comment = Data
+	path = /data
+	valid users = tempuser
+	force user = root
+	read only = No
+	create mask = 0755
+
+[Work]
+	comment = Work
+	path = /data/work
+	valid users = tempuser
+	force user = tempuser
+	read only = No
+	create mask = 0700
+
+[Writing]
+	comment = Writing
+	path = /data/writing
+	valid users = tempuser
+	force user = tempuser
+	read only = No
+	create mask = 0700
+</pre>
+    </div>
+  </body>
+</html>

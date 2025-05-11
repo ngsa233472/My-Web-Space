@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a  href="">Setup apache for basics port 443 configuration</a></font></h2>
+
+<a  href="">Loging as root</a>
+
+<a>Install mod_ssl</a>
+<div class="command"><pre>
+yum -y install mod_ssl.x86_64
+</pre></div>
+
+<a>Save files</a>
+<div class="command"><pre>
+mkdir -p /data/Saved/etc/httpd/conf.d &&
+cp /etc/httpd/conf.d/ssl.conf /data/Saved/etc/httpd/conf.d
+</pre></div>
+
+<a  href="">Modify the /etc/httpd/conf/ssl.conf file</a>
+<div class="tab">
+        <a  href="./configs/ssl_conf.html">link to /etc/httpd/conf/ssl.conf file</a>
+</div>
+
+<a>Make html root directories</a>
+<div class="command"><pre>
+mkdir /data/www/html/ssl
+</pre></div>
+
+<a>Change the ownership of the apache directory</a>
+<div class="command"><pre>
+chown -R apache:apache /data/www
+chmod -R 700 /data/www
+</pre></div>
+
+<a  href="">Create the default index files</a>
+<div class="tab">
+        <a  href="./configs/index_ssl.html">link to /etc/httpd/conf/index_ssl.html file</a>
+</div>
+
+</div>
+<a>Restart the daemon </a></font>
+<div class="command"><pre>
+/bin/systemctl restart httpd
+</pre></div>
+
+</div>
+<a>Check the daemon is running </a></font>
+<div class="command"><pre>
+/bin/systemctl status httpd
+</pre></div>
+
+<a href="https://192.168.122.10">Check basic page in browser</a>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh apache443
+</pre></div>
+
+</body>
+</html>

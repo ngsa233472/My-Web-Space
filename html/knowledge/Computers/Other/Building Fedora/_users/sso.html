@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta charset="UTF-8">
+</head>
+<body>
+<h2><a>Setup base domain and configure inital user</a></h2>
+
+
+<a>Create the /data/Install/openldap/samba_base.ldif file</a>
+<div class="tab">
+    
+<div class="command"><pre>
+<a href="../_configs/base_ldif.html">link to /data/Install/openldap/samba_base.ldif file</a>
+</pre></div>
+
+<a>Affix the domain name</a>
+<div class="command"><pre>
+sed  -ie s/DOMAINNAME/"$_DOMAINNAME"/g /data/Install/openldap/samba1.ldif
+</pre></div>
+
+<a>Add base.ldif to ldap</a>
+<div class="command"><pre>
+ldapadd -D "cn=Manager,$_DOMAINNAME" -w rootMe55 -x -v -f /data/Install/openldap/samba1.ldif
+</pre></div>
+
+<a>Install the pam_ldap  and nss_ldap modules</a>
+<div class="command"><pre>
+dnf -y install pam_ldap
+</pre></div>
+
+<a>Modify the nsswitch.conf files</a>
+<div class="command"><pre>
+sed -ie 's/\(^passwd:.*\)/\1 ldap/' /etc/nsswitch.conf
+sed -ie 's/\(^shadow:.*\)/\1 ldap/' /etc/nsswitch.conf
+sed -ie 's/\(^group:.*\)/\1 ldap/' /etc/nsswitch.conf
+sed -ie 's/\(^netgroup:.*\)/\1 ldap/' /etc/nsswitch.conf
+sed -ie 's/\(^automount:.*\)/\1 ldap/' /etc/nsswitch.conf
+</pre></div>
+
+<a>Modify the pam files</a>
+<div class="command"><pre>
+sed -ie '/auth.*pam_deny.so/i \auth        sufficient    pam_ldap.so use_first_pass' /etc/pam.d/password-auth
+sed -ie '/account.*pam_permit.so/i \account     [default=bad success=ok user_unknown=ignore] pam_ldap.so' /etc/pam.d/password-auth
+sed -ie '/password.*pam_deny.so/i \password    sufficient    pam_ldap.so use_authtok' /etc/pam.d/password-auth
+sed -ie '/session.*pam_keyinit.so*/i \session     required      pam_mkhomedir.so' /etc/pam.d/password-auth
+sed -ie '/session.*pam_unix.so/a \session     optional      pam_ldap.so' /etc/pam.d/password-auth
+</pre></div>
+
+<a>Copy the password-auth to the system-auth file</a>
+<div class="command"><pre>
+cp /etc/pam.d/password-auth /etc/pam.d/system-auth
+</pre></div>
+Add temp user to the password DIT
+<div class="command">
+<a><a href="../_configs/temp_user_ldif.html">link to /data/Install/openldap/samba tempuser ldif file</a></a>
+</div>
+
+<div class="command"><pre>sed  -ie s/DOMAINNAME/"$_DOMAINNAME"/g /data/Install/openldap/samba2.ldif</pre></div>
+
+<div class="command"><pre>
+ldapadd -x -W -D "cn=Manager,$_DOMAINNAME" -f /data/Install/openldap/samba2.ldif</pre></div>
+
+<a>>Add temp users to the group DIT</a>
+<div class="command">
+<a><a href="../_configs/temp_group_ldif.html">link to /data/Install/openldap/samba tempgroup ldif file</a></a>
+</div>
+
+<div class="command"><pre>
+sed  -ie s/DOMAINNAME/"$_DOMAINNAME"/g /data/Install/openldap/samba3.ldif
+</pre></div>
+
+</pre></div>
+<div class="command"><pre>
+ldapadd -x -W -D "cn=Manager,$_DOMAINNAME" -f /data/Install/openldap/samba3.ldif</pre></div>
+
+<a>Generating initial password for "tempuser"</a>
+<div class="command"><pre>
+ldappasswd -x -W -D cn=Manager,$_DOMAINNAME -s rootMe55 "uid=tempuser,ou=People,ou=Users,$_DOMAINNAME"</pre></div>
+
+<a>Create a base home directory</a>
+<div class="command"><pre>
+mkdir -p /data/home
+rmdir /home
+ln -s /data/home /home
+chmod 1777 /data/home
+</pre></div>
+
+<a>Test the new account by authenticating a search with it</a>
+<div class="command"><pre>
+ldapsearch -x -h 127.0.0.1 -D "uid=tempuser,ou=People,ou=Users,$_DOMAINNAME" -W -b "uid=tempuser,ou=People,ou=Users,$_DOMAINNAME"</pre></div>
+
+<a>Setup the nscld daemon</a>
+<div class="command"><pre>
+sed  -ie "s/^base.*/base $_DOMAINNAME"/ /etc/nslcd.conf
+</pre></div>
+
+<a>Enable the nslcd daemon</a>
+<div class="command"><pre>
+systemctl enable nslcd
+</pre></div>
+
+<a>Reboot system</a>
+<div class="command"><pre>
+reboot</pre>
+</pre></div>
+
+<a>SSH as new user to test</a>
+<div class="command"><pre>
+ssh tempuser@localhost
+</pre></div>
+
+<a>SU as new user to test</a>
+<div class="command"><pre>
+su - tempuser
+</pre></div>
+
+<a>Exit back to root</a>
+<div class="command"><pre>
+exit
+exit
+</pre></div>
+
+
+><a>Note this step</a>
+<div class="command"><pre>
+/usr/local/bin/note.sh sso_install
+</pre></div>
+
+</body>
+</html>

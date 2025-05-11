@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>PERL Installation, Configuration, and Testing</a></h2>
+
+ <a>Check the installation</a></font>
+<div class="command">
+<pre>perl -v</pre></div>
+
+<p>You should get something like this</p>
+<div class="output"><pre>
+This is perl 5, version 28, subversion 2 (v5.28.2) built for x86_64-linux-thread-multi
+(with 48 registered patches, see perl -V for more detail)
+
+Copyright 1987-2019, Larry Wall
+
+Perl may be copied only under the terms of either the Artistic License or the
+GNU General Public License, which may be found in the Perl 5 source kit.
+
+Complete documentation for Perl, including FAQ lists, should be found on
+this system using "man perl" or "perldoc perl".  If you have access to the
+Internet, point your browser at http://www.perl.org/, the Perl Home Page.
+</pre></div>
+
+<a>Create the source directory</a></fonth5>
+<div class="command"><pre>
+mkdir /data/src/perl
+</div>
+
+<a>Create the testfile</a></fonth5>
+<div class="optional">
+<pre>cd /data/src/perl</pre>
+</div>
+
+<div class="optional"><pre>
+vi helloworld.pl
+</pre></div>
+
+<div class="input">
+<pre>
+#!/usr/bin/perl
+print "Hi there!\n";
+</pre>
+</div>
+
+<div class="optional">
+<pre>chmod 755 helloworld.pl</pre>
+</div>
+
+<a>Run the testfile</a></font>
+<div class="optional">
+<pre>
+./helloworld.pl
+</pre>
+</div>
+
+<p>You should get something like this</p>
+<div class="output">
+<pre>Hi there!</pre>
+</div>
+
+<a>Note this step</a>
+<div class="command">
+<pre>/usr/local/bin/note.sh perlIandV</pre>
+</div>
+
+</body>
+</html>

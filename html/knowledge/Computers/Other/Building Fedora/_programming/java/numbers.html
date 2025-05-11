@@ -1,0 +1,352 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen,print"
+      href="/stylesheets/Welcome./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a>Default</a></h2>
+
+    <!-- PRINTING STARTS HERE -->
+    <div class="content">
+      <h1>Java - Numbers Class</h1>
+      <div class="topgooglead">
+        <div style="padding-bottom: 5px; padding-left: 10px">
+          Advertisements
+        </div>
+        <script type="text/javascript">
+          <!--
+          google_ad_client = "pub-7133395778201029";
+          google_ad_width = 468;
+          google_ad_height = 60;
+          google_ad_format = "468x60_as";
+          google_ad_type = "image";
+          google_ad_channel = "";
+          //-->
+        </script>
+        <script
+          type="text/javascript"
+          src="http://pagead2.googlesyndication.com/pagead/show_ads.js"
+        ></script>
+      </div>
+      <hr />
+      <div class="pre-btn">
+        <a href="/java/java_decision_making.htm">Previous Page</a>
+      </div>
+      <div class="nxt-btn">
+        <a href="/java/java_characters.htm">Next Page</a>
+      </div>
+      <div class="clearer"></div>
+      <hr />
+      <p>
+        Normally, when we work with Numbers, we use primitive data types such as
+        byte, int, long, double etc.
+      </p>
+      <h2>Example:</h2>
+      <pre class="prettyprint">
+int i = 5000;
+float gpa = 13.65;
+byte mask = 0xaf;
+</pre
+      >
+      <p>
+        However in development we come across situations were we need to use
+        objects instead of primitive data types. In-order to achieve this Java
+        provides wrapper classes for each primitive data type.
+      </p>
+      <p>
+        All the wrapper classes ( Integer, Long, Byte, Double, Float, Short) are
+        subclasses of the abstract class Number.
+      </p>
+      <p>
+        <center>
+          <img src="/images/number_classes.jpg" alt="Number Subclasses" />
+        </center>
+      </p>
+
+      <p>
+        This wrapping is taken care of by the compiler The process is called
+        boxing. So when a primitive is used when an object is required the
+        compiler boxes the primitive type in its wrapper class. Similarly the
+        compiler unboxes the object to a primitive as well. The <b>Number</b> is
+        part of the java.lang package.
+      </p>
+      <p>Here is an example of boxing and unboxing:</p>
+      <pre class="prettyprint">
+public class Test{
+
+   public static void main(String args[]){
+      Integer x = 5; // boxes int to an Integer object
+      x =  x + 10;   // unboxes the Integer to a int
+      System.out.println(x); 
+   }
+}
+</pre
+      >
+      <p>This would produce following result:</p>
+      <pre class="prettyprint">
+15
+</pre
+      >
+      <p>
+        When x is assigned integer values, the compiler boxes the integer
+        because x is integer objects. Later, x is unboxed so that they can be
+        added as integers.
+      </p>
+      <h2>Number Methods:</h2>
+      <p>
+        Here is the list of the instance methods that all the subclasses of the
+        Number class implement:
+      </p>
+      <table class="src">
+        <tr>
+          <th>SN</th>
+          <th>Methods with Description</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>
+            <a href="/java/number_xxxvalue.htm">xxxValue()</a><br />Converts the
+            value of <i>this</i> Number object to the xxx data type and returned
+            it.
+          </td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>
+            <a href="/java/number_compareto.htm">compareTo()</a><br />Compares
+            <i>this</i> Number object to the argument.
+          </td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>
+            <a href="/java/number_equals.htm">equals()</a><br />Determines
+            whether <i>this</i> number object is equal to the argument.
+          </td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>
+            <a href="/java/number_valueof.htm">valueOf()</a><br />Returns an
+            Integer object holding the value of the specified primitive.
+          </td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>
+            <a href="/java/number_tostring.htm">toString()</a><br />Returns a
+            String object representing the value of specified int or Integer.
+          </td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>
+            <a href="/java/number_parseint.htm">parseInt()</a><br />This method
+            is used to get the primitive data type of a certain String.
+          </td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>
+            <a href="/java/number_abs.htm">abs()</a><br />Returns the absolute
+            value of the argument.
+          </td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>
+            <a href="/java/number_ceil.htm">ceil()</a><br />Returns the smallest
+            integer that is greater than or equal to the argument. Returned as a
+            double.
+          </td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>
+            <a href="/java/number_floor.htm">floor()</a><br />Returns the
+            largest integer that is less than or equal to the argument. Returned
+            as a double.
+          </td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>
+            <a href="/java/number_rint.htm">rint()</a><br />Returns the integer
+            that is closest in value to the argument. Returned as a double.
+          </td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td>
+            <a href="/java/number_round.htm">round()</a><br />Returns the
+            closest long or int, as indicated by the method's return type, to
+            the argument.
+          </td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td>
+            <a href="/java/number_min.htm">min()</a><br />Returns the smaller of
+            the two arguments.
+          </td>
+        </tr>
+        <tr>
+          <td>13</td>
+          <td>
+            <a href="/java/number_max.htm">max()</a><br />Returns the larger of
+            the two arguments.
+          </td>
+        </tr>
+        <tr>
+          <td>14</td>
+          <td>
+            <a href="/java/number_exp.htm">exp()</a><br />Returns the base of
+            the natural logarithms, e, to the power of the argument.
+          </td>
+        </tr>
+        <tr>
+          <td>15</td>
+          <td>
+            <a href="/java/number_log.htm">log()</a><br />Returns the natural
+            logarithm of the argument.
+          </td>
+        </tr>
+        <tr>
+          <td>16</td>
+          <td>
+            <a href="/java/number_pow.htm">pow()</a><br />Returns the value of
+            the first argument raised to the power of the second argument.
+          </td>
+        </tr>
+        <tr>
+          <td>17</td>
+          <td>
+            <a href="/java/number_sqrt.htm">sqrt()</a><br />Returns the square
+            root of the argument.
+          </td>
+        </tr>
+        <tr>
+          <td>18</td>
+          <td>
+            <a href="/java/number_sin.htm">sin()</a><br />Returns the sine of
+            the specified double value.
+          </td>
+        </tr>
+        <tr>
+          <td>19</td>
+          <td>
+            <a href="/java/number_cos.htm">cos()</a><br />Returns the cosine of
+            the specified double value.
+          </td>
+        </tr>
+        <tr>
+          <td>20</td>
+          <td>
+            <a href="/java/number_tan.htm">tan()</a><br />Returns the tangent of
+            the specified double value.
+          </td>
+        </tr>
+        <tr>
+          <td>21</td>
+          <td>
+            <a href="/java/number_asin.htm">asin()</a><br />Returns the arcsine
+            of the specified double value.
+          </td>
+        </tr>
+        <tr>
+          <td>22</td>
+          <td>
+            <a href="/java/number_acos.htm">acos()</a><br />Returns the
+            arccosine of the specified double value.
+          </td>
+        </tr>
+        <tr>
+          <td>23</td>
+          <td>
+            <a href="/java/number_atan.htm">atan()</a><br />Returns the
+            arctangent of the specified double value.
+          </td>
+        </tr>
+        <tr>
+          <td>24</td>
+          <td>
+            <a href="/java/number_atan2.htm">atan2()</a><br />Converts
+            rectangular coordinates (x, y) to polar coordinate (r, theta) and
+            returns theta.
+          </td>
+        </tr>
+        <tr>
+          <td>25</td>
+          <td>
+            <a href="/java/number_todegrees.htm">toDegrees()</a><br />Converts
+            the argument to degrees
+          </td>
+        </tr>
+        <tr>
+          <td>26</td>
+          <td>
+            <a href="/java/number_toradians.htm">toRadians()</a><br />Converts
+            the argument to radians.
+          </td>
+        </tr>
+        <tr>
+          <td>27</td>
+          <td>
+            <a href="/java/number_random.htm">random()</a><br />Returns a random
+            number.
+          </td>
+        </tr>
+      </table>
+      <h2>What is Next ?</h2>
+      <p>
+        In the next section we will be going through the Character class in
+        Java. You will be learning how to use object Characters and primitive
+        data type char in Java.
+      </p>
+      <br />
+      <hr />
+      <div class="pre-btn">
+        <a href="/java/java_decision_making.htm">Previous Page</a>
+      </div>
+      <div class="print-btn">
+        <a href="/cgi-bin/printpage.cgi" target="_blank">Print Version</a>
+      </div>
+      <div class="pdf-btn">
+        <a
+          href="/java/pdf/java_numbers.pdf"
+          alt="Java - Numbers Class"
+          target="_blank"
+          >PDF Version</a
+        >
+      </div>
+      <div class="nxt-btn">
+        <a href="/java/java_characters.htm">Next Page</a>
+      </div>
+      <div class="clearer"></div>
+      <hr />
+    </div>
+    <!-- PRINTING ENDS HERE -->
+  </body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>Dovecot configuratiuon</a></h2>
+
+
+
+<a>Save copy of dovecot.conf root</a>
+<div class="command"><pre>
+mkdir -p /data/Saved/etc/dovecot
+cp /etc/dovecot/dovecot.conf /data/Saved/etc/dovecot/dovecot.conf
+</pre></div>
+
+<a>Temporarily disable vim alias</a>
+<div class="command"><pre>
+unalias vi
+</pre></div>
+
+<a>Edit /etc/dovecot.conf</a>
+<div class="command"><pre>
+vi /etc/dovecot/dovecot.conf
+</pre></div>
+
+<a>Remove current contents and setup for insertion</a>
+<div class="command"><pre>
+dG
+i
+</pre></div>
+
+<div class="command"><pre>
+## Dovecot configuration file
+
+base_dir = /var/run/dovecot/
+disable_plaintext_auth = no
+listen = *
+log_path = /var/log/dovecot.log
+mail_location = maildir:~/Maildir
+passdb {
+  driver = pam
+}
+protocols = imap
+service auth {
+  user = root
+}
+service imap-login {
+  inet_listener imap {
+    address = *
+    port = 143
+  }
+  inet_listener imaps {
+    address = *
+    port = 993
+  }
+}
+ssl_cert = &lt;/etc/pki/tls/certs/server.crt
+ssl_key = &lt;/etc/pki/tls/private/server.key
+userdb {
+  driver = passwd
+}
+verbose_ssl = yes
+</pre></div>
+
+<a>Configure startup</a>
+<div class="command"><pre>
+/bin/systemctl enable dovecot
+<pre></pre></div>
+
+<div class="command"><pre>
+/bin/systemctl start dovecot
+<pre></pre></div>
+
+<div class="command"><pre>
+/bin/systemctl status dovecot
+<pre></pre></div>
+
+You should get something like this!:
+<div class="output"><pre>
+<pre>
+dovecot - Dovecot IMAP/POP3 email server
+    Loaded: loaded (/usr/lib/systemd/system/dovecot; enabled)
+    <font color="green">Active: active (running)</font> since Thu, 29 Nov 2012 23:54:03 -0600; 7s ago
+    Main PID: 3007 (dovecot)
+    CGroup: name=systemd:/system/dovecot
+            | 3007 /usr/sbin/dovecot -F
+            | 3008 dovecot/anvil
+            | 3009 dovecot/log
+            | 3011 dovecot/config
+
+</pre>
+</div>
+
+
+
+<a>Install the mailbox converter</a>
+<div class="command"><pre>
+dnf install -y mb2md
+<pre></pre></div>
+
+<a>Set the dovecot log so that promail can write to it?</a>
+<div class="command"><pre>
+chmod 1777 /var/log/dovecot.log
+<pre></pre></div>
+
+<a>Restore vim alias</a>
+<div class="command"><pre>
+alias vi=vim
+</pre></div>
+
+<a>Note this step</a>
+<div class="command"><pre>
+/usr/local/bin/note.sh dovecot_install
+</pre></div>
+
+</body>
+</html>

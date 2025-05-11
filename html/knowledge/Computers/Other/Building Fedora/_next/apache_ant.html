@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+<link rel="stylesheet" type = "text/css" href="/stylesheets/default./css/fedora_install.css" />
+<meta status=incomplete>
+<meta status=incomplete>
+</head>
+<body>
+
+<h2 class="title">Apache Ant</h2>
+
+<h5 class="title">Purpose
+A Java build tool like Make. Used for building java related programs
+
+<h5 class="title">Prerequisites
+install java 
+
+<h5 class="title">Login as root</a>
+
+<h5 class="title">Install Ant</a>
+<div class="command"><pre>
+unzip $_FILES/apache-ant-1.8.2-bin.zip -d /opt
+</pre></div>
+
+<h3 class="title">Moving quickly</h3>
+<div class="command"><pre>
+cd /opt
+ln -s apache-ant-1.8.2 apache-ant
+echo "export ANT_HOME=/opt/apache-ant" >> /etc/profile.d/custom.sh
+echo "export PATH=\${PATH}:\${ANT_HOME}/bin" >> /etc/profile.d/custom.sh
+</pre></div>
+
+<h5 class="title">Note this step</a>
+<div class="command"><pre>
+touch /install/install_apache_ant.$INSTALL_VERSION
+</pre></div>
+
+</body>
+</html>
+

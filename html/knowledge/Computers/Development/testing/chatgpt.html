@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Main Page</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <div class="code-container">
+      <pre><code id="codeBlock">const greet = () => {
+    console.log("Hello, World!");
+};</code></pre>
+      <button class="copy-button" onclick="copyToClipboard()">Copy</button>
+    </div>
+
+    <script>
+
+      <style>
+      .code-container {
+          position: relative;
+          display: inline-block;
+      }
+
+      .copy-button {
+          position: absolute;
+          top: 5px;
+          right: 5px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          padding: 5px 10px;
+          cursor: pointer;
+          border-radius: 5px;
+          font-size: 12px;
+      }
+
+      .copy-button:hover {
+          background-color: #45a049;
+      }
+      </style>
+    </script>
+    function copyToClipboard() { const codeBlock =
+    document.getElementById("codeBlock").textContent;
+    navigator.clipboard.writeText(codeBlock).then(() => { alert("Code copied to
+    clipboard!"); }).catch(err => { console.error("Failed to copy: ", err); });
+    }
+  </body>
+</html>

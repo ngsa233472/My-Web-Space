@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+<link rel="stylesheet" type = "text/css" href="/stylesheets/common./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>Map Server</a></h2>
+
+<a>Serves geographic data in a method that allows for data display such as shape files</a>
+
+<a href="">Prerequisites </a>
+<div class="tab">
+        <a href="./java.html">Java</a>
+	<a href="./apache_tomcat.html">Tomcat</a>
+</div>
+
+<a href="">Login as root</a>
+<div class="command"><pre>
+
+<h4><a>Install Geoserver</a></h4>
+
+<a>Get the Geoserver zip file</a>
+<div class="command"><pre>
+cp $_FILES/geoserver-2.1.2-war.zip .
+</pre></div>
+
+<a>Unzip the Geoserver zip file</a>
+<div class="command"><pre>
+unzip geoserver-2.1.2-war.zip .
+</pre></div>
+
+<a>Drop war file into /data/tomcat6/webapps/</a>
+<div class="command"><pre>
+mv geoserver.war /data/tomcat6/webapps/
+</pre></div>
+
+<a>Verify the geoserver running</a>
+From the browser run
+<a href="http://192.168.122.10:8080/geoserver/web/">http://192.168.122.10:8080/geoserver/web/</a>
+
+<h4><a>Install Natural Earth as the background layer</a></h4>
+
+<h3 class="title">Moving quickly</h3>
+<div class="command"><pre>
+yum -y install gdal.x86_64
+cp $_FILES/NE1_50M_SR_W.zip.
+gdal_translate -a_srs EPSG:4326 -of GTiff -co "TILED=YES" -co "TFW=YES" NE1_50M_SR_W.tif NE1_50M_SR_W.tiff
+gdaladdo -r averages NE1_50M_SR_W.tiff 2 4 8 16 32 64 128
+cp NE1_50M_SR_W.tfw /data/tomcat6/webapps/geoserver/data/data/naturalearth/
+cp NE1_50M_SR_W.tiff /data/tomcat6/webapps/geoserver/data/data/naturalearth/
+chown -R tomcat:tomcat /data/tomcat6/webapps/geoserver/data/data/naturalearth/
+now add a workspace, a layer (GeoTiff)
+</pre></div>
+
+<div class="command"><pre>
+mkdir /opt/gdal
+cd /opt/gdal
+tar xvzf $_FILES/gdal1.7.3-linux64-base-gcc43.tar.gz -C /opt/gdal
+unzip gdal_data173.zip -d /opt/gdal/
+export GDAL_DATA=/opt/gdal
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/opt/gdal
+. /etc/profile
+. /etc/profile.d/custom.sh
+cd $GDAL_DATA
+./gdalinfo --version
+service tomcat6 restart
+</pre></div>
+
+
+
+
+<a>Note this step</a>
+<div class="command"><pre>
+touch /install/install_geoserver.$INSTALL_VERSION
+</pre></div>
+
+<a>Exit root</a>
+<div class="command"><pre>
+exit
+</pre></div>
+
+</body>
+</html>
+
+<!-- Typical yum installation -->
+<!--
+<a>Use yum to install Xxxx</a>
+<div class="command"><pre>
+yum -y install xxxx
+</pre></div>
+-->
+
+<!-- Typical rpm installation -->
+<!--
+<a>Install Xxxx from rpms</a>
+<div class="command"><pre>
+rpm -i $_FILES/xxxx.rpm && 
+</pre></div>
+-->

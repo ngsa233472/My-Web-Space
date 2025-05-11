@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Install Graphical Environment</a></h2>
+
+    <a>Install X and Gnome Shell</a>
+    <div class="command">
+      <pre>
+dnf -y group install base-x
+dnf -y install gnome-shell
+dnf -y install gnome-terminal.x86_64
+</pre
+      >
+    </div>
+
+    <a>Check the graphical environment</a>
+    <div class="command">
+      <pre>
+systemctl set-default graphical.target
+systemctl enable gdm
+</pre
+      >
+    </div>
+
+    <a>Reboot the system and check in VMWare</a><br />
+
+    <a>Set back to text environment</a>
+    <div class="command">
+      <pre>systemctl set-default multi-user.target</pre>
+    </div>
+
+    <a>Reboot the system and check in VMWare</a><br />
+
+    <a>Note this step</a>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh install_graphical_environment
+</pre
+      >
+    </div>
+  </body>
+</html>

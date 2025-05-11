@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Set MySQL's dn passwd</a></h2>
+
+    <a>Purpose</a>
+    To set the password of root to an less known value Change MySQL's password
+    <div class="command">
+      <pre>
+mysqladmin --user=root --password=rootMe55 password NEWPASSWORD
+mysqladmin --user=root --password reload
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh change_mysql_passwd
+</pre
+      >
+    </div>
+  </body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+</head>
+<body>
+
+<h2><a>Java SDK Installation, Configuration, and Testing</a></h2>
+
+<a>Get the file and install the rpm</a></font>
+<!--
+<div class="command"><pre>
+cd ~
+wget --<!--no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/9+181/jdk-9_linux-x64_bin.rpm</pre></div>
+</pre></div>
+-->
+
+<div class="command"><pre>
+dnf -y install java-11-openjdk.x86_64
+dnf -y install java-11-openjdk-devel.x86_64
+</pre></div>
+
+<a>Check the installation</a></font>
+<div class="command"><pre>
+java -version
+</pre></div>
+
+<p>You should get something like this</p>
+<div class="output"><pre>
+java version "1.8.0_112"
+Java(TM) SE Runtime Environment (build 1.8.0_112-b15)
+Java HotSpot(TM) 64-Bit Server VM (build 25.112-b15, mixed mode)
+</pre></div>
+
+<a>Create the java environment file</a></font>
+<div class="command"><pre>
+cat << CONFIG > /etc/profile.d/java.sh
+#!/bin/bash
+
+JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.3.7-5.fc30.x86_64
+CLASSPATH=.
+
+export JAVA_HOME
+export CLASSPATH
+
+CONFIG
+</pre></div>
+
+<div class="command"><pre>
+. /etc/profile.d/java.sh
+</pre></div>
+
+<a>Create and run Test Program</a></font>
+
+<div class="optional"><pre>
+mkdir -p /usr/src/java 
+</pre></div>
+
+<div class="optional"><pre>
+cat << REQUIRED > /usr/src/java/HelloWorld.java
+/*************************************************************************
+*  Compilation:  javac HelloWorld.java
+*  Execution:    java HelloWorld
+*
+*  Prints "Hello, World". By tradition, this is everyone's first program.
+*
+*  % java HelloWorld
+*  Hello, World
+*
+*  These 17 lines of text are comments. They are not part of the program;
+*  they serve to remind us about its properties. The first two lines tell
+*  us what to type to compile and test the program. The next line describes
+*  the purpose of the program. The next few lines give a sample execution
+*  of the program and the resulting output. We will always include such
+*  lines in our programs and encourage you to do the same.
+*
+*************************************************************************/
+
+public class HelloWorld {
+
+    public static void main(String[] args) {
+        System.out.println("Hello, World");
+    }
+
+}
+
+REQUIRED
+</pre></div>
+
+<div class="optional"><pre>
+cd /usr/src/java
+</pre></div>
+
+<div class="optional"><pre>
+javac HelloWorld.java
+</pre></div>
+
+<div class="optional"><pre>
+java HelloWorld
+</pre></div>
+
+<p>You should get something like this</p>
+<div class="output"><pre>
+Hello, World
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh java_IandV
+</pre></div>
+
+</font></body>
+</html>
+
+
+
+    

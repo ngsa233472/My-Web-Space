@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Update system</a></h2>
+
+    <a>Use DNF to update system </a>
+    <div class="command">
+      <pre>
+dnf -y upgrade
+</pre
+      >
+    </div>
+
+    <a>Note this step</a>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh dnf_upgrade
+</pre
+      >
+    </div>
+
+    <a>Reboot</a>
+    <div class="command">
+      <pre>
+reboot
+</pre
+      >
+    </div>
+  </body>
+</html>

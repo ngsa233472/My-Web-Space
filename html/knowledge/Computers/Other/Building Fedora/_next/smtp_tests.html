@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=done>
+</head>
+<body>
+
+<h2><a href="">Testing the smtp connection from telnet</a></font></h2>
+
+<h5 class="title"><a>Login as root</a>&nbsp;&nbsp;</a>
+
+<h5 class="title"><a>Generate the enrequiredd username and password</a>
+Ensure that you use "printf" and not "echo" for these commands. Echo inserts an eol.
+Generate the base64 enrequiredd username</font>
+<div class="command"><pre>
+printf "testuser" | /bin/base64
+</pre></div>
+
+Generate the base64 enrequiredd password</font>
+<div class="command"><pre>
+printf "rootMe55" | /bin/base64
+</pre></div>
+
+<h5 class="title"><a>Connect to the server via telnet</a>&nbsp;&nbsp;<a href=.>Details</a>
+
+<div class="command"><pre>
+telnet localhost 25
+</pre></div>
+
+<h5 class="title"><a>Perform the handshake</a>&nbsp;&nbsp;<a href=.>Details</a>
+The handshake is where you specify your host address.  you can really put anything here but if the mail server
+you are connecting to has spam filtering set up it will reject data that is invalid or does not resolve.
+
+<div class="command"><pre>
+ehlo mail.example.net
+</pre></div>
+
+<h5 class="title"><a>Authenticate</a>&nbsp;&nbsp;<a href=.>Details</a>
+<div class="command"><pre>
+Auth login
+</pre></div>
+
+Identify sender
+<div class="command"><pre>
+MAIL FROM:&lt;user@mailserver.com>
+</pre></div>
+
+Identify Recipient
+<div class="command"><pre>
+RCPT TO:&lt;nickolas.a.gray@gmail.com>
+</pre></div>
+
+<h5 class="title"><a>Provide the message body</a>&nbsp;&nbsp;<a href=.>Details</a>
+
+<div class="command"><pre>
+DATA
+subject:This is a manual smtp test
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+sincerely,
+user
+.
+</pre></div>
+
+<h5 class="title"><a>End the session</a>
+<div class="command"><pre>
+quit
+</pre></div>
+
+<a href="">Note this step</a></font>
+<div class="command"><pre>
+touch /install/smtp_tests.$INSTALL_VERSION
+</pre></div>
+
+<!--
+
+
+
+
+
+
+Now when you specify the FROM address, if the receiving mail server is filtering for spam it will expect that the domain listed in your FROM address resolves to the same IP as the domain listed when you provided your mail server name at the handshake.
+
+Provide Message Body
+
+Here you start by typing the keyword data and then press enter.  The Mail Server will instruct you to begin typing the message body and to end by pressing enter, typing a single period and pressing enter again.
+</pre>
+
+<pre>
+Notice the period at the end to send the message
+End Session
+
+To end the session just type quit.
+
+
+<a href="">a. Log in using the port </a>
+<div class="command"><pre>
+telnet localhost smtp
+</pre></div>
+You should receive a reply like:
+<div class="output"><pre>
+* OK Courier-IMAP ready. Copyright 1998-2002 Double Precision, Inc.</b>
+</div>
+Then log in:
+<div class="command"><pre>
+A login user password
+</pre></div>
+This should give you:
+<div class="output"><pre>
+A OK LOGIN Ok.
+</div>
+Select the folder you want to look in (usually the inbos):
+<div class="command"><pre>
+B select INBOX
+</pre></div>
+This should give you some information about the contents of that mail folder:
+<div class="output"><pre>
+* FLAGS (\Draft \Answered \Flagged \Deleted \Seen \Recent)
+* OK [PERMANENTFLAGS (\Draft \Answered \Flagged \Deleted \Seen)] Limited
+* 0 EXISTS
+* 0 RECENT
+* OK [UIDVALIDITY 1021381622] Ok
+B OK [READ-WRITE] Ok
+</div>
+
+When you have finished here's how you quit:
+<div class="command"><pre>
+C logout
+</pre></div>
+This should give you:
+<div class="output"><pre>
+* BYE Courier-IMAP server shutting down
+C OK LOGOUT completed
+</div>
+
+<a href="">b. Error Messages </a>
+the mail server will respond with:
+<div class="output"><pre>
+BAD Error in IMAP command received by server.
+</div>
+for erroneous commands and with diffent replies depending on the context of a correct command
+-->
+</body>
+</html>

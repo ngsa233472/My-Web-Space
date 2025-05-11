@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen,print"
+      href="/stylesheets/Welcome./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a name href="#Index">/etc/httpd/conf.d/ssl.conf</a></h2>
+
+    <div class="code">
+      <pre>
+vi /etc/httpd/conf.d/ssl.conf
+</pre
+      >
+    </div>
+
+    <div class="code">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <div class="code">
+      <pre>
+Listen 443 https
+SSLPassPhraseDialog exec:/usr/libexec/httpd-ssl-pass-dialog
+SSLSessionCache         shmcb:/run/httpd/sslcache(512000)
+SSLSessionCacheTimeout  300
+Mutex default
+SSLRandomSeed startup file:/dev/urandom  256
+SSLRandomSeed connect builtin
+SSLCryptoDevice builtin
+&lt;VirtualHost _default_:443>
+DocumentRoot "/data/www/html/ssl"
+&lt;Directory "/data/www/html/ssl">
+Options Indexes FollowSymLinks
+Require all granted
+AllowOverride None
+&lt;/Directory>
+ErrorLog logs/ssl_error_log
+TransferLog logs/ssl_access_log
+LogLevel warn
+SSLEngine on
+SSLProtocol all -SSLv2
+SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
+SSLCertificateFile /etc/pki/tls/certs/server.crt
+SSLCertificateKeyFile /etc/pki/tls/private/server.key
+&lt;Files ~ "\.(cgi|shtml|phtml|php3?)$">
+    SSLOptions +StdEnvVars
+&lt;/Files>
+&lt;Directory "/data/www/cgi-bin">
+    SSLOptions +StdEnvVars
+&lt;/Directory>
+BrowserMatch "MSIE [2-5]" \
+CustomLog logs/ssl_request_log \
+          "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
+&lt;/VirtualHost>
+</pre
+      >
+    </div>
+  </body>
+</html>

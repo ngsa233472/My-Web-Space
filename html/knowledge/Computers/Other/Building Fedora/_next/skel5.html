@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen,print"
+      href="/stylesheets/Welcome./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a>Configure the /etc/skel directory</a></h2>
+
+    <a>Purpose </a>
+    To create a default home for all users
+
+    <a>Login as root</a>
+
+    <a>Make the Maildir structure</a>
+    <div class="code">
+      <pre>
+mkdir /etc/skel/Maildir
+mkdir /etc/skel/Maildir/new
+mkdir /etc/skel/Maildir/tmp
+mkdir /etc/skel/Maildir/cur
+</pre
+      >
+    </div>
+
+    <a>Make the public_html directory</a>
+    <div class="code">
+      <pre>
+mkdir /etc/skel/public_html
+</pre
+      >
+    </div>
+
+    <a>Make a default index file for the public_html directory</a>
+    <div class="code">
+      <pre>
+vi /etc/skel/public_html/index.html
+</pre
+      >
+    </div>
+
+    <div class="code">
+      <pre>
+i
+</pre
+      >
+    </div>
+
+    <div class="code">
+      <pre>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+&lt;html>
+&lt;head>
+&lt;title>
+&lt;/title>
+&lt;/head>
+&lt;body>
+&lt;b>&lt;/b>
+&lt;/body>
+&lt;/html>
+</pre
+      >
+    </div>
+
+    <a>Create the default .bashrc</a>
+    <div class="code">
+      <pre>
+vi /etc/skel/.bashrc
+</pre
+      >
+    </div>
+
+    <div class="code">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <div class="code">
+      <pre>
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# User specific aliases and functions
+
+alias c='clear'
+alias l='ls -l'
+alias bdf='df -hT'
+alias h='history'
+alias p='ps -ef'
+alias vi='vim'
+
+umask 077
+ulimit -c 0
+set -o emacs
+set -b
+
+case \$- in *i*)
+#       /usr/bin/fortune
+esac
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="code">
+      <pre>
+/usr/local/bin/note.sh skel
+</pre
+      >
+    </div>
+  </body>
+</html>

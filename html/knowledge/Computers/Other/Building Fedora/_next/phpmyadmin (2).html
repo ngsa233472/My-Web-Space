@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a>Install phpMyAdmin</a></h2>
+
+    <a>Login as root</a>
+
+    <a>Install phpMyAdmin</a>
+    <div class="command">
+      <pre>
+yum install -y phpMyAdmin
+</pre
+      >
+    </div>
+
+    <a>Add the 192.168.122.0/8 network to the access list</a>
+    <div class="command">
+      <pre>
+vi /etc/httpd/conf.d/phpMyAdmin.conf
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+1G
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+/Allow from ::1
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+o
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+     Allow from 192.168.122.0/8
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+/
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+.
+</pre
+      >
+    </div>
+
+    <!-- Not sure what this does
+<a>Change the access password in the config.inc.php</a>
+<div class="command"><pre>
+sed -ie 's/blowfish_secret/rootMe55/' /etc/phpMyAdmin/config.inc.php
+</pre></div>
+-->
+
+    <a>Restart apache</a>
+    <div class="command">
+      <pre>
+/bin/systemctl restart httpd
+</pre
+      >
+    </div>
+
+    <a href="http://192.168.122.10/private/phpMyAdmin/"
+      >Check phpMyAdmin page in browser</a
+    >
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh phpmyadmin
+</pre
+      >
+    </div>
+  </body>
+</html>

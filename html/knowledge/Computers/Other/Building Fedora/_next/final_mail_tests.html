@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>Test mail installation</a></h2>
+
+<a>Reboot</a>
+This will ensure that everything is started in the correct order
+<div class="command"><pre>
+reboot
+</pre></div>
+
+<a></a>
+
+<a>Change to the testuser</a>
+<div class="command"><pre>
+su - testuser
+</pre></div>
+
+<a>Test the sendmail config</a>
+A very generic test
+<div class="command"><pre>
+echo -e "Subject: This is the subject\nThis is the body" | /usr/lib/sendmail -F mickey.mouse@disney.com -t testuser
+</pre></div>
+Look for "X-Virus-Scanned" and "X-Spam-Checker-Version" in the headers of the message
+ 
+<a>Test procmail</a>
+Create this file
+<div class="command"><pre>
+echo "badguy@austin.rr.com" > ~/.blacklist
+</pre></div>
+
+Trigger the blacklist
+<div class="command"><pre>
+echo -e "Subject: This is the subject\nThis is the body" | /usr/lib/sendmail -F badguy@austin.rr.com -t testuser
+</pre></div>
+
+Create this file
+<div class="command"><pre>
+echo "goodguy@austin.rr.com" > ~/.whitelist
+</pre></div>
+
+Trigger the whitelist
+<div class="command"><pre>
+echo -e "Subject: This is the subject\nThis is the body" | /usr/lib/sendmail -F goodguy@austin.rr.com -t testuser
+</pre></div>
+
+<!--
+Create this file
+<div class="command"><pre>
+echo "maillist@austin.rr.com" > ~/.maillist
+</pre></div>
+Trigger the maillist
+<div class="command"><pre>
+echo -e "Subject: This is the subject\nThis is the body" | /usr/lib/sendmail -F maillist@austin.rr.com -t testuser
+</pre></div>
+-->
+<a>Test spamassassin</a>
+Nonspam test
+<div class="command"><pre>
+spamassassin -t < /usr/share/doc/spamassassin-3*/sample-nonspam.txt | grep X-Spam
+</pre></div>
+<p>You should get something like this!:</p>
+<div class="output"><pre><pre>
+X-Spam-Checker-Version: SpamAssassin 3.1.1 (2006-03-10) on galaxy.example.com
+X-Spam-Level:
+X-Spam-Status: No, score=0.0 required=5.0 tests=none autolearn=unavailable
+</pre></div>
+
+Spam test
+<div class="command"><pre>
+spamassassin -t < /usr/share/doc/spamassassin-3*/sample-spam.txt | grep X-Spam
+</pre></div>
+<p>You should get something like this!:</p>
+<div class="output"><pre><pre>
+X-Spam-Flag: YES
+X-Spam-Checker-Version: SpamAssassin 3.1.1 (2006-03-10) on galaxy.example.com
+X-Spam-Level: **************************************************
+X-Spam-Status: Yes, score=1000.0 required=5.0 tests=GTUBE,NO_RECEIVED,
+</pre></div>
+
+<a>A spam test that uses the mailer</a>
+<div class="command"><pre>
+echo -e "Subject: Test spam mail (GTUBE}\This is the GTUBE, the
+        Generic
+        Test for
+        Unsolicited
+        Bulk
+        Email
+
+If your spam filter supports it, the GTUBE provides a test by which you
+can verify that the filter is installed correctly and is detecting incoming
+spam. You can send yourself a test mail containing the following string of
+characters (in upper case and with no white spaces and line breaks):
+
+XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X
+
+You should send this test mail from an account outside of your network.
+" | /usr/lib/sendmail -F mickey.mouse@disney.com -t testuser
+</pre></div>
+
+<a>Testing ClamAV with the EICAR test virus string</a>
+
+Echo the dummy string into a file
+<div class="command"><pre>
+echo 'X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*' > /data/home/testuser/eicar.com
+</pre></div>
+
+Create a valid file
+<div class="command"><pre>
+echo 'This is a valid file' > /data/home/testuser/valid.com
+</pre></div>
+
+Mail both files
+<div class="command"><pre>
+echo "This is a virus test" | mutt -s "Eicar test message" testuser -a  "/data/home/testuser/eicar.com"
+</pre></div>
+
+<div class="command"><pre>
+echo "This is a valid attachment" | mutt -s "Valid attachment test" testuser -a  "/data/home/testuser/valid.com"
+</pre></div>
+
+Look in the mail logs for the virus detection
+<div class="command"><pre>
+sudo cat /var/log/maillog | grep Infected
+</pre></div>
+
+You should get something like
+<div class="output"><pre>
+fedora sendmail[2263]: o0AClu58002263: Milter insert (1): header: X-Virus-Status: <font color="red">Infected</font> (Eicar-Test-Signature)
+</pre></div>
+
+<a>Test smtp-fetchmail-imap cycle</a>
+
+Test local host connection on the SMTP port
+
+Generate the base64 enrequiredd username
+<div class="command"><pre>
+printf "testuser" | /bin/base64
+</pre></div>
+
+Generate the base64 enrequiredd password
+<div class="command"><pre>
+printf "rootMe55" | /bin/base64
+</pre></div>
+
+Telnet to server
+<div class="command"><pre>
+telnet localhost 25
+</pre></div>
+
+<div class="command"><pre>
+ehlo mail.example.net
+</pre></div>
+
+Autheticate
+<div class="command"><pre>
+Auth login
+</pre></div>
+
+Identify sender
+<div class="command"><pre>
+MAIL FROM:&lt;nick@austin.rr.com>
+</pre></div>
+
+Identify Recipient
+
+<div class="command"><pre>
+RCPT TO:&lt;kgray006@austin.rr.com>
+</pre></div>
+
+Provide the message body
+
+<div class="command"><pre>
+DATA
+subject:This is a the stmp-fetchmail-imap test
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+sincerely,
+user
+.
+</pre></div>
+
+<div class="command"><pre>
+quit
+</pre></div>
+
+Fetch the mail
+<div class="command"><pre>
+fetchmail -a
+</pre></div>
+
+Access local imap on port 143
+<div class="command"><pre>
+telnet localhost 143
+<pre></pre></div>
+
+<div class="command"><pre>
+1 login testuser rootMe55
+<pre></pre></div>
+
+<div class="command"><pre>
+2 list "" "*"
+<pre></pre></div>
+
+<div class="command"><pre>
+3 examine INBOX
+<pre></pre></div>
+
+<div class="command"><pre>
+4 fetch 1 body[]
+<pre></pre></div>
+
+<div class="command"><pre>
+5 logout
+<pre></pre></div>
+
+Test SSL connection on the SMTPS port
+<div class="command"><pre>
+openssl s_client -connect 192.168.122.10:993
+<pre></pre></div>
+
+<div class="command"><pre>
+1 login testuser rootMe55
+<pre></pre></div>
+
+<div class="command"><pre>
+2 select INBOX
+<pre></pre></div>
+<div class="command"><pre>
+3 logout
+<pre></pre></div>
+    
+Exit Testuser
+<div class="command"><pre>
+exit
+</pre></div>
+
+<a>Test IMAP with an external client</a>
+
+<a>Test SMTP with an external client</a>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh testing_mail
+</pre></div>
+
+</body>
+</html>

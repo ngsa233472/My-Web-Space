@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<meta status=done>
+<head>
+<title>Fedora Server Testing</title>
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+</head>
+<body>
+
+<h2><a>Samba configuration</a></h2>
+
+Install samba
+<div class="command"><pre>
+dnf -y install samba.x86_64
+dnf -y install samba-client.x86_64
+
+</pre></div>
+
+Verify the Samba installation
+<div class="command"><pre>
+rpm -qa | grep samba
+</pre></div>
+There should be at least 3 files
+<div class="output"><pre>
+samba-3.0.24-1.fc6
+samba-common-3.0.24-1.fc6
+samba-client-3.0.24-1.fc6
+</div>
+
+Save original config files
+<div class="command"><pre>
+mkdir -p /data/Saved/etc/samba
+mv /etc/samba/smb.conf /data/Saved/etc/samba/smb.conf
+mv /etc/samba/smb.conf.example /data/Saved/etc/samba/smb.conf.example
+</pre></div>
+
+Create the /etc/smb.conf file
+<div class="tab">
+        <a  href="../_configs/smb_conf.html">link to /etc/smb.conf file</a>
+</div>
+
+
+Create shared directories
+<div class="command"><pre>
+mkdir /data/house /data/music /data/photos /data/work /data/writing /data/www
+</pre></div>
+
+<a>Enable samba</a>
+<div class="command"><pre>
+/bin/systemctl enable smb
+</pre></div>
+
+<a>Start samba</a>
+<div class="command"><pre>
+/bin/systemctl start smb
+</pre></div>
+
+<a>Set the samba and unix password</a>
+<div class="command"><pre>
+smbpasswd -a nick
+</pre></div>
+
+<a>Verify that Samba is running</a>
+<div class="command"><pre>
+smbclient -L localhost -U tempuser
+</pre></div>
+
+<p>You should get something like this!:</p>
+<div class="output"><pre>
+        Sharename       Type      Comment
+        ---------       ----      -------
+        tmp             Disk      Temporary file space
+        www             Disk      Web Server
+        IPC$            IPC       IPC Service (Samba Server Version 4.10.6 on Iona)
+        nick            Disk      Home Directories
+Reconnecting with SMB1 for workgroup listing.
+
+        Server               Comment
+        ---------            -------
+
+        Workgroup            Master
+        ---------            -------
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh configure_samba
+</pre></div>
+
+</body>
+</html>

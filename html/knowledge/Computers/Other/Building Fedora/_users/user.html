@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create User</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Create User</a></h2>
+
+    <a>Create user</a>
+    <div class="command">
+      <pre>
+adduser -c "Nick Gray" nick
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+passwd nick
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+usermod -G wheel nick
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+cat /dev/null > /etc/motd.d/cockpit
+</pre
+      >
+    </div>
+
+    <a>Make useri login first</a>
+    <div class="command">
+      <pre>
+sed -ie s/PermitRootLogin\ yes/PermitRootLogin\ no/ /etc/ssh/sshd_config
+systemctl restart sshd
+</pre
+      >
+    </div>
+  </body>
+
+  ><a>Note this step</a>
+  <div class="command">
+    <pre>
+/usr/local/bin/note.sh add_user
+</pre
+    >
+  </div>
+</html>

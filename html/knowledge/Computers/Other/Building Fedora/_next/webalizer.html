@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a href="">Webalizer Configure</a></h2>
+
+    <a href="">Purpose </a>
+
+    <a href="">Login as root</a>
+
+    <div class="command">
+      <pre>
+vi /etc/httpd/conf.d/webalizer.conf
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+Alias /usage /data/www/usage
+
+&lt;Location /usage&gt;
+    Order deny,allow
+    Deny from all
+    Allow from 192.168.10.0/24
+    Allow from 127.0.0.1
+&lt;/Location&gt;
+</pre
+      >
+    </div>
+
+    <a href="">Restart Apache</a>
+    <div class="command">
+      <pre>
+service httpd restart
+</pre
+      >
+    </div>
+
+    <a href="">Run the webalizer by hand</a>
+    <div class="command">
+      <pre>
+/usr/bin/webalizer -Q
+</pre
+      >
+    </div>
+
+    <a href="">Look at logs</a>
+    <a href="http://192.168.122.10/usage">http://192.168.122.10/usage</a>
+
+    <a href="">Note this step</a>
+    <div class="command">
+      <pre>
+touch /install/webalizer.$INSTALL_VERSION
+</pre
+      >
+    </div>
+
+    <a href="">Exit root</a>
+    <div class="command">
+      <pre>
+exit
+</pre
+      >
+    </div>
+  </body>
+</html>

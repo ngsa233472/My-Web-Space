@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a>Default</a></h2>
+
+    None
+
+    <a>Login as root</a>
+
+    <a>Create demo page</a>
+    <div class="command">
+      <pre>
+vi /data/www/html/unencrypted/private/index.html
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+&lt;html>
+&lt;head>
+&lt;title>Fedora Server Installation Demo Page&lt;/title>
+
+
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+&lt/head>
+&lt;body>
+&lt;h2>&lt;a  href="">Demo Page&lt;/a>&lt;/font>&lt;/h2>
+&lt;a href="http://192.168.122.10/phpPgAdmin">phpPgAdmin&lt;/a>&lt;br>
+&lt;a href="http://192.168.122.10/phpMyAdmin">phpMyAdmin&lt;/a>&lt;br>
+&lt;a href="http://192.168.122.10/wiki">MediaWiki&lt;/a>&lt;br>
+&lt;a href="http://192.168.122.10/wordpress">Wordpress&lt;/a>&lt;br>
+&lt;a href="http://192.168.122.10:8080">Tomcat&lt;/a>&lt;br>
+&lt;a href="http://192.168.122.10/tomcat6/SimpleServlet/simple-servlet">Tomcat Simple Servlet&lt;/a>&lt;br>
+&lt;a href="http://192.168.122.10/private/phpinfo.php">Phpinfo page&lt;/a>&lt;br>
+&lt;a href="http://192.168.122.10/phpldapadmin">Phpldapadmin/&lt/a>&lt;br>
+&lt;a href="http://192.168.122.10/private/webalizer/ssl">http://192.168.122.10/private/webalizer/ssl&lt;/a>&lt;br>
+&lt;a href="http://192.168.122.10/private/webalizer/unencrypted">http://192.168.122.10/private/webalizer/unencrypted&lt;/a>&lt;br>
+&lt;body>
+&lt;html>
+</pre>
+    </div>
+
+    <a href="">Change file ownership</a>
+    <div class="command">
+      <pre>
+chown -R apache:apache /data/www/html/unencrypted/private/index.html
+</pre
+      >
+    </div>
+
+    <a href="http://192.168.122.10/private">Check demo page in browser</a>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh default_index_page
+</pre
+      >
+    </div>
+  </body>
+</html>

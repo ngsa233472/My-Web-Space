@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+<link rel="stylesheet" type = "text/css" href="/stylesheets/default./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<meta status=incomplete>
+<meta status=incomplete>
+</head>
+<body>
+
+<h2 class="title">Apache Ant</h2>
+
+<h5 class="title"><a>Purpose</a>
+A Java build tool like Make. Used for building java related programs
+
+<a>Prerequisites </a>
+<div class="tab">
+        <a href="./java.html">Java</a>
+</div>
+
+<h5 class="title">Login as root</a>
+
+<h5 class="title">Install Ant</a>
+<div class="command"><pre>
+yum -y install ant</pre></div>
+
+<!--<h5 class="title">Update paths
+<div class="command"><pre>
+echo "export ANT_HOME=/opt/apache-ant" >> /etc/profile.d/ant.sh
+echo "export PATH=\${PATH}:\${ANT_HOME}/bin" >> /etc/profile.d/ant.sh
+. /etc/profile.d/ant.sh
+</pre></div>
+
+<div class="command"><pre>
+mkdir /usr/src/ant-test
+cd /usr/src/ant-test
+</pre></div>
+
+<h5 class="title">Create the build.xml file
+<div class="command"><pre>
+vi build.xml
+</pre></div>
+
+<div class="command"><pre>
+&lt;?xml version="1.0" ?>
+&lt;project name="Hello World" default="compress">
+
+    &lt;target name="compile" depends="init">
+        &lt;echo>Starting the compilation process&lt;/echo>
+        &lt;javac includeantruntime="false" srcdir="src" destdir="build/classes" source="1.5" target="1.5"/>
+        &lt;echo>Compilation Completed Successfully !&lt;/echo>
+    &lt;/target>
+ 
+    &lt;move todir="build/classes/">
+        &lt;fileset dir="src">
+            &lt;include name="**/*.class"/>
+            &lt;exclude name="**/*.java"/>
+        &lt;/fileset>
+    &lt;/move>
+ 
+    &lt;target name="init">
+        &lt;mkdir dir="build/classes" />
+        &lt;mkdir dir="dist" />
+    &lt;/target>
+ 
+ 
+    &lt;target name="compress"  depends="compile">
+        &lt;jar destfile="dist/HelloWorld.jar" basedir="build/classes" >
+            &lt;manifest>
+                &lt;attribute name="Main-Class" value="HelloWorld"/>
+                &lt;/manifest>
+        &lt;/jar>
+        &lt;echo>Building .jar file completed successfully!&lt;/echo>
+    &lt;/target>
+ 
+    &lt;target name="execute" depends="compile">
+        &lt;java classname="HelloWorld" classpath="build/classes" />
+    &lt;/target>
+ 
+    &lt;target name="clean">
+        &lt;delete dir="build" />
+        &lt;delete dir="dist" />
+    &lt;/target>
+ 
+&lt;/project>
+</pre></div>
+
+<h5 class="title">Create the HelloWorld.java file
+<div class="command"><pre>
+mkdir src
+vi src/HelloWorld.java
+</pre></div>
+
+<div class="command"><pre>
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World");
+    }
+}
+</pre></div>
+
+<h5 class="title">Run Ant
+<div class="command"><pre>
+ant execute
+</pre></div>
+
+<h5 class="title">Test Compilation
+<div class="command"><pre>
+cd build/classes/
+java HelloWorld
+</pre></div>
+-->
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh install_apache_ant
+</pre></div>
+
+</body>
+</html>
+

@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen,print"
+      href="/stylesheets/Welcome./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a name href="#Index"> /etc/httpd/conf.d/phpldapadmin.conf</a></h2>
+
+    <a>Open file</a>
+    <div class="code">
+      <pre>
+vi /etc/httpd/conf.d/phpldapadmin.conf
+</pre
+      >
+    </div>
+
+    <a>Remove current contents and setup for insertion</a>
+    <div class="code">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <a>Paste new file in place</a>
+    <div class="code">
+      <pre>
+#
+#  Web-based tool for managing LDAP servers
+#
+
+Alias /phpldapadmin /usr/share/phpldapadmin/htdocs
+Alias /ldapadmin /usr/share/phpldapadmin/htdocs
+
+&lt;Directory /usr/share/phpldapadmin/htdocs>
+  Order Deny,Allow
+  Deny from all
+  Allow from 127.0.0.1
+  Allow from 192.168.190.0/24
+&lt;/Directory>
+</pre
+      >
+    </div>
+  </body>
+</html>

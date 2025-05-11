@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a  href="">Setup apache for basic port 80 configuration</a></font></h2>
+
+<a  href="">Login as root</a>
+
+<a>For some reason Fedora 19 does not install apache</a>
+<div class="command"><pre>
+yum -y install httpd
+</pre></div>
+
+<a>Unalias vi</a>
+<div class="command"><pre>
+unalias vi
+</pre></div>
+
+<a>Save files</a>
+<div class="command"><pre>
+mkdir -p /data/Saved/etc/httpd/conf &&
+cp /etc/httpd/conf/httpd.conf /data/Saved/etc/httpd/conf
+</pre></div>
+
+<a  href="">Modify the /etc/httpd/conf/httpd.conf file</a>
+<div class="tab">
+        <a  href="./configs/http_conf.html">link to /etc/httpd/conf/httpd.conf file</a>
+</div>
+
+<a>Move /var/www to /data/www and link /var/www to /data/www</a>
+<div class="command"><pre>
+cd /var
+cp -pR www /data/
+rm -r www
+ln -s /data/www www
+</pre></div>
+
+<a>Make html root directories</a>
+<div class="command"><pre>
+mkdir /data/www/html/unencrypted
+</pre></div>
+
+<a  href="">Create the default index files</a>
+<div class="tab">
+        <a  href="./configs/index.html">link to /etc/httpd/conf/index.html file</a>
+</div>
+
+<a>Change the ownership of the apache directory</a>
+<div class="command"><pre>
+chown -R apache:apache /data/www
+chmod -R 700 /data/www
+</pre></div>
+
+<a>Setup the daemon to start on boot</a>
+<div class="command"><pre>
+/bin/systemctl enable httpd
+</pre></div>
+
+</div>
+<a>Start the daemon </a></font>
+<div class="command"><pre>
+/bin/systemctl start httpd
+</pre></div>
+
+</div>
+<a>Check the daemon is running </a></font>
+<div class="command"><pre>
+/bin/systemctl status httpd
+</pre></div>
+
+<a href="http://192.168.122.10">Check basic page in browser</a>
+
+<a>Restore vim alias</a>
+<div class="command"><pre>
+alias vi=vim
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh apache80
+</pre></div>
+
+</body>
+</html>

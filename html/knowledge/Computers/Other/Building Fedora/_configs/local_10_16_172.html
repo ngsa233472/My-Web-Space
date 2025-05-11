@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a name href="#Index">/var/named/data/local.10.16.172</a></h2>
+
+    <div class="command">
+      <pre>
+vi /var/named/data/local.10.16.172
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+$TTL 1D
+@       IN      SOA     local.graysaustin.com. root.local.graysaustin.com. (
+        2019080301      ; Serial
+        8H              ; Refresh
+        2H              ; Retry
+        4W              ; Expire
+        1D )            ; Minimum
+;
+        IN      NS      kahoolawe.local.graysaustin.com.	; Name Server for the domain
+
+; Home Network
+193     IN      PTR     abbasak         ; Cable Modem Router
+194     IN      PTR     baffin          ; Living Room Switch
+195     IN      PTR     caprara         ; Spare Room Switch
+196     IN      PTR     daga            ; NAS
+197     IN      PTR     eagle           ; ESXi
+198     IN      PTR     faial           ; Unused
+199     IN      PTR     gabaret         ; Raspberry PI
+200     IN      PTR     hawaii          ; RHCSA Server 1
+201     IN      PTR     ibiza           ; RHCSA Server 2
+202     IN      PTR     jamaica         ; RHCSA labIPA
+203     IN      PTR     kahoolawe       ; Rotoroa
+204     IN      PTR     laidu           ; Nick's PC
+205     IN      PTR     mackinac        ; Unused
+206     IN      PTR     naart           ; Unused
+207     IN      PTR     oahu            ; Unused
+208     IN      PTR     paama           ; Unused
+209     IN      PTR     qaruh           ; Unused
+210     IN      PTR     rakino          ; Unused
+211     IN      PTR     sable           ; Unused
+212     IN      PTR     tafahi          ; Unused
+213     IN      PTR     ugljan          ; Unused
+214     IN      PTR     vormsi          ; Unused
+215     IN      PTR     waiheke         ; Unused
+216     IN      PTR     xiushan         ; Unused
+217     IN      PTR     yell            ; Unused
+218     IN      PTR     zembra          ; Unused
+219     IN      PTR     agatti          ; Unused
+220     IN      PTR     bacelos         ; Unused
+221     IN      PTR     canna           ; Unused
+222     IN      PTR     dalzel          ; Unused
+223     IN      PTR     eigg            ; Unused
+224     IN      PTR     faray           ; Unused
+;
+; DHCP Addresses
+225     IN      PTR     austria         ; DHCP #1
+226     IN      PTR     belgium         ; DHCP #2
+227     IN      PTR     cambodia        ; DHCP #3
+228     IN      PTR     denmark         ; DHCP #4
+229     IN      PTR     eritrea         ; DHCP #5
+230     IN      PTR     fiji            ; DHCP #6
+231     IN      PTR     gibraltar       ; DHCP #7
+232     IN      PTR     haiti           ; DHCP #8
+233     IN      PTR     iceland         ; DHCP #9
+234     IN      PTR     japan           ; DHCP #10
+235     IN      PTR     korea           ; DHCP #11
+236     IN      PTR     lebanon         ; DHCP #12
+237     IN      PTR     macao           ; DHCP #13
+238     IN      PTR     nepal           ; DHCP #14
+239     IN      PTR     palau           ; DHCP #15
+240     IN      PTR     qatar           ; DHCP #16
+241     IN      PTR     rwanda          ; DHCP #17
+242     IN      PTR     samoa           ; DHCP #18
+223     IN      PTR     turkey          ; DHCP #19
+224     IN      PTR     uzbekistan      ; DHCP #20
+225     IN      PTR     vanatu          ; DHCP #21
+226     IN      PTR     wales           ; DHCP #22
+227     IN      PTR     yemen           ; DHCP #23
+228     IN      PTR     zimbabwe        ; DHCP #24
+229     IN      PTR     australia       ; DHCP #25
+220     IN      PTR     bahamas         ; DHCP #26
+221     IN      PTR     cameroon        ; DHCP #27
+222     IN      PTR     djibouti        ; DHCP #28
+223     IN      PTR     egypt           ; DHCP #29
+
+; Printer
+224     IN      PTR     epsonwf3520     ; Epson Workforce 3520
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+sed -i -e s/\_HOSTNAME/$_HOSTNAME/ /var/named/data/local.10.16.172</pre
+      >
+    </div>
+  </body>
+</html>

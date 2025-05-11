@@ -1,0 +1,280 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" media="screen,print" href="/stylesheets/Welcome./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="/stylesheets/install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+
+<h2><a>/etc/bacula/bacula-dir.conf</a></h2>
+
+<div class="code"><pre>
+mkdir -p /data/Saved/etc/bacula
+cp /etc/bacula/bacula-dir.conf /data/Saved/etc/bacula/
+</pre></div>
+
+<div class="code"><pre>
+vi /etc/bacula/bacula-dir.conf
+</pre></div>
+
+<div class="code"><pre>
+dG
+i
+</pre></div>
+
+<div class="code"><pre>
+<pre>
+# Bacula-Dir configuration file.
+
+# ------------------------------------------------------
+# Director configuration
+# ------------------------------------------------------
+
+Director {
+  Name = iona-dir
+  DIRport = 9101
+  QueryFile = "/etc/bacula/query.sql"
+  WorkingDirectory = "/var/spool/bacula"
+  PidDirectory = "/var/run"
+  Maximum Concurrent Jobs = 1
+  Password = "rootMe55"
+  Messages = Daemon
+}
+
+# ------------------------------------------------------
+# Jobs
+# ------------------------------------------------------
+
+Job {
+  Name = Iona
+  Type = Backup
+  Client = iona-fd
+  FileSet = "File Server"
+  Schedule = "WeeklyCycle"
+  Storage = File
+  Messages = Standard
+  Pool = Default
+  Full Backup Pool = Full-Pool
+  Incremental Backup Pool = Inc-Pool
+  Differential Backup Pool = Diff-Pool
+  Write Bootstrap = "/var/spool/bacula/server.bsr"
+  Priority = 10
+}
+
+Job {
+  Name = "BackupCatalog"
+  Type = Backup
+  Client = iona-fd
+  FileSet="Catalog"
+  Schedule = "WeeklyCycleAfterBackup"
+  Storage = File
+  Messages = Standard
+  Pool = Default
+  Full Backup Pool = Catalog-Pool
+  # This creates an ASCII copy of the catalog
+  RunBeforeJob = "/usr/libexec/bacula/make_catalog_backup.pl MyCatalog"
+  # This deletes the copy of the catalog
+  RunAfterJob  = "/usr/libexec/bacula/delete_catalog_backup"
+  Write Bootstrap = "/var/spool/bacula/BackupCatalog.bsr"
+  Priority = 12                   # run after main backup
+}
+
+# Standard Restore template, to be changed by Console program
+Job {
+  Name = "RestoreFiles"
+  Type = Restore
+  Client = iona-fd
+  FileSet="File Server"
+  Storage = File
+  Messages = Standard
+  Pool = Default
+  Where = /tmp/bacula-restores
+}
+
+# ------------------------------------------------------
+# Filesets
+# ------------------------------------------------------
+
+# List of files to be backed up
+FileSet {
+  Name = "File Server"
+  Include {
+    Options {
+      signature = SHA1
+      compression = gzip
+    }
+	File = /data/admin
+	File = /data/home
+	File = /data/house
+	File = /data/photos
+	File = /data/src
+	File = /data/www
+	File = /etc
+        File = /var/spool/fcron
+        File = /var/spool/mail
+        File = /var/named/chroot/var/named/data
+  }
+  Exclude {
+    File = /proc
+    File = /tmp
+    File = /selinux
+    File = /.journal
+    File = /.fsck
+    File = /data/www/html/fedora
+    File = /data/www/html/frozen_mirrors
+  }
+}
+
+FileSet {
+  Name = "Catalog"
+  Include { Options { signature=MD5 }
+    File = /var/spool/bacula/bacula.sql
+  }
+}
+
+# ------------------------------------------------------
+# Schedules
+# ------------------------------------------------------
+
+Schedule {
+  Name = "WeeklyCycle"
+  Run = Level=Full 1st sun at 2:00
+  Run = Level=Differential 2nd-5th sun at 2:00
+  Run = Level=Incremental mon-sat at 2:00
+}
+
+Schedule {
+  Name = "WeeklyCycleAfterBackup"
+  Run = Level=Full sun-sat at 3:30
+}
+
+# ------------------------------------------------------
+# Clients
+# ------------------------------------------------------
+
+Client {
+  Name = iona-fd
+  Address = 192.168.190.200
+  FDPort = 9102
+  Catalog = MyCatalog
+  Password = "rootMe55"
+  AutoPrune = yes
+  Job Retention = 6 months
+  File Retention = 60 days
+}
+
+# ------------------------------------------------------
+# Storage
+# ------------------------------------------------------
+
+Storage {
+  Name = File
+  Address = 192.168.190.200
+  SDPort = 9103
+  Password = "rootMe55"
+  Device = MaxtorUSB
+  Media Type = File
+}
+
+# ------------------------------------------------------
+# Catalog
+# ------------------------------------------------------
+
+Catalog {
+  Name = MyCatalog
+  dbname = bacula; user = bacula; password = "rootMe55"
+}
+
+# ------------------------------------------------------
+# Pool definitions
+# ------------------------------------------------------
+
+# Default Pool for jobs, but will hold no actual volumes
+# ------------------------------------------------------
+Pool {
+  Name = Default
+  Pool Type = Backup
+}
+
+# Catalog-Pool will hold
+# ------------------------------------------------------
+Pool {
+  Name = Catalog-Pool
+  Pool Type = Backup
+  Recycle = yes           # automatically recycle Volumes
+  AutoPrune = yes         # Prune expired volumes
+  Volume Retention = 1 month
+  Maximum Volume Jobs = 1
+  Label Format = Catalog-
+  Maximum Volumes = 40
+}
+
+# Full-Pool will hold
+# ------------------------------------------------------
+Pool {
+  Name = Full-Pool
+  Pool Type = Backup
+  Recycle = yes           # automatically recycle Volumes
+  AutoPrune = yes         # Prune expired volumes
+  Volume Retention = 6 months
+  Maximum Volume Jobs = 1
+  Label Format = Full-
+  Maximum Volumes = 9
+}
+
+# Inc-Pool will hold
+# ------------------------------------------------------
+Pool {
+  Name = Inc-Pool
+  Pool Type = Backup
+  Recycle = yes           # automatically recycle Volumes
+  AutoPrune = yes         # Prune expired volumes
+  Volume Retention = 20 days
+  Maximum Volume Jobs = 6
+  Label Format = Inc-
+  Maximum Volumes = 7
+}
+
+# Diff-Pool will hold
+# ------------------------------------------------------
+Pool {
+  Name = Diff-Pool
+  Pool Type = Backup
+  Recycle = yes
+  AutoPrune = yes
+  Volume Retention = 40 days
+  Maximum Volume Jobs = 1
+  Label Format = Diff-
+  Maximum Volumes = 10
+}
+
+# ------------------------------------------------------
+# Messages
+# ------------------------------------------------------
+
+Messages {
+  Name = Standard
+  mailcommand = "/usr/sbin/bsmtp -h localhost -f \"\(Bacula\) %r\" -s \"Bacula: %t %e of Job: %j\" %r"
+  operatorcommand = "/usr/sbin/bsmtp -h localhost -f \"\(Bacula\) %r\" -s \"Bacula: Intervention needed for %j\" %r"
+  mail = root@localhost = all, !skipped
+  operator = root@localhost = mount
+  console = all, !skipped, !saved
+  append = "/var/log/bacula/log" = all, !skipped
+}
+
+Messages {
+  Name = Daemon
+  mailcommand = "/usr/sbin/bsmtp -h localhost -f \"\(Bacula\) %r\" -s \"Bacula daemon message\" %r"
+  mail = root@localhost = all, !skipped            
+  console = all, !skipped, !saved
+  append = "/var/log/bacula.log" = all, !skipped
+}
+</pre></div>
+
+</body>
+</html>

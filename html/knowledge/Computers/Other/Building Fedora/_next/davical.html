@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a href="">Calendar Server</a></h2>
+
+<a href="">Purpose </a>
+
+<a href="">Login as root</a>
+
+<a href="">Install perl-YAML</a>
+<div class="command"><pre>
+yum install -y perl-YAML
+</pre></div>
+
+<a href="">Verify that the $_FILES variable is set</a>
+<div class="command"><pre>
+echo $_FILES
+</pre></div>
+
+<a href="">Change to the $_FILES directory</a>
+<div class="command"><pre>
+cd $_FILES
+</pre></div>
+
+<a href="">Get the programs</a>
+<div class="command"><pre>
+wget http://debian.mcmillan.net.nz/packages/awl/libawl-php-0.49-1.noarch.rpm
+wget http://debian.mcmillan.net.nz/packages/davical/davical-0.9.9.7-1.noarch.rpm
+</pre></div>
+
+<a href="">Install the programs</a>
+<div class="command"><pre>
+rpm -i $_FILES/libawl-php-0.49-1.noarch.rpm 
+rpm -i $_FILES/davical-0.9.9.7-1.noarch.rpm
+</pre></div>
+
+<a href="">Become postgres</a>
+<div class="command"><pre>
+su - postgres
+</pre></div>
+
+<a href="">Create the davical_app database</a>
+<div class="command"><pre>
+createuser --no-createdb --no-createrole davical_app
+</pre></div>
+
+<div class="output"><pre>
+Shall the new role be a superuser? (y/n)
+</div>
+<div class="command"><pre>
+ n
+</pre></div>
+
+<div class="command"><pre>
+cd /usr/share/davical/
+</pre></div>
+
+<div class="command"><pre>
+dba/create-database.sh
+</pre></div>
+
+<div class="command"><pre>
+echo 'rootme55' > ~/davical_admin_password
+</pre></div>
+
+<a href="">Exit postgres</a>
+<div class="command"><pre>
+exit
+</pre></div>
+
+<div class="command"><pre>
+service postgresql stop
+</pre></div>
+
+<div class="command"><pre>
+service postgresql start
+</pre></div>
+
+<div class="command"><pre>
+psql -U davical_app davical
+</pre></div>
+
+<div class="command"><pre>
+\d
+</pre></div>
+
+<div class="command"><pre>
+\q
+</pre></div>
+
+<div class="command"><pre>
+cd /data/www/html
+</pre></div>
+
+<div class="command"><pre>
+chown -R apache:apache /usr/share/davical/htdocs
+ln -s /usr/share/davical/htdocs davical
+</pre></div>
+
+<a href="">Note this step</a></font>
+<div class="command"><pre>
+touch /install/install_davical.$INSTALL_VERSION
+</pre></div>
+
+<a href="">Exit root</a>
+
+<a href="">Note this step</a>
+<div class="command"><pre>
+touch /install/davical.$INSTALL_VERSION
+</pre></div>
+
+<a href="">Exit root</a>
+<div class="command"><pre>
+exit
+</pre></div>
+
+</body>
+</html>

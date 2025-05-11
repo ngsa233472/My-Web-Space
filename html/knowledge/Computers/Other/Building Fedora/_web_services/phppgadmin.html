@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Install phpPgAdmin</a></h2>
+
+    <a>Install phpPgAdmin</a>
+    <div class="command">
+      <pre>
+dnf install -y phpPgAdmin
+</pre
+      >
+    </div>
+
+    <a>Ensure the postgres user password is set</a>
+    <div class="command">
+      <pre>
+sudo su - postgres
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+psql template1
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+ALTER USER postgres WITH PASSWORD 'rootMe55'
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+\q
+</pre
+      >
+    </div>
+    Exit postgres
+    <div class="command">
+      <pre>
+exit
+</pre
+      >
+    </div>
+
+    <a>Allow login from phpPgAdmin</a>
+    <div class="command">
+      <pre>
+sed -i -e s/\$conf\\[\'extra_login_security\']\ =\ true/\$conf\\[\'extra_login_security\']\ =\ false/ /usr/share/phpPgAdmin/conf/config.inc.php
+</pre
+      >
+    </div>
+
+    <a>Replace the phpPgAdmin.conf</a>
+    <div class="command">
+      <pre>
+cat << PHPCONFIG > /etc/httpd/conf.d/phpPgAdmin.conf
+Alias /phpPgAdmin /usr/share/phpPgAdmin
+
+&lt;Location /phpPgAdmin>
+    &lt;IfModule mod_authz_core.c>
+        Require local
+        Require ip 172.16.10
+        SSLRequireSSL
+    &lt;/IfModule>
+&lt;/Location>
+
+PHPCONFIG
+</pre
+      >
+    </div>
+
+    <a>Restart Daemons</a>
+    <div class="command">
+      <pre>
+systemctl restart httpd
+</pre
+      >
+    </div>
+
+    <a>Check the following URL</a>
+    <pre>https://$_CURRENT_IP/phpPgAdmin</pre>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh phppgadmin
+</pre
+      >
+    </div>
+  </body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a>Cacti</a></h2>
+
+    <a>A network graphing solution front end using RRDTool</a>
+
+    <a>Login as root</a>
+
+    <a>Install rpms</a>
+    <div class="command">
+      <pre>
+yum -y install php-ldap.x86_64
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+yum -y install net-snmp-utils
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+yum -y install cacti
+</pre
+      >
+    </div>
+
+    yum install php-ldap.x86_64
+    <a>Verify modules in php</a>
+    <div class="command">
+      <pre>
+php -m | grep -x 'mysql\|snmp\|xml\|session\|sockets\|ldap\|gd'
+</pre
+      >
+    </div>
+    <p>You should get</p>
+    <div class="output">
+      <pre>
+gd
+ldap
+mysql
+session
+snmp
+sockets
+xml
+</pre
+      >
+    </div>
+    <a>Verify ini files</a>
+    <div class="command">
+      <pre>
+cat /etc/php.d/mysql.ini
+</pre
+      >
+    </div>
+    <p>You should get something like</p>
+    <div class="output">
+      <pre>
+; Enable mysql extension module
+extension=mysql.so
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+cat /etc/php.d/snmp.ini
+</pre
+      >
+    </div>
+    <p>You should get something like</p>
+    <div class="output">
+      <pre>
+; Enable snmp extension module
+extension=snmp.so
+</pre
+      >
+    </div>
+    <a>Setup MySQL user and database</a>
+    <div class="command">
+      <pre>
+mysqladmin --user=root --password=rootMe55 create cacti
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+mysql --database=cacti --password=rootMe55 < /usr/share/doc/cacti-0.8.8a/cacti.sql
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+mysql --password=rootMe55 --user=root mysql
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+GRANT ALL ON cacti.* TO cactiuser@localhost IDENTIFIED BY 'rootMe55';
+flush privileges;
+\q
+</pre
+      >
+    </div>
+    <a>Setup 192.168.122.0/24 access</a>
+    <div class="command">
+      <pre>
+sed -ie '/.*[^"]Allow from localhost/a \\t\t\Allow from 192.168.122.0/24' /etc/httpd/conf.d/cacti.conf
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+sed -ie s/database_password\ =\ \"cactiuser\"/database_password\ =\ \"rootMe55\"/ /usr/share/cacti/include/config.php
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+cd /usr/share/cacti
+chown -R cacti rra/ log/
+</pre
+      >
+    </div>
+
+    <a>Restart apache</a>
+    <div class="command">
+      <pre>
+/bin/systemctl restart httpd
+</pre
+      >
+    </div>
+
+    <a href="http://192.168.122.10/cacti/">Check Cacti page in browser</a>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh cacti
+</pre
+      >
+    </div>
+  </body>
+</html>

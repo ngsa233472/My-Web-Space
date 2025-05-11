@@ -1,0 +1,30 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Regular Link */
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+/* Hover */
+a:hover {
+  color: red;
+}
+
+/* Active state */
+a:active {
+  background: purple;
+}
+
+/* Focus */
+/* Right click? */
+a:focus {
+  background: yellow;
+}
+
+/*Visited */
+/* a:visited {
+  color: coral;
+} */

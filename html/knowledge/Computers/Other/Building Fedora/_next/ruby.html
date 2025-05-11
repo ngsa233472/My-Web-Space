@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+<link rel="stylesheet" type = "text/css" href="/stylesheets/default./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2 class="title">Default</h2>
+
+<h5 class="title">Purpose
+To create a default page
+
+<h5 class="title">Prerequisites
+None 
+
+<h5 class="title">Login as root</a>
+
+<h5 class="title">Note this step</a>
+<div class="command"><pre>
+touch /install/default.$INSTALL_VERSION
+</pre></div>
+
+<h3 class="title">Moving quickly</h3>
+<div class=tab>
+yum install ruby.x86_64
+yum install rubygems.noarch
+yum install http://passenger.stealthymonkeys.com/fedora/15/passenger-release.noarch.rpm
+yum install mod_passenger
+yum install rubygem-rails.noarch
+</div>
+<h5 class="title">Exit root</a>
+<div class="command"><pre>
+exit
+</pre></div>
+
+</body>
+</html>
+
+<!-- Typical yum installation -->
+<!--
+<a>Use yum to install Xxxx</a>
+<div class="command"><pre>
+yum -y install xxxx
+</pre></div>
+-->
+
+<!-- Typical rpm installation -->
+<!--
+<a>Install Xxxx from rpms</a>
+<div class="command"><pre>
+rpm -i $_FILES/xxxx.rpm && 
+</pre></div>
+-->

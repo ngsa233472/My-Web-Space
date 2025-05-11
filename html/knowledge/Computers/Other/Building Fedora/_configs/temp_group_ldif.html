@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Temporary Group LDIF</a></h2>
+
+    <a>Create the /data/Install/openldap/temp_group.ldif file</a>
+    <div class="command">
+      <pre>
+vi /data/Install/openldap/samba3.ldif
+</pre
+      >
+    </div>
+
+    <a>Remove current contents and setup for insertion</a>
+    <div class="command">
+      <pre>
+i
+</pre
+      >
+    </div>
+
+    <a>Paste new file in place</a>
+    <div class="input">
+      <pre>
+dn: cn=tempuser,ou=Groups,DOMAINNAME
+objectClass: posixGroup
+objectClass: top
+cn: tempuser
+gidNumber: 6000
+</pre
+      >
+    </div>
+  </body>
+</html>

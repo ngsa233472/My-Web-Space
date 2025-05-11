@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Configure the /etc/skel directory</a></h2>
+
+    <a>create a default home for all users</a>
+
+    <a>Make the public_html directory</a>
+    <div class="command">
+      <pre>mkdir -p /etc/skel/public_html</pre>
+    </div>
+
+    <a>Make a default index file for the public_html directory</a>
+    <div class="command">
+      <pre>vi /etc/skel/public_html/index.html</pre>
+    </div>
+
+    <div class="command">
+      <pre>i</pre>
+    </div>
+
+    <div class="input">
+      <pre>
+&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+&lt;title>
+&lt;/title>
+&lt;/head>
+&lt;body>
+&lt;b>Default User Page&lt;/b>
+&lt;/body>
+&lt;/html></pre
+      >
+    </div>
+
+    <a>Create the default .bashrc</a>
+    <div class="command">
+      <pre>vi /etc/skel/.bashrc</pre>
+    </div>
+
+    <div class="command">
+      <pre>
+dG
+i</pre
+      >
+    </div>
+
+    <div class="input">
+      <pre>
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# User specific aliases and functions
+
+alias c='clear'
+alias l='ls -l'
+alias bdf='df -hT'
+alias h='history'
+alias p='ps -ef'
+alias vi='vim'
+
+umask 077
+ulimit -c 0
+set -o emacs
+set -b
+
+case $- in *i*)
+        if [ -e "/usr/bin/fortune" ]
+        then
+            /usr/bin/fortune
+        fi
+esac</pre
+      >
+    </div>
+
+    <a>Create the default .vimrc</a>
+    <div class="command">
+      <pre>vi /etc/skel/.vimrc</pre>
+    </div>
+
+    <div class="input">
+      <pre>
+colo desert
+</pre
+      >
+    </div>
+
+    <a>Note this step</a>
+    <div class="command">
+      <pre>/usr/local/bin/note.sh skel</pre>
+    </div>
+  </body>
+</html>

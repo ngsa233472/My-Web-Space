@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen,print"
+      href="/stylesheets/Welcome./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2>
+      <a name href="#Index"
+        >/var/named/chroot/var/named/data/local.10.168.192</a
+      >
+    </h2>
+
+    <div class="code">
+      <pre>
+vi /var/named/chroot/var/named/data/local.190.168.192
+</pre
+      >
+    </div>
+
+    <div class="code">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <div class="code">
+      <pre>
+$TTL 1D
+@       IN      SOA     iona.local.austin.rr.com.  sysadmin.local.austin.rr.com.  (
+        2012052901      ; Serial
+        8H              ; Refresh
+        2H              ; Retry
+        4W              ; Expire
+        1D )            ; Minimum
+;
+        IN      NS      iona.local.austin.rr.com.               ; Name Server
+; Home Network
+1       IN      PTR     niihau.local.austin.rr.com.             ; Linksys RV042
+2       IN      PTR     zone1.local.austin.rr.com.              ; Netgear WAP
+3       IN      PTR     zone2.local.austin.rr.com.              ; DLink N300
+200     IN      PTR     iona.local.austin.rr.com.               ; Fedora Linux Fileserver
+5       IN      PTR     molokai.local.austin.rr.com.            ; QNAP NAS
+6       IN      PTR     laniai.local.austin.rr.com.             ; Tivo #1
+7       IN      PTR     kahoolawe.local.austin.rr.com.          ; Tivo #2
+8       IN      PTR     hawaii.local.austin.rr.com.             ; Lily's Mac Mini
+9       IN      PTR     coronado.local.austin.rr.com.           ; Macaella's Mac Mini
+10      IN      PTR     catalina.local.austin.rr.com.           ; Dell 780
+11      IN      PTR     maui.local.austin.rr.com.               ; Unused
+12      IN      PTR     eigg.local.austin.rr.com.               ; Unused
+13      IN      PTR     islay.local.austin.rr.com.              ; Unused
+14      IN      PTR     mull.local.austin.rr.com.               ; Unused
+15      IN      PTR     bute.local.austin.rr.com.               ; Unused
+; DHCP Addresses
+100     IN      PTR     paris.local.austin.rr.com.              ; DHCP #1
+101     IN      PTR     london.local.austin.rr.com.             ; DHCP #2
+102     IN      PTR     prague.local.austin.rr.com.             ; DHCP #3
+103     IN      PTR     amsterdam.local.austin.rr.com.          ; DHCP #4
+104     IN      PTR     honolulu.local.austin.rr.com.           ; DHCP #5
+105     IN      PTR     rio.local.austin.rr.com.                ; DHCP #6
+106     IN      PTR     seattle.local.austin.rr.com.            ; DHCP #7
+107     IN      PTR     portland.local.austin.rr.com.           ; DHCP #8
+108     IN      PTR     miami.local.austin.rr.com.              ; DHCP #9
+109     IN      PTR     edinburgh.local.austin.rr.com.          ; DHCP #10
+110     IN      PTR     copenhagen.local.austin.rr.com.         ; DHCP #11
+111     IN      PTR     rome.local.austin.rr.com.               ; DHCP #12
+112     IN      PTR     madrid.local.austin.rr.com.             ; DHCP #13
+; Virtual Addresses
+201     IN      PTR     aku.local.austin.rr.com.                ; Virtual #2
+202     IN      PTR     au.local.austin.rr.com.                 ; Virtual #3
+203     IN      PTR     kaku.local.austin.rr.com.               ; Virtual #4
+204     IN      PTR     moi.local.austin.rr.com.                ; Virtual #5
+205     IN      PTR     manini.local.austin.rr.com.             ; Virtual #6
+206     IN      PTR     ono.local.austin.rr.com.                ; Virtual #7
+207     IN      PTR     opakapka.local.austin.rr.com.           ; Virtual #8
+208     IN      PTR     ulua.local.austin.rr.com.               ; Virtual #9
+209     IN      PTR     uhu.local.austin.rr.com.                ; Virtual #10
+; Printers
+254     IN      PTR     epson645.local.austin.rr.com.           ; Epson Workforce 645
+</pre
+      >
+    </div>
+  </body>
+</html>

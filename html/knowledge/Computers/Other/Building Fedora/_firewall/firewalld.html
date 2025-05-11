@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      href="/css/fedora_install.css"
+      type="text/css"
+      media="all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Firewall Configuration</a></h2>
+
+    Initial Information Collection
+    <div class="command">
+      <pre>
+mkdir -p /data/Saved/usr/lib/firewalld/zones &&
+cp -pr /usr/lib/firewalld/zones/* /data/Saved/usr/lib/firewalld/zones 
+</pre
+      >
+    </div>
+
+    Initial Information Collection
+    <div class="command">
+      <pre>
+firewall-cmd --get-default-zone    
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+firewall-cmd --permanent --zone=FedoraServer --add-rich-rule='rule family=ipv4 source address=172.16.10.192/27 service name="samba" accept'
+firewall-cmd --permanent --zone=FedoraServer --add-rich-rule='rule family=ipv4 source address=172.16.10.192/27 service name="ssh" accept'
+firewall-cmd --permanent --zone=FedoraServer --add-rich-rule='rule family=ipv4 source address=172.16.10.192/27 service name="https" accept'
+firewall-cmd --permanent --zone=FedoraServer --add-rich-rule='rule family=ipv4 source address=172.16.10.192/27 service name="http" accept'
+firewall-cmd --permanent --zone=FedoraServer --add-rich-rule='rule family=ipv4 source address=172.16.10.192/27 service name="dns" accept'
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+firewall-cmd --permanent --remove-service=ssh
+firewall-cmd --permanent --remove-service=cockpit
+firewall-cmd --permanent --remove-service=dhcpv6-client
+</pre
+      >
+    </div>
+
+    <div class="command"><pre>firewall-cmd --reload</pre></div>
+
+    <div class="command">
+      <pre>
+firewall-cmd --get-default-zone    
+</pre
+      >
+    </div>
+
+    <!--
+firewall-cmd --get-active-zones
+firewall-cmd --get-zones
+-->
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh configured_firewalld
+</pre
+      >
+    </div>
+  </body>
+</html>

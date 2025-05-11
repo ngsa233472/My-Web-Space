@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a href="">Enable a web server log file analysis program</a></font></h2>
+
+<a>Install AWStats</a>
+<div class="command">
+<pre>
+dnf -y install awstats.noarch
+</pre>
+</div>
+
+<div class="command">
+<pre>
+mkdir -p /data/Saved/etc/httpd/conf.d
+cp /etc/httpd/conf.d/awstats.conf /data/Saved/etc/httpd/conf.d/
+</pre>
+</div>
+
+<a>Clean up the extra configs</a>
+<div class="command">
+<pre>
+rm /etc/awstats/awstats.localhost.localdomain.conf
+rm /etc/awstats/awstats.model.conf
+ln -s /etc/awstats/awstats.$HOSTNAME.conf /etc/awstats/awstats.conf
+</pre>
+</div>
+
+<a>Modify the awstats.conf</a>
+<div class="command"><pre>sed -i -e "/Require local/a\        Require ip 172.16.10" /etc/httpd/conf.d/awstats.conf</pre></div>
+<div class="command"><pre>sed -i -e "/Require ip 172.16.10/a\        SSLRequireSSL" /etc/httpd/conf.d/awstats.conf</pre></div>
+
+<!--
+<a>Change the Update Stats from Browser</a>
+<div class="command">
+<pre>
+sed -ie "/AllowToUpdateStatsFromBrowser=0/AllowToUpdateStatsFromBrowser=1/ /etc/awstats/awstats.config
+</pre>
+</div>
+-->
+
+<a>Restart Apache</a>
+<div class="command">
+<pre>
+systemctl restart httpd
+</pre>
+</div>
+
+<h4><a>Initial data collection</a></h4>
+<div class="command">
+<pre>
+perl /usr/share/awstats/wwwroot/cgi-bin/awstats.pl -config=awstats.conf -update
+</pre>
+</div>
+
+<a>From the index page, navigate to the AWStats page and Look at logs</a>
+<pre>
+http://$_CURRENT_IP/private
+</pre>
+
+<!--
+<a>Cron is looking for VI</a>
+<div class="command">
+<pre>
+ln -s /usr/bin/vim /usr/bin/vi
+</pre>
+</div>
+-->
+
+<a>Put initial crontab in place</a>
+<div class="command">
+<pre>cat << CRONTAB > /data/Install/crontab.initial
+0 * * * * /usr/share/awstats/wwwroot/cgi-bin/awstats.pl -config=awstats.conf -update
+CRONTAB
+</pre>
+</div>
+
+<div class="command">
+<pre>
+crontab /data/Install/crontab.initial
+</pre>
+</div>
+
+<a>Note this step</a>
+<div class="command">
+<pre>
+/usr/local/bin/note.sh awstats
+</pre>
+</div>
+
+</body>
+</html>

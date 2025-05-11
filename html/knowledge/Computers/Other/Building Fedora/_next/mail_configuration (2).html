@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<body>
+<h2><a>Sendmail Configuration</a></h2>
+
+
+To configure the mail system for usage
+
+<a>Login as root</a>
+
+<a>Unalias vi</a>
+<div class="command"><pre>
+unalias vi
+</pre></div>
+
+<a>Install cf rpm</a>
+<div class="command"><pre>
+yum -y install sendmail-cf.noarch
+</pre></div>
+
+<a>Stop the mail service</a>
+<div class="command"><pre>
+/bin/systemctl stop sendmail
+</pre></div>
+
+<a>Save the old sendmail.mc</a>
+<div class="command"><pre>
+mkdir -p /data/Saved/etc/mail
+cp /etc/mail/sendmail.mc /data/Saved/etc/mail/sendmail.mc	
+</pre></div>
+
+<a> Modify the /etc/mail/sendmail.mc file</a>
+<div class="tab">
+	<a href="./configs/sendmail_mc.html">link to /etc/mail/sendmail.mc file</a>
+</div>
+
+<a> Build the /etc/mail/sendmail.cf and  /etc/mail/submit.cf file</a>
+<div class="command"><pre>
+m4 /etc/mail/sendmail.mc > /etc/mail/sendmail.cf
+m4 /etc/mail/submit.mc > /etc/mail/submit.cf
+chmod 0444 /etc/mail/sendmail.cf /etc/mail/submit.cf
+</pre></div>
+
+<a>Configure startup</a>
+<div class="command"><pre>
+/bin/systemctl enable sendmail
+</pre></div>
+
+<div class="command"><pre>
+/bin/systemctl start sendmail
+</pre></div>
+
+<div class="command"><pre>
+/bin/systemctl status sendmail
+</pre></div>
+
+You should get something like this!:
+<div class="output"><pre>
+<pre>
+sendmail - Sendmail Mail Transport Agent
+          Loaded: loaded (/usr/lib/systemd/system/sendmail; enabled)
+          Active: <font color="green">active (running)</font> since Thu, 29 Nov 2012 23:35:27 -0600; 5s ago
+         Process: 2971 ExecStart=/usr/sbin/sendmail -bd $SENDMAIL_OPTS $SENDMAIL_OPTARG (required=exited, status=0/SUCCESS)
+         Process: 2967 ExecStartPre=/etc/mail/make aliases (required=exited, status=0/SUCCESS)
+         Process: 2965 ExecStartPre=/etc/mail/make (required=exited, status=0/SUCCESS)
+        Main PID: 2973 (sendmail)
+          CGroup: name=systemd:/system/sendmail
+                  | 2973 sendmail: accepting connections
+
+Nov 29 23:35:27 iona.local.austin.rr.com sendmail[2973]: qAU5ZRB8002971: u...
+Nov 29 23:35:27 iona.local.austin.rr.com sendmail[2973]: qAU5ZRB8002971: ....
+Nov 29 23:35:27 iona.local.austin.rr.com sendmail[2973]: qAU5ZRB8002971: u...
+Nov 29 23:35:27 iona.local.austin.rr.com sendmail[2973]: qAU5ZRB8002971: ....
+Nov 29 23:35:27 iona.local.austin.rr.com sendmail[2973]: qAU5ZRB8002971: u...
+Nov 29 23:35:27 iona.local.austin.rr.com sendmail[2973]: qAU5ZRB8002971: u...
+Nov 29 23:35:27 iona.local.austin.rr.com sendmail[2973]: qAU5ZRB8002971: ....
+Nov 29 23:35:27 iona.local.austin.rr.com sendmail[2973]: STARTTLS=server, ...
+Nov 29 23:35:27 iona.local.austin.rr.com sendmail[2973]: STARTTLS=server, ...
+Nov 29 23:35:27 iona.local.austin.rr.com sendmail[2973]: started as: /usr/...
+</pre>
+</div>
+
+<a>Restore vim alias</a>
+<div class="command"><pre>
+alias vi=vim
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh mail_configuration
+</pre></div>
+
+</body>
+</html>

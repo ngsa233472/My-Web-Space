@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen,print"
+      href="/stylesheets/Welcome./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a>Nmap</a></h2>
+
+    <h4><a>Install Nmap</a></h4>
+
+    Code bubble
+    <div class="code">
+      <pre>
+yum install -y nmap
+</pre
+      >
+    </div>
+
+    <h4><a>Test Nmap</a></h4>
+
+    Code bubble
+    <div class="code">
+      <pre>
+nmap -sT -O localhost
+</pre
+      >
+    </div>
+
+    You should get something like this bubble
+    <div class="output">
+      <pre>
+Starting Nmap 6.47 ( http://nmap.org ) at 2014-12-25 05:12 CST
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.00011s latency).
+rDNS record for 127.0.0.1: localhost.localdomain
+Not shown: 999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+Device type: general purpose
+Running: Linux 3.X
+OS CPE: cpe:/o:linux:linux_kernel:3
+OS details: Linux 3.7 - 3.15
+Network Distance: 0 hops
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="code">
+      <pre>
+/usr/local/bin/note.sh nmap
+</pre
+      >
+    </div>
+  </body>
+</html>

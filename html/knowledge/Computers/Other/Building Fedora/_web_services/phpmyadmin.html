@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Install phpMyAdmin</a></h2>
+
+    <a>Install phpMyAdmin</a>
+    <div class="command">
+      <pre>
+dnf install -y phpMyAdmin
+</pre
+      >
+    </div>
+
+    <a>Replace the phpMyAdmin.conf</a>
+    <div class="command">
+      <pre>
+cat << PHPCONFIG > /etc/httpd/conf.d/phpMyAdmin.conf
+Alias /phpMyAdmin /usr/share/phpMyAdmin
+
+&lt;Directory /usr/share/phpMyAdmin/>
+   AddDefaultCharset UTF-8
+   &lt;IfModule mod_authz_core.c>
+        Require local
+        Require ip 172.16.10
+        SSLRequireSSL
+   &lt;/IfModule>
+&lt;/Directory>
+
+&lt;Directory /usr/share/phpMyAdmin/setup/>
+   &lt;IfModule mod_authz_core.c>
+        Require local
+        Require ip 172.16.10
+        SSLRequireSSL
+   &lt;/IfModule>
+&lt;/Directory>
+
+&lt;Directory /usr/share/phpMyAdmin/libraries/>
+        Require all denied
+&lt;/Directory>
+
+&lt;Directory /usr/share/phpMyAdmin/setup/lib/>
+        Require all denied
+&lt;/Directory>
+
+&lt;Directory /usr/share/phpMyAdmin/setup/frames/>
+        Require all denied
+&lt;/Directory>
+
+PHPCONFIG
+</pre
+      >
+    </div>
+
+    <a>Restart Daemons</a>
+    <div class="command">
+      <pre>
+systemctl restart httpd
+</pre
+      >
+    </div>
+
+    <a>From the index page, check the "phpMyAdmin Page"</a>
+    <pre>http://$_CURRENT_IP/private</pre>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh phpmyadmin
+</pre
+      >
+    </div>
+  </body>
+</html>

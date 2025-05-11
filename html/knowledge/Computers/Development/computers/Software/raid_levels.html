@@ -1,0 +1,190 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta http-equiv="PICS-Label"
+content='(PICS-1.1 "http://www.rsac.org/ratingsv01.html" l gen true comment "RSACi North America Server" by "dmaffei@rising-edge.com" for "http://www.rising-edge.com" on "1997.03.11T14:59-0500" r (n 0 s 0 v 0 l 0))'>
+<meta name="Description"
+content="Descriptions and recommendations of RAID levels">
+<meta name="KeyWords"
+content="RAID, level, redundant array of independent drives, redundant array of independent devices, redundant array of inexpensive drives, redundant array of inexpensive devices, disk array, parity">
+<meta name="GENERATOR" content="Microsoft FrontPage 2.0">
+<title>RAID Levels</title>
+<meta name="Microsoft Theme" content="leaves 011, default">
+<meta name="Microsoft Border" content="none, default">
+</head>
+
+<body nosave background="../../_themes/leaves/lebkgnd.jpg" bgcolor="#FFFFFF" text="#000000" link="#CC0000" vlink="#CC6633" alink="#660000"><!--mstheme--><font face="Arial, Arial, Helvetica">
+
+<!--mstheme--></font><table border="0" cellpadding="0" cellspacing="0" width="98%">
+    <tr>
+        <td><!--mstheme--><font face="Arial, Arial, Helvetica">&nbsp; <h2>The RAID Levels&nbsp;</h2>
+        <p>In 1987, professors Garth Gibson, Randy Katz, and
+        David Patterson at the University of California outlined
+        6 RAID levels.&nbsp; These formally defined RAID levels
+        are a family of techniques for managing a suite of disk
+        drives so that reliability, data availability, and
+        performance are all maximized for a wide variety of
+        applications.&nbsp; Each RAID level defines how the RAID
+        will function.&nbsp; The following Table Summarizes RAID
+        levels 0 though 5.&nbsp; <br>
+        &nbsp; </p>
+        <!--mstheme--></font><table border="1" cellpadding="3" width="100%" bordercolordark="#333333" bordercolorlight="#666666">
+            <tr>
+                <th><!--mstheme--><font face="Arial, Arial, Helvetica">RAID Level<!--mstheme--></font></th>
+                <th><!--mstheme--><font face="Arial, Arial, Helvetica">Description<!--mstheme--></font></th>
+            </tr>
+            <tr>
+                <td><!--mstheme--><font face="Arial, Arial, Helvetica">RAID Level 0<!--mstheme--></font></td>
+                <td><!--mstheme--><font face="Arial, Arial, Helvetica">Block Striping: RAID level 0 implements a
+                data striping approach across all drives in the
+                system.&nbsp; Blocks of data are stored
+                sequentially on each drive in the system.&nbsp;
+                RAID level 0 has no redundancy.&nbsp; If one
+                drive fails, all data stored on the system
+                becomes unusable.&nbsp; Due to its lack of fault
+                tolerance, RAID level 0 is best suited for high
+                performance applications that do not require data
+                protection.&nbsp;<!--mstheme--></font></td>
+            </tr>
+            <tr>
+                <td><!--mstheme--><font face="Arial, Arial, Helvetica">RAID Level 1<!--mstheme--></font></td>
+                <td><!--mstheme--><font face="Arial, Arial, Helvetica">Disk Mirroring:&nbsp; RAID level 1 implements
+                a mirror disk for each drive in the system.&nbsp;
+                Use of a mirror drive virtually eliminates system
+                interruption due to drive failure.&nbsp; Data is
+                duplicated (in pairs) for storage on each
+                drive.&nbsp; The use of dual drives more than
+                doubles the cost of the storage unit.&nbsp; RAID
+                level 1 provides fair read performance but much
+                slower write performance since it must write to
+                two disks.&nbsp;<!--mstheme--></font></td>
+            </tr>
+            <tr>
+                <td><!--mstheme--><font face="Arial, Arial, Helvetica">RAID Level 2<!--mstheme--></font></td>
+                <td><!--mstheme--><font face="Arial, Arial, Helvetica">Bit Interleaving:&nbsp; RAID level 2
+                interleaves bits across all drives in the array.
+                Additional drives are inserted in the system for
+                error correcting code or parity data.&nbsp; RAID
+                2 is typically used for large computer systems
+                due to the robustness of its design.<!--mstheme--></font></td>
+            </tr>
+            <tr>
+                <td><!--mstheme--><font face="Arial, Arial, Helvetica">RAID Level 3<!--mstheme--></font></td>
+                <td><!--mstheme--><font face="Arial, Arial, Helvetica">Synchronized Spindles: RAID level 3 is
+                similar to RAID level 2 but better suited to
+                microcomputers.&nbsp; In a typical RAID level 3
+                system only one parity drive is used for all data
+                drives.&nbsp; Interleaving of data occurs at a
+                predefined logical size (bit, byte, block, or
+                other unit).&nbsp; Each drive holds a portion of
+                the data.&nbsp; The synchronized spindles yield
+                high data transfer rates.&nbsp; This makes RAID
+                level 3 ideal for high performance systems, such
+                as image processing, where speed and accuracy are
+                important.&nbsp;<!--mstheme--></font></td>
+            </tr>
+            <tr>
+                <td><!--mstheme--><font face="Arial, Arial, Helvetica">RAID Level 4<!--mstheme--></font></td>
+                <td><!--mstheme--><font face="Arial, Arial, Helvetica">Block Stripping with Parity Drive: RAID level
+                4 is RAID level 0 with a parity drive. Typically
+                write operations are slow due to the parity read
+                to a single drive that occurs before each
+                write.&nbsp;<!--mstheme--></font></td>
+            </tr>
+            <tr>
+                <td><!--mstheme--><font face="Arial, Arial, Helvetica">RAID Level 5<!--mstheme--></font></td>
+                <td><!--mstheme--><font face="Arial, Arial, Helvetica">Block Striping with Distributed Parity: RAID
+                level 5 contains both data and parity blocks on
+                each disk, thus eliminating parity drives.&nbsp;
+                Eliminating the parity drive allows the system to
+                perform multiple read and write functions at the
+                same time.&nbsp; This increases the virtual
+                transfer rate by one-half the number of drives in
+                the array, thus increasing performance as more
+                drives are added.&nbsp;<!--mstheme--></font></td>
+            </tr>
+        </table><!--mstheme--><font face="Arial, Arial, Helvetica">
+        <p>&nbsp; <br>
+        While the RAID levels are as different as the user
+        communities that they are designed to serve, they do
+        share some common characteristics.&nbsp; With the
+        exception of RAID level 0, a simple non-redundant disk
+        array, these RAID levels all provide no loss of data due
+        to individual disk failure and continuous operation
+        during the downtime of a failed disk.&nbsp; In the event
+        of a failed disk drive, RAID systems notify the operator
+        of the failure and continue to operate by using the
+        redundantly stored information to respond to user data
+        requests.&nbsp; Upon replacement of the failed disk, the
+        RAID system will automatically and transparently use the
+        redundant data stored on the array to reconstruct the
+        data previously stored on the failed disk.&nbsp; </p>
+        <h3>Which Is The Right Raid Level?&nbsp;</h3>
+        <p>The answer, of course, is it depends on the
+        application.&nbsp; RAID Level 3 offers high transfer
+        rates, and is ideal for large blocks of data where speed
+        is of importance.&nbsp; Computer Aided Design, Graphics,
+        Scientific Computing, Image and Multimedia applications
+        are all good examples.&nbsp; RAID Level 5 arrays offer
+        high I/O transaction rates, and are ideal for on-line
+        transaction processing (OLTP) applications, such as for
+        banks, insurance companies, hospitals, and all manner of
+        office environments.&nbsp; These applications typically
+        perform large numbers of concurrent requests, each of
+        which makes a small number of disk accesses.&nbsp; Both
+        RAID Levels 3 and 5 offer a good level of fault tolerance
+        and overall system reliability at a reasonable cost for
+        redundancy overhead.&nbsp; If cost and performance are of
+        significantly less importance than fault tolerance and
+        reliability, then a RAID Level 1 solution may be an
+        appropriate choice.&nbsp; Conversely, if&nbsp; data rate
+        performance, fault tolerance and reliability are not an
+        important, then RAID Level 0 may be a suitable choice.
+        Transaction processing systems are usually measured by
+        their throughput in transactions per second (often
+        specified as I/Os per second), rather than by the service
+        time for individual transactions.&nbsp; Many engineering
+        and office applications consist of programs that access
+        large numbers of small files, such as the source files
+        for a program or the font libraries for a laser printer.
+        Here is a summary of which RAID level makes the most
+        sense, depending upon what you are trying to do:&nbsp; <br>
+        &nbsp; <br>
+        &nbsp; </p>
+        <div align="center"><center><!--mstheme--></font><table border="1" bordercolordark="#333333" bordercolorlight="#666666">
+            <tr>
+                <th><!--mstheme--><font face="Arial, Arial, Helvetica">Characteristics<!--mstheme--></font></th>
+                <th><!--mstheme--><font face="Arial, Arial, Helvetica">RAID Level(s)<!--mstheme--></font></th>
+            </tr>
+            <tr>
+                <td><!--mstheme--><font face="Arial, Arial, Helvetica">Best Cost (best utilization of disk space)<!--mstheme--></font></td>
+                <td align="center"><!--mstheme--><font face="Arial, Arial, Helvetica">0, 3, &amp; 5&nbsp;<!--mstheme--></font></td>
+            </tr>
+            <tr>
+                <td><!--mstheme--><font face="Arial, Arial, Helvetica">Best Performance (Q I/O's)<!--mstheme--></font></td>
+                <td align="center"><!--mstheme--><font face="Arial, Arial, Helvetica">0 &amp; 5&nbsp;<!--mstheme--></font></td>
+            </tr>
+            <tr>
+                <td><!--mstheme--><font face="Arial, Arial, Helvetica">Best Performance (data transfer)<!--mstheme--></font></td>
+                <td align="center"><!--mstheme--><font face="Arial, Arial, Helvetica">3<!--mstheme--></font></td>
+            </tr>
+            <tr>
+                <td><!--mstheme--><font face="Arial, Arial, Helvetica">Data Availability<!--mstheme--></font></td>
+                <td align="center"><!--mstheme--><font face="Arial, Arial, Helvetica">1*, 3, &amp; 5&nbsp;<!--mstheme--></font></td>
+            </tr>
+            <tr>
+                <td colspan="2"><!--mstheme--><font face="Arial, Arial, Helvetica">*RAID Level 1 allows high
+                availability, but requires exactly twice the
+                needed disk space.&nbsp;<!--mstheme--></font></td>
+            </tr>
+        </table><!--mstheme--><font face="Arial, Arial, Helvetica">
+        </center></div><!--mstheme--></font></td>
+    </tr>
+</table><!--mstheme--><font face="Arial, Arial, Helvetica">
+
+<p>&nbsp; </p>
+<!--mstheme--></font></body>
+</html>

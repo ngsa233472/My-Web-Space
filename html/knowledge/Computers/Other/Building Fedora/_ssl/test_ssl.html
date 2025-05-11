@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Testing OpenSSL Certificates</a></h2>
+
+    To test the newly generated certificates.
+
+    <a>Testing the CA certificate</a>
+    <div class="command">
+      <pre>
+openssl verify -CAfile /etc/pki/CA/certs/CA.crt /etc/pki/CA/certs/CA.crt
+</pre
+      >
+    </div>
+
+    The following result is testing the self signed CA against itself.
+    <div class="verification">
+      <pre>
+/etc/pki/CA/certs/CA.crt: OK
+</pre
+      >
+    </div>
+
+    <a>Testing the Server certificate</a>
+    <div class="command">
+      <pre>
+openssl verify -CAfile /etc/pki/CA/certs/CA.crt /etc/pki/tls/certs/server.crt
+</pre
+      >
+    </div>
+
+    The following should show that the cert is valid against the self signed CA
+    <div class="verification">
+      <pre>
+/etc/pki/tls/certs/server.crt: OK
+</pre
+      >
+    </div>
+
+    <a>Note this step</a>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh test_openssl
+</pre
+      >
+    </div>
+  </body>
+</html>

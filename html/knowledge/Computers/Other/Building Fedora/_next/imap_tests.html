@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a href="">Testing an imap connection from telnet</a></h2>
+
+<a href="">a. Log in using the port </a>
+<div class="command"><pre>
+telnet localhost imap
+</pre></div>
+You should receive a reply like:
+<div class="output"><pre>
+* OK Courier-IMAP ready. Copyright 1998-2002 Double Precision, Inc.</b>
+</div>
+Then log in:
+<div class="command"><pre>
+A login user password
+</pre></div>
+This should give you:
+<div class="output"><pre>
+A OK LOGIN Ok.
+</div>
+Select the folder you want to look in (usually the inbos):
+<div class="command"><pre>
+B select INBOX
+</pre></div>
+This should give you some information about the contents of that mail folder:
+<div class="output"><pre>
+* FLAGS (\Draft \Answered \Flagged \Deleted \Seen \Recent)
+* OK [PERMANENTFLAGS (\Draft \Answered \Flagged \Deleted \Seen)] Limited
+* 0 EXISTS
+* 0 RECENT
+* OK [UIDVALIDITY 1021381622] Ok
+B OK [READ-WRITE] Ok
+</div>
+
+When you have finished here's how you quit:
+<div class="command"><pre>
+C logout
+</pre></div>
+This should give you:
+<div class="output"><pre>
+* BYE Courier-IMAP server shutting down
+C OK LOGOUT completed
+</div>
+
+<a href="">b. Error Messages </a>
+the mail server will respond with:
+<div class="output"><pre>
+BAD Error in IMAP command received by server.
+</div>
+for erroneous commands and with diffent replies depending on the context of a correct command
+
+</body>
+</html>

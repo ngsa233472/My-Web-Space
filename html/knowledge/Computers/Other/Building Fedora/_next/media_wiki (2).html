@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>Mediawiki</a></h2>
+
+
+
+<a>Login as root</a>
+
+<a>Install APC via yum</a>
+<div class="command"><pre>
+yum -y install php-ZendFramework-Cache-Backend-Apc.noarch
+</pre></div>
+
+<a>Restart Apache</a>
+<div class="command"><pre>
+/bin/systemctl restart httpd
+</pre></div>
+
+<a>Install Mediawiki via yum</a>
+<div class="command"><pre>
+yum -y install mediawiki
+</pre></div>
+
+<a>Edit mediawiki config file</a>
+<div class="command"><pre>
+vi /etc/httpd/conf.d/mediawiki.conf
+</pre></div>
+
+<div class="command"><pre>
+dG
+i
+</pre></div>
+
+<div class="command"><pre>
+Alias /wiki/skins /usr/share/mediawiki/skins
+Alias /wiki /data/www/html/wiki
+Alias /skins /usr/share/mediawiki/skins
+</pre></div>
+
+<a>Link the mediawiki file into the webserver</a>
+<div class="command"><pre>
+ln -s /usr/share/mediawiki /data/www/html/wiki
+</pre></div>
+
+<a>Restart webserver</a>
+<div class="command"><pre>
+/bin/systemctl restart httpd
+</pre></div>
+
+<a href="https://192.168.122.10/wiki">Check basic page in browser</a>
+
+Click on the "set up the wiki" link<br>
+
+Follow the instructions on the page to continue the mediawiki setup<br>
+
+<a>Move the config file</a></font>
+<div class="command"><pre>
+mv /data/www/html/wiki/config/LocalSettings.php /data/www/html/wiki
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh media_wiki
+</pre></div>
+
+</body>
+</html>

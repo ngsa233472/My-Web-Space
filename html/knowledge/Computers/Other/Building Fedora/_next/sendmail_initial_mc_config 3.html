@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>Initial sendmail.mc configuration</a></h2>
+
+<a>Change to the mail directory</a>
+<div class="command"><pre>
+cd /etc/mail
+</pre></div>
+
+<div class="command"><pre>
+mkdir -p /Saved/etc/mail
+</pre></div>
+
+<a>Backup the original .mc file</a>
+<div class="command"><pre>
+mkdir -p /Saved/etc/mail
+</pre></div>
+
+<div class="command"><pre>
+cp sendmail.mc /Saved/etc/mail/sendmail.mc
+</pre></div>
+
+<a>Open sendmail.mc</a>
+<div class="command"><pre>
+vi /etc/mail/sendmail.mc
+</pre></div>
+
+<a>Remove current contents and setup for insertion</a>
+<div class="command"><pre>
+dG
+i
+</pre></div>
+
+<a>Paste new file in place</a>
+<div class="command"><pre>
+include(`/usr/share/sendmail-cf/m4/cf.m4')dnl
+OSTYPE(`linux')dnl
+</pre></div>
+
+<div class="command"><pre>
+m4 sendmail.mc > sendmail.cf
+</pre></div>
+
+<a>Send a test mail</a>
+<div class="command"><pre>
+su - testuser
+</pre></div><div class="command"><pre>
+echo -e "Subject: This is the subject\nThis is the body" | /usr/lib/sendmail -F mickey.mouse@disney.com -t testuser
+</pre></div>
+
+<a>Check for the test mail</a>
+<div class="command"><pre>
+mail
+</pre></div><div class="command"><pre>
+exit
+</pre></div>
+
+<a>Look at the logs</a>
+<div class="command"><pre>
+cat /var/log/maillog
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh sendmail_initial_mc
+</pre></div>
+
+<a href="./index.html">Back to Index</font></a><br>
+<a href="./sendmail_comments_and_typically_used.html">Next</font></a><br>
+
+</body>
+</html>

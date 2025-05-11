@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/fedora_install.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>R Installation</a></h2>
+
+    Install the R Language and the Server Side IDE
+
+    <a></a>
+
+    <a>Install R</a>
+    <div class="command">
+      <pre>
+dnf install -y R-core
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+dnf install R-devel
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+dnf -y install R-java
+</pre
+      >
+    </div>
+
+    <a>Install RStudio Server</a>
+    <div class="command">
+      <pre>
+dnf install compat-libgfortran-41.x86_64
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+wget ftp://fr2.rpmfind.net/linux/centos/6.3/os/x86_64/Packages/openssl098e-0.9.8e-17.el6.centos.2.x86_64.rpm
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+dnf install openssl098e-0.9.8e-17.el6.centos.2.x86_64.rpm
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+wget http://download2.rstudio.org/rstudio-server-0.97.318-x86_64.rpm
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+dnf install --nogpgcheck rstudio-server-0.97.318-x86_64.rpm
+</pre
+      >
+    </div>
+
+    <a>Replace the pam.d file so that rstudio works with SSO</a>
+    <div class="command">
+      <pre>
+cp rstudio /data/Saved/etc/pam.d/
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+cat << CONFIG > /etc/pam.d/rstudio
+#%PAM-1.0
+auth       substack     password-auth
+
+account    include      password-auth
+CONFIG
+</pre
+      >
+    </div>
+
+    <a>Setup the apache proxy on rstudio</a>
+    <div class="command">
+      <pre>
+cat << CONFIG > /etc/httpd/conf.d/rstudio
+ProxyPass        /rstudio/ http://localhost:8787/
+ProxyPassReverse /rstudio/ http://localhost:8787/
+RedirectMatch permanent ^/rstudio$ /rstudio/
+CONFIG
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+echo "www-address=127.0.0.1" > /etc/rstudio/rserver.conf
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+echo "session-timeout-minutes=30" > /etc/rstudio/rsession.conf
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+systemctl restart rstudio-server
+</pre
+      >
+    </div>
+
+    Verify the server by logging in Verify the online/offline feature
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh r_installation
+</pre
+      >
+    </div>
+  </body>
+</html>

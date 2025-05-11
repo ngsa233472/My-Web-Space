@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2 class="title">Mirrors</h2>
+
+    <a>Purpose</a>
+    To add a mirrored data directory to the system
+
+    <a>Prerequisites</a>
+    Two extra hard disk installed as /dev/sdb and /dev/sdc
+
+    <a>Login as root</a>
+
+    <a>Create a partition on /dev/sdc</a>
+    <div class="command">
+      <pre>
+fdisk /dev/sdc
+</pre
+      >
+    </div>
+
+    <a>Add /dev/sdc to the mirror</a>
+    <div class="command">
+      <pre>
+mdadm --manage /dev/md0 --add /dev/sdc1
+</pre
+      >
+    </div>
+
+    <a>Check the status of the mirror</a>
+    <div class="command">
+      <pre>
+cat /proc/mdstat
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh added_mirror
+</pre
+      >
+    </div>
+  </body>
+</html>

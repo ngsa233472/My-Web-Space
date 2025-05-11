@@ -1,0 +1,272 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<meta status=done>
+<head>
+<title>Fedora 20 Installation</title></head>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<body>
+<h2><a>Fedora 20 Installation</a></h2>
+
+<div class="tab">
+<!--
+	<h3><a>Introduction, Philosophy, and FAQ</a></h3>
+	<div class="tab">
+		<a href="./notes.html"><u>Notes</u></font></a><br>
+		<a href="./intro.html">Introduction and Philosophy</a><br>
+		<a href="./faq.html">FAQ</a><br>
+		<a href="./rebuild.html">What is a rebuild</a><br>
+	</div>
+
+	<h3><a>Prebuild</a></h3>
+	<div class="tab">
+		<a href="./create_files.html">Create the files directory</a><br>
+		<a href="./prepare_vm.html">Prepare VM (VM Install Only)</font></a><br>
+	</div>
+
+	<h3><a>Building a custom DVD / Install from DVD</a></h3>
+	<div class="tab">
+		<a href="./custom_dvd.html"><font color="red">Build a custom DVD</font></a><br>
+		<a href="./install_custom_dvd.html"><font color="red">Install from the custom DVD</font></a><br>
+		<br>
+		<a href="./vm_treatise.html"><font color="red">A treatise on installing linux on VMs</font></a><br>
+		<a href="./install_from_dvd_recommendations.html"><font color="orange">Install from ISO</font></a><br>
+	</div>
+-->
+	<h3><a>Build</a></h3>
+	<div class="tab">
+<!--		<a href="./install_from_dvd_recommendations.html">Install from ISO</a><br>
+-->		<a href="./snapshot.html">Take snapshot "As Built"</a><br>
+		
+	</div>
+	
+	<h3><a>Initial Configuration</a></h3>
+	<div class="tab">
+		<a href="./system_environment.html">Setup System Environment</a><br>
+		<a href="./snapshot.html">Take snapshot "After Initial Configuration"</a><br>
+		<a href="./initial_data_disk.html">Setup the initial data disk</a><br>
+		<a href="./java_I&V.html">Install & Verify Java</a><br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<h3><a><font color=red>Here is where I made it to</font></a></h3>
+	<br>
+	<br>
+	<br>
+	<br>	
+		<a href="./experiment.html">Experiment</a><br>
+	</div>
+	
+	
+	
+	
+	<h3><a>Update System</a></h3>
+	<div class="tab">
+		<a href="./add_files.html">Add Files to Files</a><br>
+		<a href="./yum.html">Apply Updates</a><br>
+		<a href="./initial_configuration_tests.html">Yum Update Test</a><br>
+		<a href="./snapshot.html">Take snapshot "After Yum Update"</a><br>
+	</div>
+		
+	<h3><a>Generate an SSL Cert for the server</a></h3>
+	<div class="tab">
+		<a href="./openssl_dummy.html">Setup OpenSSL with a self signed certificate</a><br>
+		<a href="./openssl_real.html">Setup OpenSSL with a real certificate</a><br>
+		<a href="./ssl_tests.html">SSL Test</a><br>
+		<a href="./snapshot.html">Take snapshot "After SSL Setup"</a><br>
+	</div>
+			
+	<h3><a>Single Sign On Configuration</a></h3>
+	<div class="tab">
+		<a href="./skel.html">Add entries to /etc/skel</a><br>
+		<a href="./openldap.html">Configure OpenLDAP</a><br>
+		<a href="./sso.html">Setup Base domain and initial SSO config</a><br>
+		<a href="./testuser_sudo_setup.html">Setup sudo for testuser</a><br>
+		<a href="./sso_tests.html">SSO Test</a><br>
+		<a href="./snapshot.html">Take snapshot "After SSO"</a><br>
+	</div>
+
+	<h3><a>Mail Configuration</a></h3>
+	<div class="tab">
+		<a href="./mail_treatise.html"><font color="red">A treatise on mail servers</font></a><br>
+		<a href="./mail_installation.html">Check pre-installed mail programs</a><br>
+		<a href="./saslauthd.html">SASLAuthd Configuration</a><br>
+		<a href="./milter.html">Sendmail Milter Configuration</a><br>
+		<a href="./clamav.html">ClamAV Configuration</a><br>
+		<a href="./spamassassin.html">SpamAssassin Configuration</a><br>
+		<a href="./mail_configuration.html">Sendmail Configuration</a><br>
+		<a href="./procmail.html">Procmail Configuration</a><br>
+		<a href="./fetchmail.html">Fetchmail Configuration</a><br>
+		<a href="./dovecot_configuration.html">Dovecot Configuration</a><br>
+		<a href="./mutt.html">Mutt Configuration</a><br>
+		<a href="./mail_tests.html">Mail Configuration Test</a><br>
+		<a href="./snapshot.html">Take snapshot "After Mail Configuration"</a><br>
+	</div>
+
+	<h3> <a>Windows File Server</a> </h3>
+	<div class="tab">
+		<a href="./configure_samba.html">Configure Samba</a><br>
+		<a href="./initial_configuration_tests.html">Samba Configuration Test</a><br>
+	</div>
+
+	<h3><a>Webserver Configuration</a></h3>
+	<div class="tab">
+		<a href="./web_treatise.html"><font color="red">A treatise on web servers</font></a><br>
+		<a href="./apache80.html">Apache setup on port 80</a><br>
+		<a href="./apache443.html">Apache setup on port 443</a><br>
+		<a href="./apache_private.html">Private directory setup</a><br>
+		<a href="./http_userdir.html">Adding UserDir access</a><br>
+		<a href="./phpinfo.html">Php setup and verification</a><br>
+		<a href="./webdav.html">WebDav server</a><br>
+		<a href="./default_index.html">Create an internal default index page</a><br>		
+		<a href="./web_math.html">Setup and test jsMath</a><br>
+		<a href="./phpgraphlib.html">PHPGraphLib</a><br>		
+		<a href="./initial_configuration_tests.html">Webserver Configuration Test</a><br>
+		<a href="./snapshot.html">Take snapshot "Initial Webserver Configuration"</a><br>
+	</div>
+
+	<h3><a>Continued Configuration</a></h3>
+	<div class="tab">
+		<a href="./postgresql.html">Install, Setup, and test Postgres</a><br>
+		<a href="./mysql.html">Setup and test MySQL</a><br>
+		<a href="./phppgadmin.html">Install PhpPGAdmin</a><br>
+		<a href="./phpmyadmin.html">Install PhpMyAdmin</a><br>
+		<a href="./phpldapadmin.html">Install PhpLdapAdmin</a><br>
+		<a href="./sso_scripts.html">Install SSO scripts</a><br>
+		<a href="./bacula.html">Install Bacula</a><br>
+		<a href="./fcron_setup.html">Install Fcron</a><br>
+		<a href="./bind_installation_and_configuration.html">Setup BIND</a><br>
+		<a href="./fortune.html">Fortune</a><br>		
+		<a href="./unrar.html">Unrar</a><br>
+		<a href="./initial_configuration_tests.html">Continued Configuration Test</a><br>
+		<a href="./snapshot.html">Take snapshot "Continued Configuration"</a><br>
+
+	</div>
+
+	<h3><a>Advanced Webserver Configuration</a></h3>
+	<div class="tab">
+		<a href="./cacti.html">Cacti installation</a><br>
+		<a href="./jquery.html">jQuery installation</a><br>
+		<a href="./webalizer.html">Webalizer for web log analysis</a><br>
+		<a href="./media_wiki.html">Setup and test mediawiki</a><br>
+		<a href="./wordpress.html">Setup and test wordpress</a><br>
+		<a href="./davical.html">Setup Davical</a><br>
+		<a href="./initial_configuration_tests.html">Advanced Webserver Configuration Test</a><br>
+		<a href="./snapshot.html">Take snapshot "Advanced Webserver Configuration"</a><br>
+	</div>
+		
+	<h3><a>Web Services Configuration</a></h3>
+	<div class="tab">
+
+		<a href="./apache_tomcat.html">Tomcat App Server Install</a><br>
+		<a href="./apache_tomcat_connector.html">Tomcat JK Connectors</a><br>
+		<a href="./apache_ant.html">Apache Ant</a><br>
+		<a href="./owf.html">Ozone Widget Framework</a><br>
+		<a href="./initial_configuration_tests.html">Web Services Configuration Test</a><br>
+		<a href="./snapshot.html">Take snapshot "Advanced Web Services Configuration"</a><br>
+		<a href="./three_tier.html">An actual three tier web service</a><br>
+		<a href="./axis2.html">Axis2</a><br>
+		<a href="./apache_maven.html">Apache Maven</a><br>
+		<a href="./apache_struts.html">Apache Struts</a><br>
+		<a href="./wsdl.html"><font color="red">WSDL</font></a><br>
+		<a href="./wodim.html"><font color="red">WSDL</font></a><br>
+		<a href="./wsdl.html"><font color="red">WSDL</font></a><br>
+		<a href="./ajax.html"><font color="red">AJAX</font></a><br>
+		<a href="./snapshot.html">Take a snapshot of running system</a><br>
+	</div>
+
+	<h3><a>Final Configuration</a></h3>
+	<div class="tab">
+		<a href="./set_root_passwd.html">Change the root password</a><br>
+		<a href="./remove_testuser.html">Remove testuser account</a><br>
+		<a href="./security_changes.html">System hardening</a><br>
+		<a href="./real_users.html">Add real users</a><br>
+		<a href="./add_admin_user.html">Configure admin users account</a><br>
+		<a href="./set_rootdn_passwd.html">Change the root dn password</a><br>
+		<a href="./change_mysql_passwd.html">Change the mysql root password</a><br>
+		<a href="./root_cron.html">Setup the root cronjobs</a><br>
+		<a href="./cleanup_webdav.html">Cleanup Webdav</a><br>
+		<a href="./add_mirror.html">Create a mirror and add the original data disk</a><br>
+		<a href="./initial_configuration_tests.html">Final Configuration Test</a><br>
+		<a href="./snapshot.html">Take a snapshot of running system</a><br>
+		
+	</div>
+
+	<h3><a>Restoring Data</a></h3>
+	<div class="tab">
+		<a href="./restore_davical.html"><font color="red">Restore Davical</font></a><br>
+		<a href="./restore_wikimedia.html"><font color="red">Restore WikiMedia</font></a><br>
+		<a href="./restore_wordpress.html"><font color="red">Restore Wordpress</font></a><br>
+		<a href="./test_davical.html"><font color="red">Setup and test davical on Mac &lt;Unsure></font></a><br>
+	</div>
+
+	<h3><a>Other Things</a></h3>
+	<div class="tab">
+	</div>
+
+	<h3><a>Configuration Tools</a></h3>
+	<div class="tab">
+		<a href="./cobbler.html">Cobbler</font></a><br>
+		<a href="./puppet.html">Puppet</font></a><br>
+		<a href="./initial_configuration_tests.html">Configuration Tools Test</a><br>
+		<a href="https://github.com/ansible/ansible">Ansible</font></a><br>
+	</div>
+
+	<h3><a>Cool Stuff</a></h3>
+	<div class="tab">
+		<a href="./mcollective.html">Mcollective and ActiveMQ</font></a><br>
+	</div>
+
+	<h3><a>Web Services</a></h3>
+	<div class="tab">
+		<a href="./geoserver.html">GeoServer</a><br>
+	</div>
+
+	<h3><a>Development Tools</a></h3>
+	<div class="tab">
+		<a href="./R_I&V.html">R & Rstudio Installation, Configuration and Verification</a><br>
+		<a href="./perl_I&V.html">Perl Installation, Configuration and Verification</a><br>
+		<a href="./shell_I&V.html">Shell Scripting Installation, Configuration and Verification</a><br>
+		<a href="./java_I&V.html">Java Installation, Configuration and Verification</a><br>
+		<a href="./javascript_I&V.html"><font color="red">Javascript Installation, Configuration and Verification</font></a><br>
+		<a href="./python_I&V.html">Python Installation, Configuration and Verification</a><br>
+		<a href="./c++_I&V.html">C++ Installation, Configuration and Verification</a><br>
+		<a href="./ruby_I&V.html">Ruby Installation, Configuration and Verification</a><br>
+		<a href="./scala_I&V.html">Scala Installation, Configuration and Verification</a><br>
+	</div>
+	
+	<h3><a>Continuation and Advanced Subjects</a></h3>
+	<div class="tab">
+			<a href="./continuation/programming_languages.html">Programming Language Review</font></a><br>
+	</div>
+
+		<h3><a>Misc Information</a></h3>
+		<div class="tab">
+			<a href="./pop3_commands.html"><font color="red">Pop3 Commands</font></a><br>
+			<a href="./mac_prevent_ds.html"><font color="red">Preventing mac from writing .DS files on remotely mounted partitions</font></a><br>
+			<a href="./proxy.html"><font color="red">Setting up a proxy</font></a><br>
+		</div>
+	</div>
+
+	<h3><a>In Progress</a></h3>
+	<div class="tab">
+		<a href="./ft_unix.html"><font color="red">Test unix accounts &lt;Final Testing></font></a><br>
+		<a href="./ft_mail.html"><font color="red">Test mail accounts &lt;Final Testing></font></a><br>
+		<a href="./ft_web.html"><font color="red">Test private web access &lt;Final Testing></font></a><br>
+		<a href="./ft_webdav.html"><font color="red">Test webdav access &lt;Final Testing></font></a><br>
+		<a href="./ft_samba.html"><font color="red">Test samba accounts &lt;Final Testing></font></a><br>
+		<a href="./keypair.html"><font color="red">Authentication via public/private keys &lt;Unsure></font></a><br>
+		<a href="./fixing_bacula.html"><font color="red">Fixing Bacula &lt;Unsure></font></a><br>
+		<a href="./cartoweb.html"><font color="red">Cartoweb &lt;Unsure></font></a><br>
+		<a href="./geoserver.html"><font color="red">Geoserver &lt;Unsure></font></a><br>
+		<a href="http://www.coreservlets.com/Apache-Tomcat-Tutorial/"><font color="red">Configuring & Using Tomcat 6 and Tomcat 7 &lt;Unsure></font></a><br>
+		<a href="./vnc.html"><font color="red">Install and configure vnc &lt;Unsure></font></a><br>
+		<a href="./handbrake.html"><font color="red">Handbrake Installation &lt;Unsure></font></a><br>
+	</div>
+
+</div>
+</body>
+</html>

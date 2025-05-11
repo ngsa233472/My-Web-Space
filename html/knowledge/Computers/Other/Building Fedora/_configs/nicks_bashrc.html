@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen,print"
+      href="/stylesheets/Welcome./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a>Nick's Personal .bashrc file</a></h2>
+
+    <a>Purpose </a>
+    File that sets up the bash shell a specific way
+
+    <a>Login as nick</a>
+
+    <div class="code">
+      <pre>
+cat << CONFIG > ~/.bashrc
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# User specific aliases and functions
+
+alias c='clear'
+alias l='ls -l'
+alias bdf='df -hT'
+alias h='history'
+alias p='ps -ef'
+alias vi='vim'
+
+HISTFILESIZE=5000
+HISTCONTROL=ignoreboth
+HISTIGNORE='ls:bg:fg:history:h:l:c'
+HISTTIMEFORMAT='%F %T '
+
+umask 077
+ulimit -c 0
+set -o emacs
+set -b
+
+# For interactive shells
+case \$- in *i*)
+       /usr/bin/fortune
+esac
+CONFIG
+</pre
+      >
+    </div>
+  </body>
+</html>

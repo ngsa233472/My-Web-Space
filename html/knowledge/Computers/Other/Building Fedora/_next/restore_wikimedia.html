@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a>Save Wikimedia</a></h2>
+
+    <a>Login as root</a>
+
+    <a> Backup Wikipedia database</a>
+
+    <div class="command">
+      <pre>
+mysqldump --user=root --password=rootMe55 wikidb > /data/wikidb.sql
+</pre
+      >
+    </div>
+
+    <a> Backup Wikipedia files</a>
+    <div class="command">
+      <pre>
+cd /
+tar cvf /data/wikimedia.tar /var/www/wiki/images
+tar rvf /data/wikimedia.tar /var/www/wiki/LocalSettings.php
+tar rvf /data/wikimedia.tar /etc/httpd/conf.d/mediawiki.conf
+tar rvf /data/wikimedia.tar /usr/share/mediawiki/skins
+tar rvf /data/wikimedia.tar /usr/share/mediawiki/extensions
+</pre
+      >
+    </div>
+
+    <a>Exit root</a>
+    <div class="command">
+      <pre>
+exit
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh restore_wikimedia
+</pre
+      >
+    </div>
+  </body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Install phpldapadmin</a></h2>
+
+    <a>Install phpldapAdmin</a>
+    <div class="command">
+      <pre>
+dnf install -y phpldapadmin
+dnf install -y php-xml.x86_64
+</pre
+      >
+    </div>
+
+    <a>Replace the phpldapadmin.conf</a>
+    <div class="command">
+      <pre>
+cat << PHPCONFIG > /etc/httpd/conf.d/phpldapadmin.conf
+Alias /phpldapadmin /usr/share/phpldapadmin/htdocs
+Alias /ldapadmin /usr/share/phpldapadmin/htdocs
+
+&lt;Directory /usr/share/phpldapadmin/htdocs>
+    &lt;IfModule mod_authz_core.c>
+        Require local
+        Require ip 172.16.10
+        SSLRequireSSL
+    &lt;/IfModule>
+&lt;/Directory>
+
+PHPCONFIG
+</pre
+      >
+    </div>
+
+    <a>Allow Manager Login</a>
+    <div class="command">
+      <pre>
+sed -ie "/\$servers->setValue.*login.*attr.*uid.*/d" /etc/phpldapadmin/config.php
+</pre
+      >
+    </div>
+
+    <a>Restart Daemons</a>
+    <div class="command">
+      <pre>
+systemctl restart httpd
+</pre
+      >
+    </div>
+
+    <a>From the index page, check the "phpPgAdmin Page"</a>
+    <pre>http://$_CURRENT_IP/private</pre>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh phpldapadmin
+</pre
+      >
+    </div>
+  </body>
+</html>

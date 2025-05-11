@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>Default</a></h2>
+
+
+Create simple monitoring tools
+
+<a>Login as root</a>
+
+#!/bin/bash
+
+# Check /data mountpoint
+if ! /bin/mountpoint -q /data
+then
+   /bin/mail -s "WARNING: /data not mounted" root </dev/null
+fi
+
+# Check /backup mountpoint
+if ! /bin/mountpoint -q /backup
+then
+   /bin/mail -s "WARNING: /backup not mounted" root </dev/null
+fi
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh alarms
+</pre></div>
+
+</body>
+</html>
+

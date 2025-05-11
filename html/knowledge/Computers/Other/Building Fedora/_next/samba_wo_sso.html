@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<!-- SAMBA -->
+<!-- www.samba.org -->
+
+<h2><a>Samba configuration</a></h2>
+
+<h4><a>Login with Putty and continue configuration</a></h4>
+
+<h4><a>Install Samba</a></h4>
+
+install rpm
+<div class="command"><pre>
+dnf -y install samba.x86_64
+dnf -y install samba-client.x86_64
+</pre></div>
+
+unalias VI
+<div class="command"><pre>
+unalias vi
+</pre></div>
+
+Verify the Samba installation
+<div class="command"><pre>
+rpm -qa | grep samba
+</pre></div>
+There should be at least 3 files
+<div class="output"><pre>
+samba-3.0.24-1.fc6
+samba-common-3.0.24-1.fc6
+samba-client-3.0.24-1.fc6
+</div>
+
+<a  href="">Save original config files</a>
+<div class="command"><pre>
+mkdir -p /data/Saved/etc/samba
+mv /etc/samba/smb.conf /data/Saved/etc/samba/smb.conf
+</pre></div>
+
+<a> Modify the /etc/samba/smb.conf file</a>
+<div class="tab">
+        <a  href="./configs/smb_wo_sso_conf.html">link to /etc/samba/smb.conf file</a>
+</div>
+
+<a>Add tempuser's samba username and password</a>
+<div class="command"><pre>
+smbpasswd -a testuser
+</pre></div>
+
+<div class="command"><pre>
+smbpasswd -e testuser
+</pre></div>
+
+<a>Create shared directories</a>
+<div class="command"><pre>
+mkdir /data/house /data/music /data/photos /data/work /data/writing /data/www
+</pre></div>
+
+<a>Start samba</a>
+<div class="command"><pre>
+/bin/systemctl start smb
+</pre></div>
+
+<a>Verify that Samba is running</a>
+<div class="command"><pre>
+smbclient -L localhost -U testuser
+</pre></div>
+
+<p>You should get something like this!:</p>
+<div class="output"><pre>
+Enter testuser's password:
+Domain=[ISLANDS] OS=[Unix] Server=[Samba 3.6.9-96.fc17]
+
+        Sharename       Type      Comment
+        ---------       ----      -------
+        tmp             Disk      Temporary file space
+        Home            Disk      House files
+        WWW             Disk      Web Server
+        Photos          Disk      Photos
+        Music           Disk      Music
+        CDRW            Disk      CDRom
+        Data            Disk      Data
+        Work            Disk      Work
+        Writing         Disk      Writing
+        IPC$            IPC       IPC Service (Samba Server Version 3.6.9-96.fc17 on Iona)
+        testuser        Disk      Home Directories
+Domain=[ISLANDS] OS=[Unix] Server=[Samba 3.6.9-96.fc17]
+
+        Server               Comment
+        ---------            -------
+
+        Workgroup            Master
+        ---------            -------
+</pre></div>
+
+<a>Restore vim alias</a>
+<div class="command"><pre>
+alias vi=vim
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh configure_samba
+</pre></div>
+
+</body>
+</html>
+
+
+<!--
+
+yum install smbldap-tools
+chmod 755 /usr/share/doc/smbldap-tools-0.9.6/configure.pl
+smbldap-populate -e samba.ldif
+
+-->

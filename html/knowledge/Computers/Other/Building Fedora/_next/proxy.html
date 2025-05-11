@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>Proxy Server/Client Configuration</a></h2>
+
+<a>Allows secure web surfing via SSH and Socks </a>
+
+<a>Configure browser</a>
+
+Configure the browser to use the proxy. using Firefox as an example. Open up preferences, and go to Advanced/Network and click on Settings:</br>
+
+<img src="../images/firefox01.png" /></br>
+
+In advanced settings choose "Manual Proxy Configuration" and "socks v4". In the "Socks Host" field put "localhost" and in the port for the socks host put 8080, and in the "No proxy for" out "localhost,127.0.0.1"<br>
+<br>
+
+<img src="../images/firefox02.png" /></br>
+<br>
+
+The last thing to do on the browser, is to change where it gets it DNS information from. in the URI type in "about:config". Search for the the entry "network.proxy.socks_remote_dns" and set it to true.<br>
+
+<a>Open a terminal on the client</a>
+<div class="command"><span class="cmd"><font size="2">
+<font color="green">Nicks</font>:<font color=red>~ </font><font color=blue>nick$</font> ssh -C2qTnN -D 8080 grayshouse.dyndns.org<br>
+</font></span></div>
+
+At this point all dns and page requests will be routed through the proxy server. This will not affect any other protocol or program.
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh proxy
+</pre></div>
+
+</body>
+</html>
+

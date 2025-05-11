@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Initial Data Disk</a></h2>
+
+    <a>Create a 1TB disk ESXi and attach to system</a><br />
+    <br />
+
+    <a>Create a partition on /dev/sdb</a>
+    <div class="command">
+      <pre>
+fdisk /dev/sdb
+</pre
+      >
+    </div>
+
+    <a>Make the ext4 filesystem</a>
+    <div class="command">
+      <pre>
+mkfs.xfs /dev/sdb1
+</pre
+      >
+    </div>
+
+    <a>Move the mirror data</a>
+    <div class="command">
+      <pre>
+mkdir /temp
+mount /dev/sdb1 /temp
+mv /data/* /temp/
+umount /temp
+rmdir /temp
+</pre
+      >
+    </div>
+
+    <a>Add automount to fstab</a>
+    <div class="command">
+      <pre>
+sed -i -e '$ a\/dev/sdb1\t/data\txfs\tnoatime,rw\ 0\ 0' /etc/fstab
+</pre
+      >
+    </div>
+
+    <a>Mount the mirror</a>
+    <div class="command">
+      <pre>
+mount -a
+</pre
+      >
+    </div>
+
+    <a>Move the /usr/src/ and link it to /data/src and /src</a>
+    <div class="command">
+      <pre>
+mv /usr/src /data/ &&
+ln -s /data/src /usr/src
+ln -s /data/src /src
+mkdir -p /data/software/linux
+</pre
+      >
+    </div>
+
+    <a>Note this step</a>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh initial_data_disk
+</pre
+      >
+    </div>
+  </body>
+</html>

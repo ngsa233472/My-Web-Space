@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta charset="UTF-8">
+</head>
+<body>
+<h2><a>NodeJS Installation, Configuration, and Testing</a></h2>
+
+<a>Check the installation</a></font>
+<div class="command"><pre>
+dnf -y install nodejs.x86_64
+</pre></div>
+
+<a>Create the testfile</a></fonth5>
+<div class="command"><pre>
+mkdir -p /data/src/nodejs
+cd /data/src/nodejs
+</pre></div>
+
+<div class="optional"><pre>
+vi helloworld.js
+</pre></div>
+
+<div class="input"><pre>
+console.log("Hello, World!");
+</pre></div>
+
+<a>Run the testfile</a>
+<div class="optional"><pre>
+node helloworld.js
+</pre></div>
+
+<p>You should get something like this</p>
+<div class="output"><pre>
+Hello, World!
+</pre></div>
+
+<a>Add the math.js library</a>
+
+<div class="command"><pre>
+mkdir -p /data/www/javascript
+</pre></div>
+
+<div class="command"><pre>
+mkdir -p /data/src/nodejs
+cp $_FILES/math.js /data/www/javascript
+</pre></div>
+
+<div class="optional"><pre>
+cd /data/src/nodejs
+vi basic_usage.js
+</pre></div>
+
+<div class="input"><pre>
+// basic usage
+
+// load math.js (using node.js)
+var math = require('/data/www/javascript/math.js');
+
+// functions and constants
+console.log('functions and constants');
+print(math.round(math.e, 3));           // 2.718
+print(math.atan2(3, -3) / math.pi);     // 0.75
+print(math.log(10000, 10));             // 4
+print(math.sqrt(-4));                   // 2i
+print(math.pow([[-1, 2], [3, 1]], 2));  // [[7, 0], [0, 7]]
+print(math.derivative('x^2 + x', 'x')); // 2 * x + 1
+console.log();
+
+// expressions
+console.log('expressions');
+print(math.eval('1.2 * (2 + 4.5)'));    // 7.8
+print(math.eval('12.7 cm to inch'));    // 5 inch
+print(math.eval('sin(45 deg) ^ 2'));    // 0.5
+print(math.eval('9 / 3 + 2i'));         // 3 + 2i
+print(math.eval('det([-1, 2; 3, 1])')); // -7
+console.log();
+
+// chained operations
+console.log('chained operations');
+var a = math.chain(3)
+    .add(4)
+    .multiply(2)
+    .done();
+print(a);      // 14
+console.log();
+
+// mixed use of different data types in functions
+console.log('mixed use of data types');
+print(math.add(4, [5, 6]));                   // number + Array, [9, 10]
+print(math.multiply(math.unit('5 mm'), 3));   // Unit * number,  15 mm
+print(math.subtract([2, 3, 4], 5));           // Array - number, [-3, -2, -1]
+print(math.add(math.matrix([2, 3]), [4, 5])); // Matrix + Array, [6, 8]
+console.log();
+
+
+/**
+ * Helper function to output a value in the console. Value will be formatted.
+ * @param {*} value
+ */
+function print (value) {
+  var precision = 14;
+  console.log(math.format(value, precision));
+}
+</pre></div>
+
+<a>Run the testfile</a>
+<div class="optional"><pre>
+node basic_usage.js
+</pre></div>
+
+<p>You should get something like this</p>
+<div class="output"><pre>
+functions and constants
+2.718
+0.75
+4
+2i
+[[7, 0], [0, 7]]
+2 * x + 1
+
+expressions
+7.8
+5 inch
+0.5
+3 + 2i
+-7
+
+chained operations
+14
+
+mixed use of data types
+[9, 10]
+15 mm
+[-3, -2, -1]
+[6, 8]
+</pre></div>
+
+<a>Add the date.js library</a>
+
+<div class="command"><pre>
+mkdir -p /data/src/nodejs
+cp $_FILES/date.js /data/www/javascript
+</pre></div>
+
+<div class="optional"><pre>
+cd /data/src/nodejs
+vi date_test.js
+</pre></div>
+
+<div class="input"><pre>
+// date.js tests
+require('/data/www/javascript/date');
+
+// Get today's date
+console.log(Date.today());
+
+// Add 5 days to today
+console.log(Date.today().add(5).days());
+
+// Get Friday of this week
+//console.log(Date.friday());
+
+// Get March of this year
+//console.log(Date.march());
+
+// Is today Friday?
+console.log(Date.today().is().friday());  // true|false
+
+// What day is it?
+console.log(Date.today().getDayName());
+console.log(Date.today().next().saturday());
+
+// What date is next thursday?
+console.log(Date.today().next().thursday());
+
+// Add 3 days to Today
+console.log(Date.today().add(3).days());
+
+// Is today Friday?
+console.log(Date.today().is().friday());
+
+// Number fun
+console.log((3).days().ago());
+
+// 6 months from now
+var n = 6;
+console.log(n.months().fromNow());
+
+// Set to 8:30 AM on the 15th day of the month
+console.log(Date.today().set({ day: 15, hour: 8, minute: 30 }));
+
+// Convert text into Date
+console.log(Date.parse('today'));
+console.log(Date.parse('t + 5 d')); // today + 5 days
+console.log(Date.parse('next thursday'));
+console.log(Date.parse('February 20th 1973'));
+console.log(Date.parse('Thu, 1 July 2004 22:30:00'));
+
+// Get the first Monday of the year
+//Date.January().first().monday()
+
+// Get the last Friday of the year
+//Date.Dec().final().fri()
+// Set a date to the 15th of the current month at 4:30 PM,
+// then add 90 days and make sure that date is a weekday,
+// else move to the next weekday.
+//var d1 = Date.today()
+    //.set({ day: 15, hour: 16, minute: 30 })
+    //.add({ days: 90 })
+//if (!d1.isWeekday()) {
+    //d1.next().monday();
+//}
+//// Lets start simple. "Today"
+console.log(Date.parse('today'));
+
+//// How about tomorrow?
+console.log(Date.parse('tomorrow'));
+
+//// July 8?
+console.log(Date.parse('July 8'));
+
+//// With a year?
+console.log(Date.parse('July 8th, 2007'));
+
+//// And time?
+console.log(Date.parse('July 8th, 2007, 10:30 PM'));
+
+// Get the date, move to Monday (if not already Monday),
+// then alert the date to the user in a different format.
+var d1 = Date.parse('8-Jul-2007');
+if (!d1.is().monday()) {
+d1.last().monday();
+}
+//alert(d1.toString('dddd, MMMM d, yyyy'));
+
+// Get a date 3 days from now
+console.log((3).days().fromNow());
+
+// 6 month ago
+console.log((6).months().ago());
+
+// 12 weeks from now
+var n = 12;
+console.log(n.weeks().fromNow());
+//
+// Get a date 30 days after a user supplied date
+var d1 = Date.parse('07.15.2007');
+//var d2 = (30).days().after(d1);
+
+console.log(Date.parse('2013-08-26').monday());
+
+console.log(Date.parse('2013-08-26').previous().monday());
+
+console.log(Date.parse('2013-08-26').next().monday());
+</pre></div>
+
+<a>Run the testfile</a>
+<div class="optional"><pre>
+node date_test.js
+</pre></div>
+
+<p>You should get something like this</p>
+<div class="output"><pre>
+2017-10-06T05:00:00.000Z
+{ 2017-10-11T05:00:00.000Z _orient: 5 }
+true
+Friday
+{ 2017-10-07T05:00:00.000Z _orient: 1 }
+{ 2017-10-12T05:00:00.000Z _orient: 1 }
+{ 2017-10-09T05:00:00.000Z _orient: 3 }
+true
+2017-10-03T22:35:23.460Z
+2018-04-06T22:35:23.460Z
+2017-10-15T13:30:00.000Z
+2017-10-06T05:00:00.000Z
+2017-10-11T05:00:00.000Z
+2017-10-12T05:00:00.000Z
+1973-02-20T06:00:00.000Z
+2004-07-02T03:30:00.000Z
+2017-10-06T05:00:00.000Z
+2017-10-07T05:00:00.000Z
+2017-07-08T05:00:00.000Z
+2007-07-08T05:00:00.000Z
+2007-07-09T03:30:00.000Z
+2017-10-09T22:35:23.475Z
+2017-04-06T22:35:23.475Z
+2017-10-06T22:35:23.476Z
+2013-09-02T05:00:00.000Z
+{ 2013-08-19T05:00:00.000Z _orient: -1 }
+{ 2013-09-02T05:00:00.000Z _orient: 1 }
+</pre>
+</div>
+
+<a>Note this step</a>
+<div class="command">
+<pre>/usr/local/bin/note.sh nodejsIandV</pre>
+</div>
+
+</body>
+</html>

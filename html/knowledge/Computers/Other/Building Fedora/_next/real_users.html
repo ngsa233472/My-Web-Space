@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Testing</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="/css/fedora_install.css" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>Add real users to SSO</a></h2>
+
+<h5 class="title">For each user, add user using /usr/local/bin/useradd.sh
+<div class="command"><pre>
+/usr/local/bin/useradd.sh XXXXXXX
+</pre></div>
+
+<h5 class="title">Set the users passwords
+</pre></div>
+<div class="command"><pre>
+/usr/local/bin/root_change_password.sh XXXXXXX
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh real_users
+</pre></div>
+
+</body>
+</html>

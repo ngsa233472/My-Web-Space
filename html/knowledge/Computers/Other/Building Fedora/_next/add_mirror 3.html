@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a>Add mirror</a></h2>
+    To create a default page None
+
+    <a>Login as root</a>
+
+    <a>Initialize the first disk in the mirror</a>
+    since you originally used /dev/sdb1 as the /data disk, you will need to add
+    /dev/sdc1 as the first raid disk<br />
+    <br />
+    use fdisk to create a single partition filesystem as before, create the
+    first partition and follow the defaults to use the entire disk<br />
+
+    <div class="command">
+      <pre>
+fdisk /dev/sdc
+</pre
+      >
+    </div>
+
+    <a>Create a mdadm "mirrored" filesystem with one disk missing</a>
+
+    <div class="command">
+      <pre>
+mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sdc1 missing
+</pre
+      >
+    </div>
+
+    <a>Locate and save the UUID of the newly created md0 filesystem</a>
+
+    <a>Modify the fstab</a>
+    <div class="command">
+      <pre>
+vi /root/change2mirror.sh
+</pre
+      >
+    </div>
+
+    If you do this in runlevel 3, your are going to have problems with your
+    databases. I suggest you save this to a file in /root, init to single state
+    <div class="command">
+      <pre>
+tune2fs -l /dev/md0 > /data/Saved/MDINFO
+grep ""Filesystem UUID:" /etc/MDINFO > /data/Saved/MD0_UUID
+grep "Filesystem UUID:" /data/Saved/MDINFO > /data/Saved/MD0_UUID
+sed -ie s/Filesystem\ UUID:\ *// /data/Saved/MD0_UUID
+MD0_UUID=`cat /data/Saved/MD0_UUID`
+#!/bin/bash
+MD0_UUID=`cat /data/Saved/MD0_UUID`
+sed 's/^UUID=.*\ \/data/UUID='$MD0_UUID'\ \/data/' fstab
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+chmod 755 /root/change2mirror.sh
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+reboot
+</pre
+      >
+    </div>
+
+    run this script and then delete it df -h, should show that /dev/md0 is now
+    mounted as /data by UUID
+    <div class="command">
+      <pre>
+mdadm --manage /dev/md0 --add /dev/sdb1
+cat /proc/mdstat
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh add_mirror
+</pre
+      >
+    </div>
+  </body>
+</html>

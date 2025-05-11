@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>/etc/bacula/bconsole.conf</a></h2>
+
+    <div class="command">
+      <pre>
+mkdir -p /data/Saved/etc/bacula
+cp /etc/bacula/bconsole.conf /data/Saved/etc/bacula/
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+vi /etc/bacula/bconsole.conf
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+Director {
+  Name = bacula-dir
+  DIRport = 9101
+  address = localhost
+  Password = "rootMe55"
+}
+</pre
+      >
+    </div>
+  </body>
+</html>

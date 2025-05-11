@@ -1,0 +1,11 @@
+
+
+Search config in directory internally (no password needed)
+ldapsearch -LLLQY EXTERNAL -H ldapi:/// -b olcDatabase={2}mdb,cn=config
+
+Clears back to default
+ldapmodify -Y EXTERNAL -H ldapi:/// -f /tmp/install/delete_olcAccess.ldif
+
+
+Get tempusers directory as tempuser (should be protected by work)
+ldapsearch -x -h 127.0.0.1 -D "uid=tempuser,ou=People,ou=Users,$_DOMAINNAME" -W -b "uid=tempuser,ou=People,ou=Users,$_DOMAINNAME" loginShell

@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>Default</a></h2>
+
+
+None
+
+<a>Login as root</a>
+
+<a>Check the installation</a></font>
+<div class="command"><pre>
+python -V
+</pre></div>
+
+<p>You should get something like this</p>
+<div class="output"><pre>
+Python 2.7.3
+</pre></div>
+
+<a>Unalias vi</a>
+<div class="command"><pre>
+unalias vi
+</pre></div>
+
+<a>Create the testfile</a></fonth5>
+<div class="command"><pre>
+mkdir /data/src/python
+cd /data/src/python
+</pre></div>
+
+<div class="command"><pre>
+vi helloworld.py
+</pre></div>
+
+<div class="command"><pre>
+#!/bin/python
+print "Hello, World!"
+</pre></div>
+
+<div class="command"><pre>
+chmod 755 helloworld.py
+</pre></div>
+
+<a>Run the testfile</a></font>
+<div class="command"><pre>
+./helloworld.py
+</pre></div>
+
+<p>You should get something like this</p>
+<div class="output"><pre>
+Hello, World!
+</pre></div>
+
+<a>Restore vi alias</a>
+<div class="command"><pre>
+alias vi=vim
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh PythonIandV
+</pre></div>
+
+</body>
+</html>
+

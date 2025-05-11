@@ -1,0 +1,35 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Most recent, (lower in file) has higher specificity */
+h1 {
+  color: blue;
+}
+h1 {
+  color: red;
+}
+/* #heading (id) has a higher speificity
+than .heading (class) which has a higher specificity
+than an element  */
+/* order does not matter here */
+#heading {
+  color: orange;
+}
+
+.heading {
+  color: green;
+}
+
+h1 {
+  color: blue;
+}
+
+/* All above are overwritten by on-line style of yellow 
+on h1 */
+
+/* dont forget about the "!important" flag */
+/* This can be applied to ids, classes, or elements */
+h1 {
+  color: blue !important;
+}

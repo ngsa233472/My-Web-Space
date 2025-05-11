@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Cacti</a></h2>
+
+    <h4><a>A network graphing solution front end using RRDTool</a></h4>
+
+    <a>Install Cacti</a>
+    <div class="command">
+      <pre>dnf -y install cacti.noarch</pre>
+    </div>
+
+    <a>Verify ini files</a>
+    <div class="command">
+      <pre>cat /etc/php.d/30-mysqli.ini</pre>
+    </div>
+    <p>You should get something like</p>
+    <div class="output">
+      <pre>
+; Enable mysqli extension module
+extension=mysqli.so
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>cat /etc/php.d/20-snmp.ini</pre>
+    </div>
+    <p>You should get something like</p>
+    <div class="output">
+      <pre>
+; Enable snmp extension module
+extension=snmp.so
+</pre
+      >
+    </div>
+
+    <a>Setup MySQL user and database</a>
+    <div class="command">
+      <pre>mysqladmin --user=root --password=rootMe55 create cacti</pre>
+    </div>
+
+    <div class="command">
+      <pre>mysql --password=rootMe55 --user=root mysql</pre>
+    </div>
+    <div class="command">
+      <pre>
+GRANT ALL ON cacti.* TO cactiuser@localhost IDENTIFIED BY 'rootMe55';</pre
+      >
+    </div>
+    <div class="command">
+      <pre>flush privileges;</pre>
+    </div>
+    <div class="command">
+      <pre>\q</pre>
+    </div>
+
+    <a>Run the Cacti database script</a>
+    <div class="command">
+      <pre>rpm -ql cacti.noarch | grep cacti.sql</pre>
+    </div>
+    <p>Ensure the path is</p>
+    <div class="output">
+      <pre>
+/usr/share/doc/cacti/cacti.sql
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>mysql -u root -p cacti < /usr/share/doc/cacti/cacti.sql</pre>
+    </div>
+
+    <div class="command">
+      <pre>cd /usr/share/mariadb</pre>
+    </div>
+
+    <div class="command">
+      <pre>mysql -u root -p mysql < mysql_test_data_timezone.sql</pre>
+    </div>
+
+    <div class="command">
+      <pre>mysql --password=rootMe55 --user=root mysql</pre>
+    </div>
+    <div class="command">
+      GRANT SELECT ON mysql.time_zone_name TO cactiuser@localhost;
+    </div>
+    <div class="command">
+      <pre>flush privileges;</pre>
+    </div>
+    <div class="command">
+      <pre>\q</pre>
+    </div>
+
+    <a>Create the cacti.conf</a>
+    <div class="command">
+      <pre>
+cat << PHPCONFIG > /etc/httpd/conf.d/cacti.conf
+Alias /cacti /usr/share/cacti
+
+&lt;Directory /usr/share/cacti>
+    &lt;IfModule mod_authz_core.c>
+        Require local
+        Require ip 172.16.10
+        SSLRequireSSL
+    &lt;/IfModule>
+&lt;/Directory>
+
+PHPCONFIG
+</pre
+      >
+    </div>
+
+    <!-- No Cacti user
+<div class="command"><pre>
+sed -ie s/database_password\ =\ \'cactiuser\'/database_password\ =\ \'rootMe55\'/ /usr/share/cacti/include/config.php
+</pre></div>
+<div class="command"><pre>
+cd /usr/share/cacti
+chown -R cacti rra/ log/
+</pre></div>
+-->
+
+    <a>Restart apache</a>
+    <div class="command">
+      <pre>
+systemctl enable snmpd
+systemctl start snmpd
+systemctl restart httpd
+</pre
+      >
+    </div>
+
+    <a href="https://$_CURRENT_IP/cacti/"
+      >Check Cacti page in browser logging in as admin/admin and change the
+      password to roo+Me55</a
+    >
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh cacti
+</pre
+      >
+    </div>
+  </body>
+</html>

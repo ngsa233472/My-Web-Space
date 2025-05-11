@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a name href="#Index">/var/named/data/local.graysaustin.com</a></h2>
+
+    <div class="command">
+      <pre>vi /var/named/data/local.graysaustin.com</pre>
+    </div>
+
+    <div class="command">
+      <pre>
+dG
+i</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+$TTL 1D
+@       IN      SOA     _HOSTNAME.local.graysaustin.com. root.local.graysaustin.com. (
+        2019080302      ; Serial
+        8H              ; Refresh
+        2H              ; Retry
+        4W              ; Expire
+        1D )            ; Minimum
+;
+        IN      NS              _HOSTNAME		; Name Server for the domain
+        IN      MX      10      _HOSTNAME		; Mail Exchange
+; Home Network
+abbasak		IN      A       172.16.10.193		; Cable Modem Router
+baffin		IN      A       172.16.10.194		; Living Room Switch
+caprara		IN      A       172.16.10.195		; Spare Room Switch
+daga		IN      A       172.16.10.196		; NAS
+eagle		IN      A       172.16.10.197		; ESXi
+faial		IN      A       172.16.10.198		; Unused
+gabaret		IN      A       172.16.10.199		; Raspberry PI
+hawaii		IN      A       172.16.10.200		; RHCSA Server 1
+ibiza		IN      A       172.16.10.201		; RHCSA Server 2
+jamaica		IN      A       172.16.10.202		; RHCSA labIPA
+kahoolawe	IN      A       172.16.10.203		; Rotoroa
+laidu		IN      A       172.16.10.204		; Nick's PC
+mackinac	IN      A       172.16.10.205		; Unused
+naart		IN      A       172.16.10.206		; Unused
+oahu		IN      A       172.16.10.207		; Unused
+paama		IN      A       172.16.10.208		; Unused
+qaruh		IN      A       172.16.10.209		; Unused
+rakino		IN      A       172.16.10.210		; Unused
+sable		IN      A       172.16.10.211		; Unused
+tafahi		IN      A       172.16.10.212		; Unused
+ugljan		IN      A       172.16.10.213		; Unused
+vormsi		IN      A       172.16.10.214		; Unused
+waiheke		IN      A       172.16.10.215		; Unused
+xiushan		IN      A       172.16.10.216		; Unused
+yell		IN      A       172.16.10.217		; Unused
+zembra		IN      A       172.16.10.218		; Unused
+agatti		IN      A       172.16.10.219		; Unused
+bacelos		IN      A       172.16.10.220		; Unused
+canna		IN      A       172.16.10.221		; Unused
+dalzel		IN      A       172.16.10.222		; Unused
+eigg		IN      A       172.16.10.223		; Unused
+faray		IN      A       172.16.10.224		; Unused
+;
+; DHCP Addresses
+austria		IN      A       172.16.10.225         ; DHCP #1
+belgium		IN      A       172.16.10.226         ; DHCP #2
+cambodia	IN      A       172.16.10.227         ; DHCP #3
+denmark		IN      A       172.16.10.228         ; DHCP #4
+eritrea		IN      A       172.16.10.229         ; DHCP #5
+fiji		IN      A       172.16.10.230         ; DHCP #6
+gibraltar	IN      A       172.16.10.231         ; DHCP #7
+haiti		IN      A       172.16.10.232         ; DHCP #8
+iceland		IN      A       172.16.10.233         ; DHCP #9
+japan		IN      A       172.16.10.234         ; DHCP #10
+korea		IN      A       172.16.10.235         ; DHCP #11
+lebanon		IN      A       172.16.10.236         ; DHCP #12
+macao		IN      A       172.16.10.237         ; DHCP #13
+nepal		IN      A       172.16.10.238         ; DHCP #14
+palau		IN      A       172.16.10.239         ; DHCP #15
+qatar		IN      A       172.16.10.240         ; DHCP #16
+rwanda		IN      A       172.16.10.241         ; DHCP #17
+samoa		IN      A       172.16.10.242         ; DHCP #18
+turkey		IN      A       172.16.10.243         ; DHCP #19
+uzbekistan	IN      A       172.16.10.244         ; DHCP #20
+vanatu		IN      A       172.16.10.245         ; DHCP #21
+wales		IN      A       172.16.10.246         ; DHCP #22
+yemen		IN      A       172.16.10.247         ; DHCP #23
+zimbabwe	IN      A       172.16.10.248         ; DHCP #24
+australia	IN      A       172.16.10.249         ; DHCP #25
+bahamas		IN      A       172.16.10.250         ; DHCP #26
+cameroon	IN      A       172.16.10.251         ; DHCP #27
+djibouti	IN      A       172.16.10.252         ; DHCP #28
+egypt		IN      A       172.16.10.253         ; DHCP #29
+
+; Printer
+epsonwf3520     IN      A       172.16.10.224         ; Epson Workforce 3520
+; Aliases
+www             IN      CNAME   _HOSTNAME                  ; 'www is an alias for this machine'
+puppet          IN      CNAME   _HOSTNAME                  ; 'puppet is an alias for this machine'</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+sed -i -e s/\_HOSTNAME/$_HOSTNAME/ /var/named/data/local.graysaustin.com</pre
+      >
+    </div>
+  </body>
+</html>

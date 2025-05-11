@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a>Notes</a></h2>
+
+    <a>The following are not being backed up yet</a>
+    <div class="tab">
+      /data/multimedia, /data/mysql, /data/pgsql, /data/software, /data/SORTING,
+      /data/tomcat6, /data/webdav, /data/work
+    </div>
+
+    <a>Need to check and see if this is useful anymore</a>
+    <div class="faa">
+      yum install jfsutils<br />
+      umount /video<br />
+      mkfs -t jfs /dev/sda5<br />
+      vi /etc/fstab<br />
+      mount /video <br />
+    </div>
+  </body>
+</html>

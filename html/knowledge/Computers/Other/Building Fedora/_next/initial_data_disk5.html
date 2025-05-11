@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen,print"
+      href="/stylesheets/Welcome./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2 class="title">Initial Data Disk</h2>
+
+    <h4><a>In the VM, add another disk</a></h4>
+
+    <h4><a>Login with Putty and continue configuration</a></h4>
+
+    <h4><a>Reboot</a></h4>
+    <div class="code">
+      <pre>
+reboot
+</pre
+      >
+    </div>
+
+    <h4><a>After reboot, restart Putty and continue configuration</a></h4>
+
+    Create a partition on /dev/sdb
+    <div class="code">
+      <pre>
+fdisk /dev/sdb
+</pre
+      >
+    </div>
+
+    Create the mount point
+    <div class="code">
+      <pre>
+mkdir /data
+</pre
+      >
+    </div>
+
+    Make the ext4 filesystem
+    <div class="code">
+      <pre>
+mkfs.btrfs /dev/sdb1
+</pre
+      >
+    </div>
+
+    Mount the disk
+    <div class="code">
+      <pre>
+mount /dev/sdb1 /data
+</pre
+      >
+    </div>
+
+    Add automount to fstab
+    <div class="code">
+      <pre>
+sed -i -e '$ a\/dev/sdb1\t/data\tbtrfs\tnoatime,rw\ 0\ 0' /etc/fstab
+</pre
+      >
+    </div>
+
+    Move the /usr/src/ and link it to /data/src and /src
+    <div class="code">
+      <pre>
+mv /usr/src /data/ &&
+ln -s /data/src /usr/src
+ln -s /data/src /src
+mkdir -p /data/admin
+ln -s /data/admin /admin
+mkdir -p /data/software/linux
+mv /tmp_data/* /data
+rmdir /tmp_data
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="code">
+      <pre>
+/usr/local/bin/note.sh initial_data_disk
+</pre
+      >
+    </div>
+  </body>
+</html>

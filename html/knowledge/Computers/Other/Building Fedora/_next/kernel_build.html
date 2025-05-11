@@ -1,0 +1,144 @@
+<style type = "text/css" media="all">@import "./drupal./css/fedora_install.css";</style><style type = "text/css">@import url(modules/copyright/copyright./css/fedora_install.css);</style>
+<h2>Compiling the Fedora Kernel</h2>
+<p>Version 1.0</p>
+
+<p><b><i>1a.</i> Download latest kernel source</b><br></p>
+<p>&nbsp;On the page&nbsp;&nbsp; <a href="http://download.fedora.redhat.com/pub/fedora/linux/core/development/source/SRPMS/"
+>http://download.fedora.redhat.com/pub/fedora/linux/core/development/source/SRPMS/</a>,&nbsp;&nbsp; download the latest kernel source RPM.
+</p>
+<p>&nbsp;In this case&nbsp;&nbsp;<i><b>kernel-2.6.20-1.2930.fc7.src.rpm</b></i><br></p>
+<b><i>1b.</i> Install the source RPM</b></p>
+<p class="command">&nbsp;rpm -ivh kernel-2.6.20-1.2930.fc7.src.rpm</b>
+</p>
+<p>&nbsp;If you see these warnings:</p>
+<ol>
+<p class="system">warning: user brewbuilder does not exist - using root<br>
+warning: group brewbuilder does not exist - using root</p>
+</ol>
+<p>&nbsp;you can ignore them.   </p>
+<p class="command">&nbsp;cd /usr/src/redhat/SPECS<br>
+<p>rpmbuild -bp --target=x86_64 kernel-2.6.spec</p><br>
+<b><i>1c.</i>Specify A Kernel Identification String</b>
+<p>&nbsp;We specify a string that allows us to identify our kernel later on. Therefore we do this:</p>
+<p>&nbsp;cd /usr/src/redhat/BUILD/kernel-2.6.20/linux<br>
+&nbsp;vi Makefile</p>
+&nbsp;u can put the kernel identification. I think it's good to append the kernel version to that string, so something like this is ok:</p>
+<p>&nbsp;EXTRAVERSION = -custom</p>
+</ol>
+<b><i>1d.</i>Configure The Kernel</b>
+<p>Now we run</p>
+<p>make gconfig</p>
+<p>make rpm</p>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+
+
+
+<p>In the <span class="system">EXTRAVERSION</span> line, you can put the kernel identification. I think it's good to append the kernel version to that string, so something like this is ok:</p>
+<p class="system">EXTRAVERSION = -custom-2.6.18.2 </p>
+<p>&nbsp;</p>
+<h4>2.5 Configure The Kernel</h4>
+<p>Now we run</p>
+<p class="command">make menuconfig</p>
+<p> which brings up the kernel configuration menu. Go to <span class="system">Load an Alternate Configuration File</span> and choose <span class="system">.config</span> as the configuration file: </p>
+
+<p><img mce_real_src="http://www.howtoforge.com/images/kernel_compilation_fedora/6.png" src="http://www.howtoforge.com/images/kernel_compilation_fedora/6.png" height="341" width="550">  </p>
+<p><img mce_real_src="http://www.howtoforge.com/images/kernel_compilation_fedora/7.png" src="http://www.howtoforge.com/images/kernel_compilation_fedora/7.png" height="341" width="550"></p>
+<p> Then browse through the kernel configuration menu and make your choices. When you are finished and select <span class="system">Exit</span>, answer the following question (<span class="system">Do you wish to save your new kernel configuration?</span>) with <span class="system">Yes</span>: </p>
+<p><img mce_real_src="http://www.howtoforge.com/images/kernel_compilation_fedora/8.png" src="http://www.howtoforge.com/images/kernel_compilation_fedora/8.png" height="341" width="550"></p>
+<p>&nbsp;</p>
+<h4>2.6 Build The Kernel</h4>
+<p>Now we build our kernel rpm package by simply running</p>
+
+<p class="command">make rpm</p>
+<p>Afterwards you will find a new src.rpm package in the <span class="system">~/rpmbuild/SRPMS/</span> directory, e.g. <span class="system">~/rpmbuild/SRPMS/kernel-2.6.18custom2.6.18.2-1.src.rpm</span>, and the kernel rpm package in <span class="system">~/rpmbuild/RPMS/i386/</span> (or <span class="system">~/rpmbuild/RPMS/i586/, ~/rpmbuild/RPMS/i686/</span>, etc. depending on your architecture), e.g. <span class="system">~/rpmbuild/RPMS/i386/kernel-2.6.18custom2.6.18.2-1.i386.rpm</span>. As you see your kernel identification has been added to the package name. </p>
+<p>&nbsp;</p>
+
+<h4>2.7 Install The New Kernel </h4>
+<p>Now go the directory where your new kernel rpm package has been created (depending on your architecture, e.g. <span class="system">~/rpmbuild/RPMS/i386/</span>), and install the rpm package:</p>
+<p class="command">cd ~/rpmbuild/RPMS/i386<br>
+rpm -ivh kernel-2.6.18custom2.6.18.2-1.i386.rpm </p>
+<p> (You can now even transfer the rpm package to other Fedora systems and install them there exactly the same way, which means you don't have to compile the kernel there again.) </p>
+<p>Next we create a ramdisk for our new kernel, because otherwise the system will most likely not boot our new kernel:</p>
+<p class="command">mkinitrd /boot/initrd-2.6.18-custom-2.6.18.2.img 2.6.18-custom-2.6.18.2</p>
+
+<p>Then edit <span class="system">/boot/grub/menu.lst</span>. Have a look at your existing (working) kernel stanzas there and take one of them as a sample for your new stanza and replace the kernel and ramdisk, then add the stanza above all other stanzas.</p>
+<p class="command">vi /boot/grub/menu.lst</p>
+<p>For example, my <span class="system">menu.lst</span> looks like this before I add the new stanza:</p>
+<table class="" align="center" bgcolor="#cccccc" border="1" bordercolor="#000000" cellpadding="2" cellspacing="0" width="90%">
+      <tbody><tr>
+        <td class="">
+      <pre># grub.conf generated by anaconda
+#
+# Note that you do not have to rerun grub after making changes to this file
+# NOTICE:  You have a /boot partition.  This means that
+#          all kernel and initrd paths are relative to /boot/, eg.
+#          root (hd0,0)
+#          kernel /vmlinuz-version ro root=/dev/VolGroup00/LogVol00
+#          initrd /initrd-version.img
+#boot=/dev/sda
+default=0
+timeout=5
+splashimage=(hd0,0)/grub/splash.xpm.gz
+hiddenmenu
+
+title Fedora Core (2.6.18-1.2798.fc6)
+        root (hd0,0)
+        kernel /vmlinuz-2.6.18-1.2798.fc6 ro root=/dev/VolGroup00/LogVol00
+        initrd /initrd-2.6.18-1.2798.fc6.img</pre>
+
+</td></tr>
+</tbody></table>
+<p>and like this afterwards:</p>
+<table class="" align="center" bgcolor="#cccccc" border="1" bordercolor="#000000" cellpadding="2" cellspacing="0" width="90%">
+      <tbody><tr>
+        <td class="">
+      <pre># grub.conf generated by anaconda
+#
+# Note that you do not have to rerun grub after making changes to this file
+# NOTICE:  You have a /boot partition.  This means that
+#          all kernel and initrd paths are relative to /boot/, eg.
+#          root (hd0,0)
+#          kernel /vmlinuz-version ro root=/dev/VolGroup00/LogVol00
+#          initrd /initrd-version.img
+#boot=/dev/sda
+default=0
+timeout=5
+splashimage=(hd0,0)/grub/splash.xpm.gz
+hiddenmenu
+
+title Fedora Core (2.6.18-custom-2.6.18.2)
+        root (hd0,0)
+        kernel /vmlinuz-2.6.18-custom-2.6.18.2 ro root=/dev/VolGroup00/LogVol00
+        initrd /initrd-2.6.18-custom-2.6.18.2.img
+
+title Fedora Core (2.6.18-1.2798.fc6)
+        root (hd0,0)
+        kernel /vmlinuz-2.6.18-1.2798.fc6 ro root=/dev/VolGroup00/LogVol00
+        initrd /initrd-2.6.18-1.2798.fc6.img</pre>
+</td></tr>
+</tbody></table>
+<p>(You can find out about the right <span class="system">vmlinuz</span> and <span class="system">initrd</span> files by running</p>
+
+<p class="command">ls -l /boot</p>
+<p>)    </p>
+<p> Now reboot the system: </p>
+<p class="command">shutdown -r now</p>
+<p> If everything goes well, it should come up with the new kernel. You can check if it's really using your new kernel by running </p>
+<p class="command">uname -r</p>
+<p> This should display something like </p>
+
+<p class="system">2.6.18-custom-2.6.18.2</p>
+<p> If the system doesn't start, restart it, and when you see this: </p>
+<p><img mce_real_src="http://www.howtoforge.com/images/kernel_compilation_fedora/4.png" src="http://www.howtoforge.com/images/kernel_compilation_fedora/4.png" height="413" width="550"></p>
+<p> press any key to enter the GRUB menu: </p>
+<p><img mce_real_src="http://www.howtoforge.com/images/kernel_compilation_fedora/5.png" src="http://www.howtoforge.com/images/kernel_compilation_fedora/5.png" height="413" width="550"></p>
+<p> Select your old kernel and start the system. You can now try again to compile a working kernel. Don't forget to remove the stanza of the not-working kernel from <span class="system">/boot/grub/menu.lst</span>.

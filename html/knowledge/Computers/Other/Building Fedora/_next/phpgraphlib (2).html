@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>Install and configure PHPGraphLib</a></h2>
+
+
+<p>Simple method for graphically displaying data in html pages</p>
+
+<a>Login as root</a>
+
+<div class="command"><pre>
+yum -y install php-gd
+</pre></div>
+
+<a>Cd to html directory</a>
+<div class="command"><pre>
+cd /data/www/html/unencrypted/private/
+</pre></div>
+
+<a>Get the phpgraph lib</a>
+<div class="command"><pre>
+wget http://www.ebrueggeman.com/sites/www.ebrueggeman.com/files/phpgraphlib_v2.30.zip
+</pre></div>
+
+<a>Unpack the phpgraph lib</a>
+<div class="command"><pre>
+unzip phpgraphlib_v2.30.zip
+rm phpgraphlib_v2.30.zip
+</pre></div>
+
+<a>Create the graph_bar.php file</a>
+<div class="command"><pre>
+vi graph_bar.php
+</pre></div>
+
+<div class="command"><pre>
+i
+</pre></div>
+
+<div class="command"><pre>
+&lt;?php
+include("phpgraphlib.php");
+$graph = new PHPGraphLib(400,300);
+$data = array("Alex"=>99, "Mary"=>98, "Joan"=>70, "Ed"=>90);
+$graph->addData($data);
+$graph->setTitle("Test Scores");
+$graph->setTextColor("blue");
+$graph->createGraph();
+?>
+</pre></div>
+
+<a>Create the graph_bar.html file</a>
+<div class="command"><pre>
+vi graph_bar.html
+</pre></div>
+
+<div class="command"><pre>
+i
+</pre></div>
+
+<div class="command"><pre>
+&lt;html>
+&lt;h3>This is where I want to display my graph</h3>
+&lt;img src="graph_bar.php" />
+&lt;html>
+</pre></div>
+
+<a>Restart System</a>
+<div class="command"><pre>
+reboot
+</pre></div>
+
+<a href="http://192.168.122.10/private/graph_bar.html">Check demo graph page in browser</a>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh phpgraphlib
+</pre></div>
+
+</body>
+</html>

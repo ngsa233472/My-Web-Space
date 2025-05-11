@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Install fortune</a></h2>
+
+    Add the fortune program and the Calvin and Hobbes fortunes
+
+    <a></a>
+
+    <a>Install the fortune rpm</a>
+    <div class="command">
+      <pre>
+dnf -y install fortune-mod
+</pre
+      >
+    </div>
+
+    <a>Install the Calvin and Hobbes data file</a>
+    <div class="command">
+      <pre>
+tar zxvf $_FILES/fortune-mod-calvin-0.1.1.tar.gz -C /usr/src/
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+cd  /usr/src/fortune-mod-calvin-0.1.1/
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+sed -ie s/fortunes/fortune/g Makefile
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+make install
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+fortune /usr/share/games/fortune/calvin
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh fortune
+</pre
+      >
+    </div>
+  </body>
+</html>

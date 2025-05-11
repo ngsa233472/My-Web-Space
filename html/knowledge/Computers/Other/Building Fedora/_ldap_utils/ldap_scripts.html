@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>LDAP Scripts</a></h2>
+
+<a>Install the Perl Net::LDAP module</a>
+<div class="command"><pre>
+dnf -y install perl-LDAP.noarch
+</pre></div>
+<a></a>
+
+
+<a>Create the showusers script</a>
+<div class="command"><pre>
+vi /usr/local/bin/showusers.pl
+</pre></div>
+
+<div class="command"><pre>
+i
+</pre></div>
+
+<div class="command"><pre>
+#!/usr/bin/perl
+
+use Net::LDAP;
+
+my %gecos;
+
+# Open LDAP and download users into an array
+$ldap = Net::LDAP->new("localhost");
+$ldap->bind("cn=manager,dc=local,dc=graysaustin,dc=com", password=>"rootMe55");
+$mesg = $ldap->search(filter=>"(objectClass=*)", base => "ou=People,ou=Users,dc=local,dc=graysaustin,dc=com", attrs => [uidNumber,uid,homeDirectory,loginShell]);
+@entries = $mesg->entries;
+$mesg = $ldap->unbind;
+
+# Create an associative array
+foreach $entry (@entries){
+        @attrs = $entry->attributes();
+        $id =  $entry->get_value(@attrs[1]);
+        $name =  $entry->get_value(@attrs[0]);
+        $directory =  $entry->get_value(@attrs[2]);
+        $shell =  $entry->get_value(@attrs[3]);
+        $gecos{$id} = "$name:$directory:$shell";
+}
+
+my @keys = sort { $a cmp $b } keys %gecos;
+foreach my $key ( @keys ) {
+        if ($key != ""){
+        $ID = $key;
+        ($Name, $Shell, $Home) = split(':', $gecos{$key});
+        write;
+        }
+}
+
+format =
+@<<<< @<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+$ID,$Name,$Shell,$Home
+.</pre></div>
+
+<div class="command"><pre>
+chmod 700 /usr/local/bin/showusers.pl
+</pre></div>
+
+<div class="command"><pre>
+showusers.pl
+</pre></div>
+
+<a>Create the userdelete script</a>
+<div class="command"><pre>
+vi /usr/local/bin/userdelete.pl
+</pre></div>
+
+<div class="command"><pre>
+i
+</pre></div>
+
+<div class="command"><pre>
+#!/usr/bin/perl
+
+use Net::LDAP;
+
+# (1) quit unless we have the correct number of command-line args
+$num_args = $#ARGV + 1;
+if ($num_args != 1) {
+    print "\nUsage: useradd.pl uid\n";
+    exit;
+}
+
+$uid=lc($ARGV[0]);
+
+$ldap = Net::LDAP->new("localhost");
+$mesg = $ldap->bind("cn=manager,dc=local,dc=graysaustin,dc=com", password=>"rootMe55");
+
+$mesg = $ldap->delete( "uid=$uid,ou=People,ou=Users,dc=local,dc=graysaustin,dc=com" );
+$mesg->code && warn "failed to delete user entry: ", $mesg->error ;
+
+$mesg = $ldap->delete( "cn=$uid,ou=Groups,dc=local,dc=graysaustin,dc=com");
+$mesg->code && warn "failed to delete user entry: ", $mesg->error ;
+
+$mesg = $ldap->unbind;  # take down session
+</pre></div>
+
+<div class="command"><pre>
+chmod 700 /usr/local/bin/userdelete.pl
+</pre></div>
+
+<a>Create the useradd script</a>
+<div class="command"><pre>
+vi /usr/local/bin/useradd.pl
+</pre></div>
+
+<div class="command"><pre>
+i
+</pre></div>
+
+<div class="command"><pre>
+#!/usr/bin/perl
+
+use Net::LDAP;
+
+# (1) quit unless we have the correct number of command-line args
+$num_args = $#ARGV + 1;
+if ($num_args != 2) {
+    print "\nUsage: useradd.pl first_name last_name\n";
+    exit;
+}
+
+# find the next id
+$ldap = Net::LDAP->new("localhost");
+$ldap->bind();
+$mesg = $ldap->search(filter=>"(objectClass=*)", base => "ou=People,ou=Users,dc=local,dc=graysaustin,dc=com", attrs => ['uidNumber']);
+@entries = $mesg->entries;
+$mesg = $ldap->unbind;
+$largest_id = 6000;
+foreach $entry (@entries){
+        @attrs = $entry->attributes();
+        $id =  $entry->get_value(@attrs[0]);
+        if ($id != ""){
+                if ($id >= $largest){
+                 $largest = $id;
+ }
+                }
+        }
+$NextUID = $largest + 1;
+$UserSID = $NextUID - 6000 + 1000;
+
+$first_name=lc($ARGV[0]);
+$last_name=lc($ARGV[1]);
+$capped_cn=ucfirst($first_name);
+$capped_sn=ucfirst($last_name);
+
+my $sid_tmp=`net getlocalsid \$netbios_name 2>/dev/null | cut -f2 -d: | sed "s/ //g"`;
+chomp($sid_tmp);
+
+$ldap = Net::LDAP->new("localhost");
+$mesg = $ldap->bind("cn=manager,dc=local,dc=graysaustin,dc=com", password=>"rootMe55");
+
+#User DN Add
+$result = $ldap->add( "uid=$first_name,ou=People,ou=Users,dc=local,dc=graysaustin,dc=com",
+                       attrs => [
+                                objectclass => ['top',
+                                                  'person',
+                                                  'organizationalPerson',
+                                                  'inetOrgPerson',
+                                                  'posixAccount',
+                                                  'shadowAccount',
+                                                  'sambaSamAccount'],
+                                gidNumber => "$NextUID",
+                                uid => "$first_name",
+                                uidNumber => "$NextUID",
+                                homeDirectory => "/data/home/$first_name",
+                                gecos => "$capped_cn $capped_sn",
+                                loginShell => '/bin/bash',
+                                cn   => "$capped_cn",
+                                sn   => "$capped_sn",
+                                sambaSID => "$sid_tmp-$UserSID",
+                                sambaPrimaryGroupSID => "$sid_tmp-513",
+                                sambaDomainName => 'ORCAS',
+                                sambaPwdCanChange => '1',
+                                sambaNTPassword => '',
+                                sambaAcctFlags => '[U'
+                       ]
+                     );
+
+$result->code && warn "failed to add user entry: ", $result->error ;
+
+#Group DN Add
+$result = $ldap->add( "cn=$first_name,ou=Groups,dc=local,dc=graysaustin,dc=com",
+                       attrs => [
+                                objectclass => ['posixGroup',
+                                                'top',
+                                                'sambaGroupMapping'],
+                                cn => "$first_name",
+                                gidNumber => "$NextUID",
+                                sambaSID => "$sid_tmp-513",
+                                sambaGroupType => '2'
+                        ]
+                    );
+
+$result->code && warn "failed to add group entry: ", $result->error ;
+
+$mesg = $ldap->unbind;  # take down session
+</pre></div>
+
+<div class="command"><pre>
+chmod 700 /usr/local/bin/useradd.pl
+</pre></div>
+
+
+<a>Add user testuser</a>
+<div class="command">useradd.pl testuser user</pre></div>
+<div class="command">ldappasswd -x -W -D "cn=Manager,dc=local,dc=graysaustin,dc=com" -s rootMe55 "uid=testuser,ou=People,ou=Users,dc=local,dc=graysaustin,dc=com"</pre></div>
+<div class="command">smbpasswd testuser</pre></div>
+
+<div class="command"><pre>
+showusers.pl
+</pre></div>
+
+<a>Delete tempuser</a>
+<div class="command">userdelete.pl tempuser</pre></div>
+
+<div class="command"><pre>
+showusers.pl
+</pre></div>
+
+<a>Change samba.conf to allow testuser access</a>
+<div class="command">sed -ie s/tempuser/testuser/g /etc/samba/smb.conf</pre></div>
+<div class="command">systemctl restart smb</pre></div>
+
+<a>Test ssh access of testuser</a>
+<div class="command">ssh testuser@localhost</pre></div>
+
+<a>Test access to samba as testuser</a>
+<div class="command">smbclient -L localhost -U testuser</pre></div>
+
+<div class="command">exit</pre></div>
+
+<a>Add Samba to firewall rules</a>
+<div class="command"><pre>firewall-cmd --permanent --zone=FedoraServer --add-service=samba</pre></div>
+<div class="command"><pre>firewall-cmd --reload</pre></div>
+
+<a>Mount drive in windows</a>
+<div class="command">\\$_CURRENT_IP\data as testuser</pre></div>
+
+<a>Unmount drive</a>
+    <b>Right click drive and disconnect</b>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh ldap_scripts
+</pre></div>
+
+</body>
+</html>

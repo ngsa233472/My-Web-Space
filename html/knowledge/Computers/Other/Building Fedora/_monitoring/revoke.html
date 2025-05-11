@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta charset="UTF-8">
+</head>
+<body>
+<h2><a>Testing OpenSSL Certificates</a></h2>
+
+cat << REVOKESCRIPT > /usr/bin/local/revoke.sh
+
+#!/usr/bin/bash
+
+wget http://crl.cacert.org/revoke.crl -P /etc/pki > /dev/null 2>&1
+
+#/usr/bin/false
+#/usr/bin/true
+
+if [ $? = 0 ]; then
+        echo ''|mailx -s "revoked site certificate installed successfully" root
+        exit 0
+fi
+        echo ""|mailx -s "revoked site certificate installation failed" root
+        exit 1
+
+REVOKESCRIPT
+</pre></div>
+
+<a>Note this step</a>
+<div class="command"><pre>
+/usr/local/bin/note.sh revoke_crl
+</pre></div>
+
+</body>
+</html>
+

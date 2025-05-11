@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a  href="">Enable a web server log file analysis program</a></font></h2>
+
+<a  href="">Login as root</a>
+
+<a>Unzip the Tar/GZ archive from the FILES directory</a>
+<div class="command"><pre>
+cd /usr/src/
+tar xvf $_FILES/webalizer-2.23-05-src.tgz
+</pre></div>
+
+</pre></div><a>Build and install Webalizer</a>
+<div class="command"><pre>
+cd /usr/src/webalizer-2.23-05/
+./configure
+make
+make install
+</pre></div>
+
+</pre></div><a>Create the webpage structure</a>
+<div class="command"><pre>
+mkdir -p /data/www/html/unencrypted/private/webalizer/unencrypted
+mkdir -p /data/www/html/unencrypted/private/webalizer/ssl
+</pre></div>
+
+</pre></div><a>Create the webalizer.sh script</a>
+<div class="command"><pre>
+vi /data/admin/webalizer.sh
+</pre></div>
+
+<div class="command"><pre>
+dG
+i
+</pre></div>
+
+<div class="command"><pre>
+#!/bin/bash
+
+cd /data/www/html/unencrypted/private/webalizer/unencrypted
+/usr/local/bin/webalizer /var/log/httpd/access_log
+cd /data/www/html/unencrypted/private/webalizer/ssl
+/usr/local/bin/webalizer /var/log/httpd/ssl_access_log
+chown -R apache:apache /data/www/html/unencrypted/private/webalizer
+</pre></div>
+
+</pre></div>
+
+<a>Enable the script for execution</a>
+<div class="command"><pre>
+chmod 700 /data/admin/webalizer.sh
+</pre></div>
+
+<a>Run the webalizer by hand</a>
+<div class="command"><pre>
+/usr/bin/webalizer -Q
+</pre></div>
+
+<a>Run the data collection script</a>
+<div class="command"><pre>
+/admin/webalizer.sh
+</pre></div>
+
+<a>Look at logs for the unencrypted site</a>
+<a href="http://192.168.122.10/private/webalizer/unencrypted">http://192.168.122.10/private/webalizer/unencrypted</a>
+
+<a>Look at logs for the ssl site</a>
+<a href="http://192.168.122.10/private/webalizer/ssl">http://$_CURRENT_IP/private/webalizer/ssl</a>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh webalizer
+</pre></div>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type="text/css" href="/install.css" />
+<meta charset="UTF-8">
+</head>
+<body>
+<h2><a>Setup apache for basic http configuration</a></h2>
+
+
+<a>Install Apache</a>
+<div class="command"><pre>
+dnf -y install httpd
+</pre></div>
+
+<a>Save files</a>
+<div class="command"><pre>
+mkdir -p /data/Saved/etc/httpd/conf &&
+cp /etc/httpd/conf/httpd.conf /data/Saved/etc/httpd/conf/
+</pre></div>
+
+<a  href="">Modify the /etc/httpd/conf/httpd.conf file</a>
+<div class="tab">
+        <a href="../_configs/http_conf.html">link to /etc/httpd/conf/httpd.conf file</a>
+</div>
+
+<a>Move /var/www to /data/www and link /var/www to /data/www</a>
+<div class="command"><pre>
+cd /var
+cp -pR www /data/
+rm -r www
+ln -s /data/www www
+</pre></div>
+
+<a>Make html root directories</a>
+<div class="command"><pre>
+mkdir /data/www/css
+mkdir /data/www/icons
+</pre></div>
+
+<a  href="">Create the default index files</a>
+<div class="tab">
+        <a  href="../_configs/index.html">link to /etc/httpd/conf/index.html file</a>
+</div>
+
+<a>Fix the ownership of the apache directory</a>
+<div class="command"><pre>
+chown -R apache:apache /data/www
+find /data/www -type d -exec chmod 755 {} \;
+find /data/www -type f -exec chmod 644 {} \;
+</pre></div>
+
+<a>Setup the daemon to start on boot</a>
+<div class="command"><pre>
+/bin/systemctl enable httpd
+</pre></div>
+
+</div>
+<a>Start the daemon </a></font>
+<div class="command"><pre>
+/bin/systemctl start httpd
+</pre></div>
+
+</div>
+<a>Check the daemon is running </a></font>
+<div class="command"><pre>
+/bin/systemctl status httpd
+</pre></div>
+
+<a>From the index page, check the "Unencrypted Public Index Page" and the "Unencrypted Public Test Page"</a>
+<pre>http://$_CURRENT_IP/private</pre>
+
+<a>Note this step</a>
+<div class="command"><pre>
+/usr/local/bin/note.sh apache80
+</pre></div>
+
+</body>
+</html>

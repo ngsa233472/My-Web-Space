@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a  href="">Add sso private directory access via openldap users</a></font></h2>
+
+<a  href="">Login as root</a>
+
+<a>Install mod_ldap</a>
+<div class="command"><pre>
+yum -y install mod_ldap.x86_64
+</pre></div>
+
+<a>Create httpd config file for unencrypted private access authenticated by ldap</a>
+<div class="command"><pre>
+vi /etc/httpd/conf.d/private.conf</pre></div>
+</pre></div>
+
+<div class="command"><pre>
+i
+</pre></div>
+
+<div class="command"><pre>
+<pre>&lt;Directory /data/www/html/unencrypted/private>
+   AuthType Basic
+   AuthName "Website for testing LDAP SSO: Login with unix user id"
+   AuthBasicProvider ldap
+   AuthLDAPURL "ldap://127.0.0.1/ou=People,dc=local,dc=austin,dc=rr,dc=com?uid?"
+   Require valid-user
+&lt;/Directory></pre></div>
+
+<a>Create httpd config file for ssl private access authenticated by ldap</a>
+
+<div class="command"><pre>
+vi /etc/httpd/conf.d/sslprivate.conf</pre></div>
+
+<div class="command"><pre>
+i
+</pre></div>
+
+<div class="command"><pre>
+<pre>&lt;Directory /data/www/html/ssl/private>
+   AuthType Basic
+   AuthName "Website for testing LDAP SSO: Login with unix user id"
+   AuthBasicProvider ldap
+   AuthLDAPURL "ldap://127.0.0.1/ou=People,dc=local,dc=austin,dc=rr,dc=com?uid?"
+   Require valid-user
+&lt;/Directory></pre></div>
+
+<a>Make private root directory</a>
+<div class="command"><pre>
+mkdir /data/www/html/unencrypted/private
+</pre></div>
+
+<a  href="">Create the default index file</a>
+<div class="tab">
+        <a  href="./configs/index_private.html">link to /etc/httpd/conf/index_private.html file</a>
+</div>
+
+<a>Make encrypted private root directory</a>
+<div class="command"><pre>
+mkdir /data/www/html/ssl/private
+</pre></div>
+
+<a  href="">Create the default index file</a>
+<div class="tab">
+        <a  href="./configs/index_ssl_private.html">link to /etc/httpd/conf/index_ssl_private.html file</a>
+</div>
+
+<a>Change the ownership of the apache directory</a>
+<div class="command"><pre>
+chown -R apache:apache /data/www
+chmod -R 700 /data/www
+</pre></div>
+
+</div>
+<a>Restart the daemon </a></font>
+<div class="command"><pre>
+/bin/systemctl restart httpd
+</pre></div>
+
+</div>
+<a>Check the daemon is running </a></font>
+<div class="command"><pre>
+/bin/systemctl status httpd
+</pre></div>
+
+
+<a href="http://192.168.122.10/private">Check private unencrypted page in browser</a>
+
+<a href="https://192.168.122.10/private">Check private encrypted page in browser</a>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh apacheprivate
+</pre></div>
+
+</body>
+</html>

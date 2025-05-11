@@ -1,0 +1,345 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a>SSO Scripts</a></h2>
+
+    Enable root to show, create, and delete user accounts and change a password
+
+    <a>Login as root</a>
+
+    <!-- SHOW USERS -->
+    <a>Create the showusers script</a>
+    <div class="command">
+      <pre>
+vi /usr/local/bin/showusers.sh
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+#!/bin/bash
+
+set -e
+
+# Variables
+_LDAP_SERVER="ldap://127.0.0.1:389"
+_DN="ou=People,dc=local,dc=austin,dc=rr,dc=com"
+
+clear
+
+# Create list of users, remove headers...,remove correct # of CRs, and sort
+LIST=`ldapsearch -x -H ${_LDAP_SERVER} -b ${_DN} uid uidNumber homeDirectory loginShell \
+| sed /^#.*/d | sed /^dn:.*/d | sed /^result.*/d | sed /^$/d | sed /^search.*/d \
+| sed -e 'N' -e 's/\n/\t\t/g' -e N -e 's/\n/\t\t/g' -e N -e 's/\n/\t\t/g' \
+| grep '[1-9][0-9][0-9][0-9].*' | sort -nr`
+
+# Determine how many users
+_COUNT=`echo "$LIST" | wc -l`
+
+# Print results
+echo "${_COUNT} SSO user(s) in $_LDAP_SERVER:"
+echo "--------------------------------------------------------------------------------"
+echo "$LIST"
+echo ""
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+chmod 700 /usr/local/bin/showusers.sh
+</pre
+      >
+    </div>
+
+    <!-- DELETE USERS -->
+    <a>Create the userdelete script</a>
+    <div class="command">
+      <pre>
+vi /usr/local/bin/userdelete.sh
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+#!/bin/bash
+
+set -e
+
+_ROOTDN_PASS=
+_USERNAME=$1
+_COUNT=$#
+_LDAP_SERVER="ldap://127.0.0.1:389"
+_USER_DN="ou=People,dc=local,dc=austin,dc=rr,dc=com"
+_GROUP_DN="ou=Group,dc=local,dc=austin,dc=rr,dc=com"
+_CN="cn=Manager,dc=local,dc=austin,dc=rr,dc=com"
+
+#Check number of arguments is correct
+if [ $_COUNT -ne 1 ]
+then
+        echo "usage: userdelete.sh USERNAME"
+        exit 1
+fi
+
+#do ldapsearch and make sure user is valid
+ldapsearch -x -H ${_LDAP_SERVER} -b uid=${_USERNAME},${_USER_DN}
+if [ $? -ne 0 ]
+then
+        echo "User does not exist in database, search for user using ldaptools prior to deleting user"
+        exit 1
+fi
+
+
+printf "Enter LDAP Password: "
+read -s _ROOTDN_PASS
+
+## remove user from users dn
+ldapdelete -x -D ${_CN} -w ${_ROOTDN_PASS} 'uid='${_USERNAME},${_USER_DN}
+
+## remove user from groups dn
+ldapdelete -x -D ${_CN} -w ${_ROOTDN_PASS} 'cn='${_USERNAME},${_GROUP_DN}
+
+echo
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+chmod 700 /usr/local/bin/userdelete.sh
+</pre
+      >
+    </div>
+
+    <!-- CHANGE USERS PASSWORD -->
+    <a>Create the root_change_password script</a>
+    <div class="command">
+      <pre>
+vi /usr/local/bin/root_change_password.sh
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+#!/bin/bash
+
+_ROOTDN_PASS=
+_COUNT=$#
+_USERNAME=$1
+_DN="dc=local,dc=austin,dc=rr,dc=com"
+
+# Check number of arguments correct
+if [ $_COUNT -ne 1 ]
+then
+    echo "usage: adminadd.sh USERNAME"
+    exit 1
+fi
+
+printf "Enter LDAP Password: "
+read -s _ROOTDN_PASS
+echo
+
+ldappasswd -x -w ${_ROOTDN_PASS} -D "cn=Manager,$_DN" -S "uid=$_USERNAME,ou=People,$_DN"
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+chmod 700 /usr/local/bin/root_change_password.sh
+</pre
+      >
+    </div>
+
+    <!-- ADD USERS -->
+    <a>Create the useradd script</a>
+    <div class="command">
+      <pre>
+vi /usr/local/bin/useradd.sh
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+#!/bin/bash
+
+_ROOTDN_PASS=
+_COUNT=$#
+_USERNAME=$1
+_MIN_UID_NUMBER=5000
+NEW_UID=$1
+_DN="ou=People,dc=local,dc=austin,dc=rr,dc=com"
+_LDAP_SERVER="ldap://127.0.0.1:389"
+_DTG=`date +%Y%m%d%H%M`
+
+# Check number of arguments correct
+if [ $_COUNT -ne 1 ]
+then
+        echo "usage: adminadd.sh USERNAME"
+        exit 1
+fi
+
+# Get the last UID
+check_parameters() {
+_LAST_UID_NUMBER=`ldapsearch -x -H ${_LDAP_SERVER} -b ${_DN} uidNumber \
+| sed /^#.*/d | sed /^dn:.*/d | sed /^result.*/d | sed /^$/d | sed /^search.*/d \
+| sed s/uidNumber:\ // | sort -nr | grep '[1-9][0-9][0-9][0-9].*' | head -1`
+
+if [ "$_LAST_UID_NUMBER" == "" ]
+then
+        _NEW_UID_NUMBER=5000
+else
+        let "_NEW_UID_NUMBER = ${_LAST_UID_NUMBER} + 1"
+fi
+
+# I know it is not neccesary, but check the new UIDNumber and see if there is a corresponding UID
+_UID=`ldapsearch -x -H ${_LDAP_SERVER} -b ${_DN} uidNumber=${_NEW_UID_NUMBER} | grep ^uid:`
+_NAME=`echo $_UID | sed s/^uid:\ //`
+
+# If you do find a UID (NAME) something must have gone terribly wrong
+if [ "${_NAME}" != "" ]
+then
+        echo "UIDNumber ${_NEW_UID_NUMBER} appears to be in use as user ${_NAME}, use ldap manually to verify condition"
+        exit 1
+fi
+
+# One last check to make sure you that the UID_NUMBER is not in use
+_FOUND_NAME=`ldapsearch -x -H ${_LDAP_SERVER} -b 'uid='${_USERNAME},${_DN} | grep "uid:\ " | sed s/^uid:\ //`
+if [ "$_FOUND_NAME" == "${_USERNAME}" ]
+then
+        echo "UID $_USERNAME appears to exist, use ldap manually to verify condition"
+        exit 1
+fi
+}
+
+create_groupfile() {
+cat >  /tmp/_group.ldif << EOF
+# TEMP LDIF GROUP FILE
+dn: cn=${_USERNAME},ou=Group,dc=local,dc=austin,dc=rr,dc=com
+objectClass: top
+objectClass: posixGroup
+cn: ${_USERNAME}
+userPassword:
+gidNumber: ${_NEW_UID_NUMBER}
+EOF
+}
+
+create_userfile() {
+cat >  /tmp/_user.ldif << EOF
+# TEMP LDIF USER FILE
+dn: uid=${_USERNAME},ou=People,dc=local,dc=austin,dc=rr,dc=com
+uid: ${_USERNAME}
+cn: ${_USERNAME}
+objectClass: account
+objectClass: posixAccount
+objectClass: top
+objectClass: shadowAccount
+userPassword:
+shadowLastChange: 14846
+shadowMax: 99999
+shadowWarning: 7
+loginShell: /bin/bash
+uidNumber: ${_NEW_UID_NUMBER}
+gidNumber: ${_NEW_UID_NUMBER}
+homeDirectory: /data/home/${_USERNAME}
+EOF
+}
+
+# Check the parameters are correct
+check_parameters
+
+# Make the /tmp/_user.ldif file.
+create_userfile
+create_groupfile
+
+# Check the /tmp/_group.ldif is present
+if [ ! -e /tmp/_group.ldif ]
+then
+  echo "${TIMESTAMP}: /tmp/_group.ldif was not created"
+  exit 1
+fi
+
+# Check the /tmp/_user.ldif is present
+if [ ! -e /tmp/_user.ldif ]
+then
+  echo "${TIMESTAMP}: /tmp/_user.ldif was not created"
+  exit 1
+fi
+
+printf "Enter LDAP Password: "
+read -s _ROOTDN_PASS
+
+ldapadd -x -w ${_ROOTDN_PASS} -D "cn=Manager,dc=local,dc=austin,dc=rr,dc=com" -f /tmp/_user.ldif
+
+ldapadd -x -w ${_ROOTDN_PASS} -D "cn=Manager,dc=local,dc=austin,dc=rr,dc=com" -f /tmp/_group.ldif
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+chmod 700 /usr/local/bin/useradd.sh
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh sso_scripts
+</pre
+      >
+    </div>
+  </body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type="text/css" href="/css/install.css" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>Install and configure PHPGraphLib</a></h2>
+
+
+<p>Simple method for graphically displaying data in html pages</p>
+
+<a></a>
+
+<div class="command"><pre>
+dnf -y install php-gd
+</pre></div>
+
+<a>Cd to html directory</a>
+<div class="command"><pre>
+cd /data/www/html/unencrypted/private/
+</pre></div>
+
+<a>Get the phpgraph lib</a>
+<div class="command"><pre>
+cp $_FILES/phpgraphlib-master /data/www/html/unencrypted/private
+</pre></div>
+
+<a>Create the graph_bar.php file</a>
+<div class="command"><pre>
+vi graph_bar.php
+</pre></div>
+
+<div class="command"><pre>
+i
+</pre></div>
+
+<div class="input"><pre>
+&lt;?php
+include("phpgraphlib-master/phpgraphlib.php");
+$graph = new PHPGraphLib(400,300);
+$data = array("Alex"=>99, "Mary"=>98, "Joan"=>70, "Ed"=>90);
+$graph->addData($data);
+$graph->setTitle("Test Scores");
+$graph->setTextColor("blue");
+$graph->createGraph();
+?>
+</pre></div>
+
+<a>Create the graph_bar.html file</a>
+<div class="command"><pre>
+vi graph_bar.html
+</pre></div>
+
+<div class="command"><pre>
+i
+</pre></div>
+
+<div class="input"><pre>
+&lt;html>
+&lt;h3>There should be a graph here</h3>
+&lt;img src="graph_bar.php" />
+&lt;html>
+</pre></div>
+
+<a>Fix the ownership of the apache directory</a>
+<div class="command"><pre>
+chown -R apache:apache /data/www
+find /data/www -type d -exec chmod 755 {} \;
+find /data/www -type f -exec chmod 644 {} \;
+</pre>
+</div>
+
+<a>Restart the Daemon</a>
+<div class="command">
+<pre>
+/bin/systemctl start httpd
+</pre>
+</div>
+
+<a>Check the Daemon</a>
+<div class="command">
+<pre>
+/bin/systemctl status httpd
+</pre>
+</div>
+
+<a>From the index page, check the "PHPGraphLib Test Page"</a>
+<pre>http://$_CURRENT_IP/private</pre>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh phpgraphlib
+</pre></div>
+
+</body>
+</html>

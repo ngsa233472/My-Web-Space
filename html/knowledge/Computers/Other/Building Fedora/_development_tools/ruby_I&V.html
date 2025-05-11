@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>Ruby Installation, Configuration, and Testing</a></h2>
+
+<a>Install Ruby</a></font>
+<div class="command"><pre>
+dnf -y install ruby.x86_64
+</pre></div>
+
+ <a>Check the installation</a></font>
+<div class="command"><pre>
+ruby -v
+</pre></div>
+
+<p>You should get something like this</p>
+<div class="output">
+<pre>
+ruby 2.6.3p62 (2019-04-16 revision 67580) [x86_64-linux]
+</pre>
+</div>
+
+<a>Create the source directory</a></fonth5>
+<div class=command>
+<pre>
+mkdir /data/src/ruby
+</pre>
+</div>
+
+<a>Create the testfile</a></fonth5>
+<div class=optional><pre>
+cd /data/src/ruby
+</pre></div>
+
+<div class=optional><pre>
+vi helloworld.rb
+</pre></div>
+
+<div class=input>
+<pre>
+#!/usr/bin/ruby
+puts "Hello World!";
+puts "Welcome to Ruby Programming"
+</pre>
+</div>
+
+<div class=optional>
+<pre>
+chmod 755 helloworld.rb
+</pre>
+</div>
+
+<a>Run the testfile</a></font>
+<div class=optional><pre>
+./helloworld.rb
+</pre></div>
+
+<p>You should get something like this</p>
+<div class="output"><pre>
+Hello World!
+Welcome to Ruby Programming
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh rubyIandV
+</pre></div>
+
+</body>
+</html>
+

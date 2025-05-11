@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a href="">Save and Restore Davical Database</a></h2>
+
+    <a href="">Purpose </a>
+
+    <a href=""> Restore CalDav database</a>
+    <div class="tab">
+      <a href=""> On old server </a>
+
+      <div class="command">
+        <pre>
+	sudo su - postgres
+	</pre
+        >
+      </div>
+
+      <div class="command">
+        <pre>
+	pg_dump -Fc davical > /data/davical.pgdump
+	</pre
+        >
+      </div>
+
+      <a href="">Exit postgres</a>
+      <div class="command">
+        <pre>
+	exit
+	</pre
+        >
+      </div>
+    </div>
+
+    <a href="">Exit root</a>
+    <div class="command">
+      <pre>
+exit
+</pre
+      >
+    </div>
+
+    <a href="">Note this step</a>
+    <div class="command">
+      <pre>
+touch /install/save_davical.$INSTALL_VERSION
+</pre
+      >
+    </div>
+  </body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen,print"
+      href="/stylesheets/Welcome./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a>Logging</a></h2>
+
+    <h4><a>Install logstash</a></h4>
+    <div class="code">
+      <pre>
+yum install -y https://download.elasticsearch.org/logstash/logstash/packages/centos/logstash-1.4.2-1_2c0f5a1.noarch.rpm
+</pre
+      >
+    </div>
+
+    <h4><a>Install ElasticSearch</a></h4>
+    <div class="code">
+      <pre>
+yum install -y https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.2.noarch.rpm
+</pre
+      >
+    </div>
+
+    <h4><a>Check this</a></h4>
+    <div class="checkthis">
+      <pre>
+/opt/logstash/bin/logstash -e 'input { stdin { } } output { stdout {} }'
+</pre
+      >
+    </div>
+    <div class="checkthis">
+      <pre>
+add /opt/logstash/bin to $PATH
+</pre
+      >
+    </div>
+    <div class="checkthis">
+      <pre>
+hello world
+</pre
+      >
+    </div>
+    <div class="checkthis">
+      <pre>
+CTRL-C command 
+
+</pre
+      >
+    </div>
+    <div class="checkthis">
+      <pre>
+systemctl start elasticsearch
+</pre
+      >
+    </div>
+    <div class="checkthis">
+      <pre>
+/opt/logstash/bin/logstash -e 'input { stdin { } } output { stdout {} }'
+</pre
+      >
+    </div>
+    <div class="checkthis">
+      <pre>
+add /usr/share/elasticsearch/bin to #PATH
+</pre
+      >
+    </div>
+    <div class="checkthis">
+      <pre>
+http://logstash.net/docs/1.4.2/tutorials/getting-started-with-logstash
+</pre
+      >
+    </div>
+    <div class="checkthis">
+      <pre>
+yum install rsyslog-elasticsearch.x86_64<br>
+</pre>
+    </div>
+    <div class="checkthis">
+      <pre>
+yum install rsyslog
+</pre
+      >
+    </div>
+    <div class="checkthis">
+      <pre>
+rpm --import http://packages.elasticsearch.org/GPG-KEY-elasticsearch<br>
+</pre>
+    </div>
+    <div class="checkthis">
+      <pre>
+wget https://download.elasticsearch.org/kibana/kibana/kibana-3.1.2.tar.gz
+</pre
+      >
+    </div>
+    <h4><a>Note this step</a></h4>
+    <div class="code">
+      <pre>
+/usr/local/bin/note.sh logging
+</pre
+      >
+    </div>
+  </body>
+</html>

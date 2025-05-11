@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Install Unrar</a></h2>
+
+    I have a bunch of rar files that were given to me
+
+    <a></a>
+
+    <div class="command">
+      <pre>
+rpm -Uvh http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-stable.noarch.rpm
+rpm -Uvh http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-stable.noarch.rpm
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+dnf -y install unrar
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh unrar
+</pre
+      >
+    </div>
+  </body>
+</html>

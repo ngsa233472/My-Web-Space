@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Setup install environment</a></h2>
+
+    Install vim-enhanced
+    <div class="command">
+      <pre>
+rpm --nodeps -e vim-minimal
+dnf -y install vim-enhanced
+</pre
+      >
+    </div>
+
+    Create initial directory structure
+    <div class="command">
+      <pre>
+mkdir /data
+chmod 1777 /data
+mkdir -p /data/Saved
+mkdir -p /data/admin
+mkdir -p /data/software/linux
+mkdir /install
+mkdir /var/install
+ln -s /data/admin /admin
+</pre
+      >
+    </div>
+
+    Turn off GSSAPI in sshd
+    <div class="command">
+      <pre>
+mkdir -p /data/Saved/etc/ssh &&
+cp /etc/ssh/sshd_config /data/Saved/etc/ssh
+sed -i -e 's/^GSSAPIAuthentication\ yes/#&/' /etc/ssh/sshd_config
+sed -i -e 's/^GSSAPICleanupCredentials\ no/#&/' /etc/ssh/sshd_config
+/bin/systemctl restart sshd
+</pre
+      >
+    </div>
+
+    Turn SELinux off
+    <div class="command">
+      <pre>
+mkdir -p /data/Saved/etc/selinux &&
+cp -pr /etc/selinux/config /data/Saved/etc/selinux/config 
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+sed -i -e s/SELINUX=enforcing/SELINUX=disabled/ /etc/selinux/config
+</pre
+      >
+    </div>
+
+    Set the count # to 1
+    <div class="command">
+      <pre>
+echo 1 > /var/install/count
+</pre
+      >
+    </div>
+
+    Add INSTALL_VERSION variable to /etc/profile.d/
+    <div class="command">
+      <pre>
+VERSION=`uname -r | cut -d. -f4`
+DATE=`date +%Y%m%d`
+echo "export INSTALL_VERSION="${VERSION}.${DATE}"" > /etc/profile.d/version.sh
+. /etc/profile.d/version.sh
+</pre
+      >
+    </div>
+
+    Create the note.sh script
+    <div class="command">
+      <pre>
+vim /usr/local/bin/note.sh
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+i
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+#!/bin/bash
+
+_COUNT=$#
+SOFTWARE=$1
+
+# Check number of arguments correct
+if [ $_COUNT -ne 1 ]
+then
+        echo "usage: note.sh SOFTWARE_UPDATED"
+        exit 1
+fi
+
+COUNT=`cat /var/install/count`
+if [ $COUNT -lt 10 ]
+then
+        touch /install/0$COUNT.$SOFTWARE.$INSTALL_VERSION
+else
+        touch /install/$COUNT.$SOFTWARE.$INSTALL_VERSION
+fi
+COUNT=`expr $COUNT + 1`
+echo $COUNT > /var/install/count
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+chmod 700 /usr/local/bin/note.sh
+</pre
+      >
+    </div>
+
+    Add FILES variable to /etc/profile.d/
+    <div class="command">
+      <pre>
+echo "export FILES="/data/software/linux"" > /etc/profile.d/files.sh
+. /etc/profile.d/files.sh
+</pre
+      >
+    </div>
+
+    <p>Save the initial .bashrc and .bash_profile</p>
+    <div class="command">
+      <pre>
+mkdir -p /data/Saved/root &&
+cp -pr /root/.bashrc /data/Saved/root/.bashrc
+cp -pr /root/.bash_profile /data/Saved/root/.bash_profile
+</pre
+      >
+    </div>
+
+    Replace roots .bashrc.
+    <div class="command">
+      <pre>
+cat &lt;&lt; CONFIG &gt; /root/.bashrc
+# .bashrc
+
+# User specific aliases and functions
+alias c='clear'
+alias vi='vim'
+alias FEDORA='cd /data/www/html/fedora'
+
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+CONFIG
+</pre
+      >
+    </div>
+
+    <p>Replace roots .bash_profile.</p>
+    <div class="command">
+      <pre>
+vim /root/.bash_profile
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+# User specific environment and startup programs
+PATH=$PATH:$HOME/bin
+BASH_ENV=$HOME/.bashrc
+unset USERNAME
+
+export PATH
+</pre
+      >
+    </div>
+
+    Add SSH to Firewall
+    <div class="command">
+      <pre>
+firewall-cmd --add-rich-rule="rule family="ipv4" source address="192.168.122.0/27" service name="ssh" accept"
+firewall-cmd --reload
+</pre
+      >
+    </div>
+
+    Note this step
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh setup_install_environment
+</pre
+      >
+    </div>
+
+    Reboot
+    <div class="command">
+      <pre>
+reboot
+</pre
+      >
+    </div>
+  </body>
+</html>

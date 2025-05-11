@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a>Install phpldapadmin</a></h2>
+
+    <a>Login as root</a>
+
+    <a>Install phpldapAdmin</a>
+    <div class="command">
+      <pre>
+yum install -y phpldapadmin
+</pre
+      >
+    </div>
+
+    <a>Add the 192.168.122.0/8 network to the access list</a>
+    <div class="command">
+      <pre>
+sed -ie '/\&lt;Directory>/i\ \ Allow from 192.168.122.0/8' /etc/httpd/conf.d/phpldapadmin.conf
+</pre
+      >
+    </div>
+
+    <a>Restart apache</a>
+    <div class="command">
+      <pre>
+/bin/systemctl restart httpd
+</pre
+      >
+    </div>
+
+    <a href="http://192.168.122.10/private/phpldapadmin/"
+      >Check phpldapAdmin page in browser</a
+    >
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh phpldapadmin
+</pre
+      >
+    </div>
+  </body>
+</html>

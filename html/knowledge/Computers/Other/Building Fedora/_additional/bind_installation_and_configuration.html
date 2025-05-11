@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>BIND installation and configuration</a></h2>
+
+<a>Install BIND</a>
+<div class="command"><pre>
+dnf -y install bind.x86_64
+</pre></div>
+
+<a>Save the named.ca file</a>
+<div class="command"><pre>
+mkdir -p /data/Saved/var/named
+cp /var/named/named.ca /data/Saved/var/named/
+</pre></div>
+
+<!--
+<a>Download the root file</a>
+<div class="command"><pre>
+cd /var/named
+dig a.root-servers.net . ns > named.ca
+</pre></div>
+-->
+
+<!--
+<a>Modify the /etc/sysconfig/named file</a>
+<div class="command"><pre>
+echo "ROOTDIR=/var/named" > /etc/sysconfig/named
+</pre></div>
+-->
+<a>Modify the /etc/named.conf file</a>
+<div class="tab">
+	<a href="../_configs/named_conf.html">link to /etc/named.conf file</a>
+</div>
+
+<!--
+<a>Make the chrooted datear directory</a>
+<div class="command"><pre>
+mkdir -p /var/named/chroot/var/named/data
+</pre></div>
+-->
+<a>Create the zone file /var/named/data/local.graysaustin.com</a>
+<div class="tab">
+	<a href="../_configs/local_graysaustin_com.html">link to /var/named/data/local.graysaustin.com</a>
+</div>
+
+<a>Create the zone file /var/named/data/10.16.172</a>
+<div class="tab">
+	<a href="../_configs/local_10_16_172.html">link to /var/named/data/10.16.172</a>
+</div>
+
+<a>Make the managed-keys.bind</a>
+<div class="command"><pre>
+touch /var/named/dynamic/managed-keys.bind
+</pre></div>
+
+<a>Changing permissions</a>
+<div class="command"><pre>
+chown -R named:named /var/named
+chmod 775 /var/named
+</pre></div>
+
+<a>Checking the configuration</a>
+<div class="command">
+named-checkconf /etc/named.conf
+</div>
+<div class="command">
+named-checkzone -d local.graysaustin.com /var/named/data/local.graysaustin.com
+</div>
+<div class="command">
+named-checkzone -d 10.16.172.in-addr.arpa /var/named/data/local.10.16.172
+</div>
+
+</div>
+<a>Starting BIND</a>
+<div class="command"><pre>
+systemctl enable named
+</pre></div>
+
+<div class="command"><pre>
+systemctl start named
+</pre></div>
+
+<div class="command"><pre>
+grep named /var/log/messages
+</pre></div>
+<table border=1><tr><td>
+<pre>
+koko named[31181]: starting BIND 9.5.0b1 -u named -t /var/named/chroot
+koko named[31181]: found 1 CPU, using 1 worker thread
+koko named[31181]: loading configuration from '/etc/named.conf'
+koko named[31181]: listening on IPv4 interface lo, 127.0.0.1#53
+koko named[31181]: automatic empty zone: 127.IN-ADDR.ARPA
+koko named[31181]: automatic empty zone: 254.169.IN-ADDR.ARPA
+koko named[31181]: automatic empty zone: 2.0.192.IN-ADDR.ARPA
+koko named[31181]: automatic empty zone: 255.255.255.255.IN-ADDR.ARPA
+koko named[31181]: automatic empty zone: 0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.IP6.ARPA
+koko named[31181]: automatic empty zone: 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.IP6.ARPA
+koko named[31181]: automatic empty zone: D.F.IP6.ARPA
+koko named[31181]: automatic empty zone: 8.E.F.IP6.ARPA
+koko named[31181]: automatic empty zone: 9.E.F.IP6.ARPA
+koko named[31181]: automatic empty zone: A.E.F.IP6.ARPA
+koko named[31181]: automatic empty zone: B.E.F.IP6.ARPA
+koko named[31181]: command channel listening on 127.0.0.1#953
+koko named[31181]: command channel listening on ::1#953				
+koko named[31181]: zone 10.16.172.in-addr.arpa/IN: loaded serial 10		<font color="red"><-- Successful load</font>
+koko named[31181]: zone graysaustin.com/IN: loaded serial 10			<font color="red"><-- Successful load</font>
+koko named[31181]: running
+</pre>
+</td></tr></table>
+</div>
+
+<a>Set the /etc/resolv.conf</a>
+<div class="command"><pre>
+echo "nameserver 172.16.10.203" > /etc/resolv.conf
+</pre></div>
+
+<a>Testing the Server</a>
+<div class="optional"><pre>
+dig www.local.graysaustin.com
+dig local.graysaustin.com AXFR @localhost
+dig eagle.local.graysaustin.com
+ping gabaret
+ping gabaret.graysaustin.com
+ping gabaret.local.graysaustin.com
+ping www.yahoo.com
+ping www.graysaustin.com
+host 172.16.10.199
+<pre></pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh bind_installation_and_configuration
+</pre></div>
+
+
+</body>
+</html>

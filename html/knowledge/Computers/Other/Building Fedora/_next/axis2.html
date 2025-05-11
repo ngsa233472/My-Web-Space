@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/default./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2 class="title">Simple Object Access Protocol &nbsp; (SOAP)</h2>
+
+    <h3 class="title">What is SOAP?</h3>
+    <div class="tab">
+      <li class="listitem">SOAP is a communication protocol</li>
+      <li class="listitem">SOAP is for communication between applications</li>
+      <li class="listitem">SOAP is a format for sending messages</li>
+      <li class="listitem">SOAP communicates via Internet</li>
+      <li class="listitem">SOAP is platform independent</li>
+      <li class="listitem">SOAP is language independent</li>
+      <li class="listitem">SOAP is based on XML</li>
+      <li class="listitem">SOAP is simple and extensible</li>
+      <li class="listitem">SOAP allows you to get around firewalls</li>
+      <li class="listitem">SOAP is a W3C recommendation</li>
+    </div>
+    <h3 class="title">Why use SOAP?</h3>
+    <div class="tab">
+      <li class="listitem">
+        It is important for application development to allow Internet
+        communication between programs.
+      </li>
+      <li class="listitem">
+        Today's applications communicate using Remote Procedure Calls (RPC)
+        between objects like DCOM and CORBA, but HTTP was not designed for this.
+        RPC represents a compatibility and security problem; firewalls and proxy
+        servers will normally block this kind of traffic.
+      </li>
+      <li class="listitem">
+        A better way to communicate between applications is over HTTP, because
+        HTTP is supported by all Internet browsers and servers. SOAP was created
+        to accomplish this.
+      </li>
+      <li class="listitem">
+        SOAP provides a way to communicate between applications running on
+        different operating systems, with different technologies and programming
+        languages.
+      </li>
+    </div>
+    <h3 clyyass="title">Prerequisites</h3>
+    <div class="tab">
+      <li class="listitem">Install Apache</li>
+      <li class="listitem">Install Tomcat</li>
+    </div>
+    <h3 class="title">SOAP Message definition</h3>
+    A SOAP message is an ordinary XML document containing the following
+    elements.
+    <div class="tab">
+      <li class="listitem">Envelope: ( Mandatory )</li>
+      <div class="tab">Defines the start and the end of the message.</div>
+      <li class="listitem">Header: ( Optional )</li>
+      <div class="tab">
+        Contains any optional attributes of the message used in processing the
+        message, either at an intermediary point or at the ultimate end point.
+      </div>
+      <li class="listitem">Body: ( Mandatory )</li>
+      <div class="tab">
+        Contains the XML data comprising the message being sent.
+      </div>
+      <li class="listitem">Fault: ( Optional )</li>
+      <div class="tab">
+        An optional Fault element that provides information about errors that
+        occurred while processing the message
+      </div>
+      All these elements are declared in the default namespace for the SOAP
+      envelope:
+
+      <h3 class="title">An example SOAP message</h3>
+      <pre>
+&lt;?xml version=&quot;1.0&quot;?&gt;
+
+&lt;SOAP-ENV:Envelope
+xmlns:SOAP-ENV=&quot;http://www.w3.org/2001/12/soap-envelope&quot;
+SOAP-ENV:encodingStyle=&quot;http://www.w3.org/2001/12/soap-encoding&quot;&gt;
+&lt;SOAP-ENV:Header&gt;
+  ...
+  ...
+&lt;/SOAP-ENV:Header&gt;
+&lt;SOAP-ENV:Body&gt;
+
+  ...
+  ...
+  &lt;SOAP-ENV:Fault&gt;
+
+    ...
+    ...
+  &lt;/SOAP-ENV:Fault&gt;
+&lt;/SOAP-ENV:Body&gt;
+&lt;/SOAP_ENV:Envelope&gt;</pre
+      >
+
+      <h3 class="title">Moving quickly</h3>
+      Put the Axis2 war file into webapps unzip $_FILES/axis2-1.6.1-war.zip -d
+      /tmp/axis2 chown tomcat:tomcat /tmp/axis2/axis2.war mv
+      /tmp/axis2/axis2.war /data/tomcat6/webapps/ unzip
+      $_FILES/axis2-1.6.1-bin.zip -d /opt cd /opt ln -s axis2-1.6.1 axis2 echo
+      "export AXIS2_HOME=/opt/axis2" >> /etc/profile.d/custom.sh service tomcat6
+      restart open
+      <a href="http://192.168.122.10:8080/axis2/">192.168.122.10:8080/axis2</a>
+    </div>
+  </body>
+</html>

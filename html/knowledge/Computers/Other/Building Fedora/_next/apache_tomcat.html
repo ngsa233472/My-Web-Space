@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a  href="">Install Tomcat.</a></h2>
+
+<a href="">Purpose </a>
+Tomcat is a WebApp Server
+
+<a href="">Prerequisites </a>
+<div class="tab">
+        <a href="./java.html">Java</a>
+</div>
+
+<a href="">Login as root</a>
+
+<a  href="">Install Tomcat</a>
+<div class="command"><pre>
+yum install -y tomcat6
+yum install -y tomcat6-webapps.noarch
+yum install -y tomcat6-admin-webapps.noarch
+</pre></div>
+
+<a href="">Move /usr/share/tomcat6 to /data/tomcat6 and link /usr/share/tomcat6 to /data/tomcat6</a>
+<div class="command"><pre>
+mv /usr/share/tomcat6 /data
+cd /usr/share
+ln -s /data/tomcat6 tomcat6
+rm /data/tomcat6/webapps
+mv /var/lib/tomcat6/webapps /data/tomcat6/
+ln -s /data/tomcat6/webapps /var/lib/tomcat6/webapps
+</pre></div>
+
+<a href="">Move /usr/share/tomcat6 to /data/tomcat6 and link /usr/share/tomcat6 to /data/tomcat6</a>
+<div class="command"><pre>
+chmod g+x /usr/share/tomcat6/logs
+chmod g+x /etc/tomcat6
+chmod g+x /usr/share/tomcat6/webapps/
+chmod g+x /usr/share/tomcat6/temp
+chmod g+x /usr/share/tomcat6/work
+chmod g+x /var/cache/tomcat6
+chown -R tomcat:tomcat /etc/tomcat6/Catalina
+chmod g+x /var/lib/tomcat6/
+</pre></div>
+
+<a  href="">Save the original config file</a>
+<div class="command"><pre>
+cp /etc/tomcat6/server.xml /etc/tomcat6/.server.xml.original
+</pre></div>
+
+<a href="">Modify the /etc/tomcat6/server.xml file</a>
+Add to /etc/tomcat6/server.xml
+<div class="command"><pre>
+  &lt;Connector port="8080" maxHttpHeaderSize="8192"
+                maxThreads="150" minSpareThreads="25" maxSpareThreads="75"
+                enableLookups="false" redirectPort="8443" acceptCount="100"
+                connectionTimeout="20000" disableUploadTimeout="true"
+                proxyName="192.168.122.10" proxyPort="80"/>
+</pre></div>
+
+
+Change the "Host name" variable to an IP Address
+<div class="command"><pre>
+sed -i -e s/Host\ name=\"localhost\"/Host\ name=\"192\.168\.122\.200\"/ /etc/tomcat6/server.xml
+</pre></div>
+
+
+<a href="">Create the /etc/tomcat6/Catalina/localhost/manager.xml file</a>
+<div class="command"><pre>
+vi /etc/tomcat6/Catalina/localhost/manager.xml
+</pre></div>
+<div class="command"><pre>
+dG
+i
+</pre></div>
+<div class="command"><pre>
+&lt;Context path="/manager" debug="0" privileged="true"
+         docBase="/data/tomcat6/webapps/manager"&gt;
+&lt;/Context>
+</pre></div>
+
+
+<a href="">Configure startup</a>
+<div class="command"><pre>
+chkconfig tomcat6 on
+</pre></div>
+
+<a href="">Start tomcat</a>
+<div class="command"><pre>
+service tomcat6 start
+</pre></div>
+
+
+<a href="">Test the server.</a>
+Click on the link to test the server
+<a href="http://192.168.122.10:8080">http://192.168.122.10:8080</a>
+
+
+Download this the .war file and drop it in /data/tomcat6/webapps
+<a href="./files/SimpleServlet.war">SimpleServlet.war</a>
+
+from the browser run the servlet
+<a href="http://192.168.122.10/tomcat6/SimpleServlet/">http://192.168.122.10/tomcat6/SimpleServlet/</a>
+
+<a href="">Note this step</a></font>
+<div class="command"><pre>
+touch /install/tomcat_configuration.$INSTALL_VERSION
+</pre></div>
+
+<a  href="">Exit root</a>
+<div class="command"><pre>
+exit
+</pre></div>
+
+</body>
+</html>

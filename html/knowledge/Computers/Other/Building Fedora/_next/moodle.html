@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>Install and configure moodle</a></h2>
+
+
+ Testing tool</font>
+
+<a href="">Login as root</a>
+
+<a>Install moodle</a>
+<div class="command"><pre>
+yum -y install moodle
+</pre></div>
+
+<a href="">Move the moodle data to the /data/directory</a>
+<div class="command"><pre>
+mv /var/www/moodle/data /data/moodle
+sed -i -e "s/\/var\/www\/moodle\/data/\/data\/moodle/" /etc/httpd/conf.d/moodle.conf
+</pre></div>
+
+<a>Create MySQL database for moodle</a>
+<div class="command"><pre>
+su - mysql
+</pre></div>
+
+<div class="command"><pre>
+mysql -u root -p
+</pre></div>
+
+<div class="command"><pre>
+create database moodle;
+</pre></div>
+<div class="command"><pre>
+use moodle;
+</pre></div>
+<div class="command"><pre>
+ALTER DATABASE moodle DEFAULT CHARACTER SET utf8 COLLATE utf8_unirequired_ci;
+</pre></div>
+<div class="command"><pre>
+GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,CREATE TEMPORARY TABLES,DROP,INDEX,ALTER ON moodle.* TO moodleuser@localhost;
+</pre></div>
+<div class="command"><pre>
+ SET PASSWORD FOR 'moodleuser'@'localhost' = PASSWORD('rootMe55'); 
+</pre></div>
+<div class="command"><pre>
+quit
+</pre></div>
+
+<div class="command"><pre>
+mysqladmin -u root -p reload
+</pre></div>
+
+<a>Edit the moodle config file</a>
+<div class="command"><pre>
+vi /data/www/moodle/web/config.php
+</pre></div>
+
+<div class="command"><pre>
+dG
+i
+</pre></div>
+
+<div class="command"><pre>
+&lt;php  /// Moodle Configuration File
+
+unset($CFG);
+
+$CFG-&gt;dbtype    = 'mysql'; // Valid values include: mysql postgres7
+$CFG-&gt;dbhost    = 'localhost';
+$CFG-&gt;dbname    = 'moodle';
+$CFG-&gt;dbuser    = 'moodleuser';
+$CFG-&gt;dbpass    = 'rootMe55';
+$CFG-&gt;dbpersist =  false;
+$CFG-&gt;prefix    = 'mdl_';
+
+$CFG-&gt;wwwroot   = 'http://localhost/moodle';
+$CFG-&gt;dirroot   = '/data/www/html/moodle/web';
+$CFG-&gt;dataroot  = '/data/moodle';
+$CFG-&gt;admin     = 'admin';
+
+$CFG-&gt;directorypermissions = 00777;  // try 02777 on a server in Safe Mode
+
+require_once("$CFG-&gt;dirroot/lib/setup.php");
+// MAKE SURE WHEN YOU EDIT THIS FILE THAT THERE ARE NO SPACES, BLANK LINES,
+// RETURNS, OR ANYTHING ELSE AFTER THE TWO CHARACTERS ON THE NEXT LINE.
+?&gt;
+
+</pre></div>
+
+
+<a>Note this step</a>
+<div class="command"><pre>
+touch /install/moodle.$INSTALL_VERSION
+</pre></div>
+
+<a>Exit root</a>
+<div class="command"><pre>
+exit
+</pre></div>
+
+</body>
+</html>

@@ -1,0 +1,940 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen,print"
+      href="/stylesheets/Welcome./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a name href="#Index">/data/Install/openldap/group.ldif</a></h2>
+
+    <a>Create the /data/Install/openldap/group.ldif file</a>
+    <div class="code">
+      <pre>
+vi /data/Install/openldap/group.ldif
+</pre
+      >
+    </div>
+
+    <a>Remove current contents and setup for insertion</a>
+    <div class="code">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <a>Paste new file in place</a>
+    <div class="code">
+      <pre>
+dn: cn=Michele Lien,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Michele Lien
+sn: Lien
+gn: Michele
+mail: lienmross@earthlink.net
+telephoneNumber: (608) 987-4193
+facsimileTelephoneNumber: (305) 723-6379
+homePhone: (916) 422-2155
+o: Epic Systems
+l: Mineral Point
+st: WI
+c: US
+homePostalAddress: 149 Merry Christmas Lane, #1$ WI 53565
+postalAddress: 5701 Tolkay Road
+postalcode: 53711
+
+dn: cn=Ben Escobar,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+o: Superior Consulting Company, Inc.
+ou: Systems Planning and Vendor Selection Group
+cn: Ben Escobar
+sn: Escobar
+gn: Ben
+title: National Practice Leader
+telephoneNumber: (610) 873-1969 Office/fax
+homePhone: (610) 873-1969
+homePostalAddress: 340 Rock Raymond Road
+l: Dowingtown
+st: PA
+postalcode: 19335
+mail: ben_escobar@superiorconsultant.com
+
+dn: cn=Len Alison,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+o: Gould 
+cn: Len Alison
+sn: Alison
+gn: Len
+title: Director of IS
+telephoneNumber: (209) 521-6097 x4246
+mail: lenalison@gouldmedical.com
+
+dn: cn=CaraLyn Henry,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: CaraLyn Henry
+sn: Henry
+gn: CaraLyn
+homePhone: (619) 698-5808
+homePostalAddress: 8424 El Paso St.
+l: La Mesa
+st: CA
+postalcode: 92042
+c: US
+mail: kphenry@nosc.mil
+
+dn: cn=Susan Gorman-Trier,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Susan Gorman-Trier
+sn: Gorman-Trier
+gn: Susan
+homePhone: (608) 825-9512
+homePostalAddress: 824 Eddington Drive
+l: Sun Prairie
+st: WI
+postalcode: 53590
+c: US
+mail: sgtrier@juno.com
+
+dn: cn=Mycele Mowry,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+o: First Consulting Group
+cn: Mycele Mowry
+sn: Mowry
+gn: Mycele
+telephoneNumber: (707) 575-7560
+mail: mmowry@fcgnet.com
+
+dn: cn=Richard Caldwell,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Richard Caldwell
+sn: Caldwell
+gn: Richard
+description: Friend of Laurie Guariglia who said he had contacts in the austin
+  area.
+title: Austin Contacts
+telephoneNumber: (562) 594-6050
+facsimileTelephoneNumber: (562) 594-9701
+mail: racaldwell@aol.com
+
+dn: cn=Adam Richards,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+o: Talcomp
+cn: Adam Richards
+sn: Richards
+gn: Adam
+title: Vice President & Systems Administrator
+telephoneNumber: (713) 781-0000
+facsimileTelephoneNumber: (713) 977-9743
+postOfficeBox: 2323 South Voss
+homePostalAddress: Suite 640
+l: Houston
+st: Texas
+postalcode: 77057-3812
+c: US
+mail: adam@talcomp.com
+
+dn: cn=Richard Krug,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Richard Krug
+sn: Krug
+gn: Richard
+telephoneNumber: 916-852-7133
+mail: krugr@jps.net
+
+dn: cn=Michael Vahldieck,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+o: Epic Systems Corp.
+cn: Michael Vahldieck
+sn: Vahldieck
+gn: Michael
+description: Julie Horner
+telephoneNumber: (608) 271-9000
+homePhone: (608) 795-4521
+homePostalAddress: 5301 Tokay Blvd
+l: Madison
+st: WI
+postalcode: 53711
+c: US
+mail: mvahldie@midplains.net
+
+dn: cn=Maggie Coolican,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Maggie Coolican
+sn: Coolican
+gn: Maggie
+homePostalAddress: 18 West Lane
+l: East Hampton
+st: Ct.
+postalcode: 06424-1410
+c: US
+mail: coolicanm@aol.com
+
+dn: cn=Bridget Weiss,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Bridget Weiss
+sn: Weiss
+gn: Bridget
+description: Swim Instructor
+telephoneNumber: (512) 376-2686
+mobile: (512) 619-3115
+mail: bridgebot@juno.com
+
+dn: cn=Philip Bradley,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+o: Ascension Health
+cn: Philip Bradley
+sn: Bradley
+gn: Philip
+title: Executive Director of Applications
+telephoneNumber: (812) 228-2032
+homePostalAddress: 1109 South Green River Rd
+l: Evansville
+st: IN
+postalcode: 47715
+c: US
+mail: pbradley@ascensionhealth.org
+
+dn: cn=Sarah Thomas,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+o: Ascension Health
+cn: Sarah Thomas
+sn: Thomas
+gn: Sarah
+title: Application Analyst
+telephoneNumber: (812) 228-2387
+homePhone: (812) 473-5004
+mobile: (812) 457-6893
+mail: sthomas@ascensionhealth.org
+
+dn: cn=Vicki Coyne,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Vicki Coyne
+sn: Coyne
+gn: Vicki
+homePhone: (608) 845-1577
+homePostalAddress: 3121 Silverton Trail$Madison$53719$WI
+l: Madison
+st: WI
+c: US
+
+dn: cn=Alfredo Czerwinski, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+o: Sutter/CHS
+cn: Alfredo Czerwinski
+sn: Czerwinski
+gn: Alfredo
+title: Sutter/CHS,Chief Medical Officer & Senior VP Clinical Resources
+homePhone: (916) 554-6622
+homePostalAddress: P.O Box 160727$Sacramento$95816-0727
+l: Sacramento
+st: CA
+c: US
+
+dn: cn=Ann Casanova, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+o: Sutter/CHS
+cn: Ann Casanova
+sn: Casanova
+gn: Ann
+postOfficeBox: 118 Sunset Hill Drive$Branford$06405
+l: Branford
+st: CT
+c: US
+
+dn: cn=April, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+o: Gymboree
+cn: April
+sn: None
+gn: April
+homePhone: (512) 869-8034
+l: Austin
+st: TX
+c: US
+comment: Kellen
+
+dn: cn=Barbara Ellen Olson, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+o: Sutter/CHS
+cn: Barbara Ellen Olson
+sn: Olson
+gn: Barbara Ellen
+mobile: (860) 441-0364
+homePhone: (860) 464-5004
+postOfficeBox: #5a Galesferry$06335
+l: Galesferry
+st: CT
+c: US
+
+dn: cn=Penny Peterson, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+o: Sutter/CHS
+cn: Penny Peterson
+sn: Peterson
+gn: Penny
+homePhone: (619) 697-9667
+postOfficeBox: 13220 Creekside Lane$Poway
+l: Poway
+st: CA
+postalcode: 92064
+c: US
+
+dn: cn=Mike and Cathy Appleby, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Mike and Cathy Appleby
+sn: Appleby
+gn: Mike and Cathy
+homePhone: (619) 435-5072
+postOfficeBox: 638 Adella Lane$Coronado
+l: Coronado
+st: CA
+postalcode: 92118
+c: US
+
+dn: cn=Cathy Clark, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Cathy Clark
+sn: Cathy
+gn: Clark 
+title: "Lactation Consultant (BSN, RN, IBCLC)"
+postOfficeBox: 4131 Spicewood Springs$Suite C2
+homePhone: (512) 346-8804
+l: Austin
+st: TX
+postalcode: 78759
+c: US
+
+dn: cn=Chris & Jeff Neff, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Chris & Jeff Neff
+sn: Chris & Jeff
+gn: Neff 
+postOfficeBox: 212 Lakeview Drive$Carl Junction
+homePhone: (417) 649-6930
+l: Carl Junction
+st: MO
+postalcode: 64834
+c: US
+
+dn: cn=Cindy Searcy, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Cindy Searcy
+sn: Searcy
+gn: Cindy
+o: Ascension Health ISD
+title: Travel Coordinator
+homePhone: (812) 228-2030
+c: US
+
+dn: cn=Donna Duer, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Donna Duer
+sn: Duer
+gn: Donna 
+homePhone: (916) 554-6927
+c: US
+
+dn: cn=Dorothy & Jerry Holman, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Dorothy & Jerry Holman
+sn: Holman
+gn: Dorothy & Jerry
+homePhone: (715) 325-3796
+postOfficeBox: 294 foxridge Trail$Nikoosa
+l: Nikoosa
+st: WI
+c: US
+
+dn: cn=Ann Hathcock, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Ann Hathcock
+sn: Hathcock
+gn: Ann
+homePhone: (512) 249-1400
+title: Dr
+c: US
+
+dn: cn=Irene Holochek, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Irene Holochek
+sn: Holochek
+gn: Irene
+homePhone: (715) 325-3796
+postOfficeBox: 5321 Everts St.$San Diego
+l: San Diego
+st: CA
+postalcode: 92109
+c: US
+
+dn: cn=Richard Strawser, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Richard Strawser
+sn: Strawser
+gn: Richard
+homePhone: (512) 218-8696
+Title: Dr
+c: US
+comment: Physician
+
+dn: cn=Susan Correia, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Susan Correia
+sn: Correia
+gn: Susan
+homePhone: (512) 388-3880
+Title: Dr
+c: US
+comment: Chiropracter
+
+dn: cn=Judy Faulkner, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Judy Faulkner
+sn: Faulkner
+gn: Judy 
+o: Epic Systems
+homePhone: (608) 271-9000
+Title: CEO
+postOfficeBox: 5321 Everts St.$San Diego
+l: Verona
+st: WI
+postalcode: 53711
+c: US
+comment: CEO and Owner of Epic
+
+dn: cn=Ernest & Carrie Olson, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Ernest & Carrie Olson
+sn: Olson
+gn: Ernest & Carrie
+mobile: (512) 847-2281
+homePhone: (512) 847-9673
+postOfficeBox: 29 Par View$Wimberly
+l: Wimberly
+st: TX
+postalcode: 92109
+c: US
+
+dn: cn=Gail Zielinski, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Gail Zielinski
+sn: Zielinski
+gn: Gail
+homePhone: (847) 632-1691
+postOfficeBox: 1944 Coldspring Road$Arlington Heights
+l: Arlington Heights
+st: IL
+postalcode: 60004
+c: US
+comment: Caremark
+
+dn: cn=Gary Holmes & Susan Holding, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Gary Holmes & Susan Holding
+sn: Holding
+gn: Gary Holmes & Susan
+homePhone: (847) 632-1691
+postOfficeBox: S5811 Sugar Road$North Freedom
+l: North Freedom
+st: WI
+postalcode: 53951
+c: US
+
+dn: cn=Harry & Jennifer Browne, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Harry & Jennifer Browne
+sn: Browne
+gn: Harry & Jennifer
+homePhone: (817) 419-6458
+postOfficeBox: 6405 Wheatfield Ct.$Arlington
+l: Arlington
+st: TX
+postalcode: 76001
+c: US
+
+dn: cn=Jeff Clark, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Jeff Clark
+sn: Clark
+gn: Jeff
+homePhone: (916) 554-6609
+title: OCM
+l: Sacramento
+st: CA
+c: US
+comment: HR
+
+dn: cn=Jimmy & Ginny Williamson, ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Jimmy & Ginny Williamson
+sn: Williamson
+gn: Jimmy & Ginny
+homePhone: (619) 427-9044
+postOfficeBox: 648 Glover Place$Chula Vista
+l: Chula Vista
+st: CA
+postalcode: 92010
+c: US
+
+dn: cn=Joe Dewey,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Joe Dewey
+sn: Dewey
+gn: Joe
+mail: joedewey@aol.com
+st: CA
+c: US
+comment: Battelle - Clinical Intelligent Systems
+
+dn: cn=Kathleen Schroyer,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Kathleen Schroyer
+sn: Schroyer
+gn: Kathleen
+l: Davis
+st: CA
+postalcode: 95616
+c: US
+
+dn: cn=Kristin Muccinni,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Kristin Muccinni
+sn: Muccinni
+gn: Kristin
+homePostalAddress: 2226 Falkirk Drive
+homePhone: (512) 341-0902
+l: Round Rock
+st: TX
+postalcode: 78681
+c: US
+
+dn: cn=Lana & Bob Scott,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Lana & Bob Scott
+sn: Scott
+gn: Lana & Bob
+homePhone: (608) 835-7770
+homePostalAddress: 457 Burning Wood Way
+l: Oregon
+st: WI
+postalcode: 53575
+c: US
+
+dn: cn=Laurel & Bernie Feldman,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Laurel & Bernie Feldman
+sn: Feldman
+gn: Laurel & Bernie
+homePostalAddress: 3440 Caminito Daniella
+l: Del Mar
+st: CA
+postalcode: 92014
+c: US
+
+dn: cn=Laurie Guariglia,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Laurie Guariglia
+sn: Guariglia
+gn: Laurie
+telephoneNumber: (562) 924-6610
+homePhone: (714) 941-3000
+homePostalAddress: 18748 S. West Place
+title: EpicCare Project Mgr
+l: Artesia
+st: CA
+postalcode: 90701
+c: US
+
+dn: cn=Laurie McCartney,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Laurie McCartney
+sn: McCartney
+gn: Laurie
+telephoneNumber: (512) 345-7898 x 3007
+homePostalAddress: 10000 Research Blvd.$Suite 214
+l: Austin
+st: TX
+postalcode: 78759
+c: US
+comment: Senior Financial Rep at Fidelity Investmetns
+
+dn: cn=Don Walters,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Don Walters
+sn: Walters
+gn: Don
+homePostalAddress: 405 Birdie Circle
+l: Carl Junction
+st: MO
+postalcode: 64834
+c: US
+
+dn: cn=Marlene Morris,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Marlene Morris
+sn: Morris
+gn: Marlene
+homePostalAddress: 235 S. Reed
+l: Los Angeles
+st: TX
+postalcode: 90212
+c: US
+
+dn: cn=Maya Sharma,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Maya Sharma
+sn: Sharma
+gn: Maya
+telephoneNumber: (512) 918-9375
+
+dn: cn=Michi Spielman,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Michi Spielman
+sn: Spielman
+gn: Michi
+telephoneNumber: (512) 336-7654
+
+dn: cn=Molly Beatie,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Molly Beatie
+sn: Beatie
+gn: Molly
+homePostalAddress: 539 Telegraph Canyon  Rd 231
+l: Chula Vista
+st: CA
+telephoneNumber: 0115266-21-9020 Tijuana
+postalcode: 91910
+c: US
+telephoneNumber: (800) 585-2767 x 4551 Michael x 4675
+
+dn: cn=Molly Richardson,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Molly Richardson
+sn: Richardson
+gn: Molly 
+telephoneNumber: (415) 675-7220
+homePostalAddress: 22 Battery Street
+l: San Fransisco
+st: CA
+postalcode: 94111
+c: US
+
+dn: cn=Sheila O'Heany,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Sheila O'Heany
+sn: O'Heany
+gn: Sheila
+telephoneNumber: (512) 310-2116
+
+dn: cn=Steven Lane,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Steven Lane
+sn: Lane
+gn: Steven
+mail: srlane@pamf.org
+telephoneNumber: (415) 321-4121
+o: 300 Homer Avenue
+l: Palo Alto
+st: CA
+c: US
+homePostalAddress: 112 Boardwalk Apt. 2 West$ElkGrove Village
+postalcode: 60007
+comment: Physician Champion$Sutter Health$Emploment Office$916-733-8450$P.O. Box 160727 One Captiol Mall Sacramento$CA  95816-0727$It Building #3321Power Inn Road #Suite 300"
+
+dn: cn=Tamara Nichols,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Tamara Nichols
+sn: Nichols
+gn: Tamara
+homePhone: (847) 758-1782
+o: Epic Systems
+l: Mineral Point
+st: IL
+c: US
+homePostalAddress: 112 Boardwalk Apt. 2 West$ElkGrove Village
+postalcode: 60007
+
+dn: cn=Teresa Smith,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Teresa Smith
+sn: Smith
+gn: Teresa
+homePhone: (512) 341-9990
+l: Round Rock
+st: TX
+c: US
+homePostalAddress: Sky Ridge Plaza #2000 I - H 35 North #Suite Q - 8 A"$Round Rock
+
+
+dn: cn=Tim Deli,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Tim Deli
+sn: Deli
+gn: Tim
+homePhone: (708) 452-4250
+o: Epic Systems
+l: Mineral Point
+st: IL
+c: US
+homePostalAddress: 2240-74th Avenue$Elmood Park
+postalcode: 60707
+
+dn: cn=Toni Nitsche,ou=katie_addressbook,dc=local,dc=austin,dc=rr,dc=com
+objectclass: top
+objectclass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: addressbookPerson
+cn: Toni Nitsche
+sn: Nitsche
+gn: Toni
+l: Rosach Point
+c: DD
+homePostalAddress: Theodor-Heuss Str. 4 A
+postalcode: 61191
+</pre
+      >
+    </div>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copy Code Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        
+        .code-container {
+            position: relative;
+            display: inline-block;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        pre {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .copy-button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        
+        .copy-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h2>Example Code Snippet</h2>
+    
+    <div class="code-container">
+        <pre><code id="codeBlock">const greet = () => {
+    console.log("Hello, World!");
+};</code></pre>
+        <button class="copy-button" onclick="copyToClipboard()">Copy</button>
+    </div>
+
+    <script>
+        function copyToClipboard() {
+            const codeBlock = document.getElementById("codeBlock").textContent;
+            navigator.clipboard.writeText(codeBlock).then(() => {
+                alert("Code copied to clipboard!");
+            }).catch(err => {
+                console.error("Failed to copy: ", err);
+            });
+        }
+    </script>
+</body>
+</html>

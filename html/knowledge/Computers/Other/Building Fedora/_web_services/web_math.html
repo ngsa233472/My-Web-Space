@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a  href="">JSMath - A Javascript Library for Mathematic Typesetting in Web Pages</a></font></h2>
+
+<a>Install jsMath</a>
+<div class="command"><pre>
+unzip $_FILES/jsMath-3.6e.zip -d /data/www/javascript/
+</pre></div>
+
+<div class="command"><pre>
+unzip $_FILES/jsMath-fonts-1.3.zip -d /data/www/javascript/
+</pre></div>
+
+<div class="command"><pre>
+cd /data/www/javascript/
+</pre></div>
+
+<div class="command"><pre>
+mv jsMath/fonts jsMath-3.6e/
+</pre></div>
+
+<div class="command"><pre>
+rmdir jsMath
+</pre></div>
+
+<div class="command"><pre>
+ln -s jsMath-3.6e jsMath
+</pre></div>
+
+
+<a>Create test page</a>
+    
+<div class="command"><pre>
+vi /data/www/html/unencrypted/jstest.html
+</pre></div>
+
+<div class="command"><pre>
+i
+</pre></div>
+    
+<div class="input"><pre>
+&lt;!DOCTYPE html>
+&lt;/title>
+&lt;link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+&lt;/head>
+&lt;body>
+&lt;script src="/js/jsMath/jsMath.js">&lt;/script>
+&lt;noscript>
+&lt;B>Warning: &lt;A HREF="http://www.math.union.edu/locate/jsMath">jsMath&lt;/A>
+requires JavaScript to process the mathematics on this page.&lt;BR>
+If your browser supports JavaScript, be sure it is enabled.&lt;B>
+&lt;/noscript>
+&lt;h1>Nick's jsMath Examples&lt;/h1>
+
+&lt;div class="math">
+\left(\, \sum_{k=1}^n a_k b_k \right)^{\!\!2} \le
+\left(\, \sum_{k=1}^n a_k^2 \right) \left(\, \sum_{k=1}^n b_k^2 \right)
+&lt;/div>
+
+&lt;div class="math">
+\lim_{n \to \infty}x_n
+&lt;/div>
+
+&lt;div class="math">
+\color{red}{R} + \color{green}{G} + \color{blue}{B} \qquad
+\color{#FFAA33}{\sqrt{x^2+1}}
+&lt;/div>
+
+&lt;div class="math">
+\int\,dx = \frac 1 2 X^2
+&lt;/div>
+
+&lt;div class="math">
+\sin 2\theta = 2\sin\theta\cos\theta
+&lt;/div>
+
+&lt;script> jsMath.Process() &lt;/script>
+
+&lt;/body>
+&lt;/html>
+</pre></div>
+    
+<a>Create the Maxwell Equations Page</a>
+    
+<div class="command"><pre>
+vi /data/www/html/unencrypted/maxwell.html
+</pre></div>
+
+<div class="command"><pre>
+i
+</pre></div>
+    
+<div class="input"><pre>
+&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+&lt;title>Mathematics&lt;/title>
+&lt;link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+&lt;meta status=incomplete>
+&lt;/head>
+&lt;body>
+&lt;script src="/js/jsMath/jsMath.js">&lt;/script>
+&lt;noscript>
+&lt;B>Warning: &lt;A HREF="http://www.math.union.edu/locate/jsMath">jsMath&lt;/A>
+requires JavaScript to process the mathematics on this page.&lt;BR>
+If your browser supports JavaScript, be sure it is enabled.&lt;B>
+&lt;/noscript>
+&lt;h1>Maxwell's Equations&lt;/h1>
+
+&lt;div class="math">
+\nabla \cdot E = \frac \rho {\varepsilon_0}
+&lt;/div>
+
+&lt;div class="math">
+\nabla \cdot B = 0
+&lt;/div>
+
+&lt;div class="math">
+\nabla \times E = \frac {\partial B} {\partial t}
+&lt;/div>
+
+&lt;div class="math">
+\nabla \times B = \mu_0J+\mu_0\varepsilon_0 \frac {\partial E} {\partial t}
+&lt;/div>
+
+&lt;script> jsMath.Process() &lt;/script>
+
+&lt;/body>
+&lt;/html>
+</pre></div>
+
+<a>Fix the ownership of the apache directory</a>
+<div class="command"><pre>
+chown -R apache:apache /data/www
+find /data/www -type d -exec chmod 755 {} \;
+find /data/www -type f -exec chmod 644 {} \;
+</pre></div>
+
+<a>From the index page, check the "Nick's JSMath Test Examples" and the "Maxwell's Equations" pages</a>
+<pre>http://$_CURRENT_IP/private</pre>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh jsMath
+</pre></div>
+
+</body>
+</html>

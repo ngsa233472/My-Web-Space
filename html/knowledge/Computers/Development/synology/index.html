@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Synology Installations</title>
+<link rel="stylesheet" type="text/css" href="./install.css" />
+<meta charset="UTF-8">
+</head>
+<body>
+	
+<h2><a>Docker</a></h2>
+<h2><a>MathJax</a></h2>
+installed MathJax 3.2.0 vi npm<br>
+sudo npm install mathjax<br>
+<h2><a>DNS</a></h2>
+<h2><a>Web Server</a></h2>
+<h2><a>Personal Web Server</a></h2>
+<h2><a>Music</a></h2>
+Movies<br>
+
+<!--
+<h3>Install</h3>
+<ol>
+<a href="./_install/schema.html">Color Scheme</a><br>
+<a href="./_install/install_from_iso.html">Install from the ISO</a><br>
+<a href="./_install/initial_snapshot.html">Take snapshot "As Built"</a><br>
+</ol>
+
+<h3>Initial  Configuration</h3>
+<ol>
+<a href="./_initial_configuration/system_environment.html">Setup System Environment</a><br>
+<a href="./_firewall/firewalld.html">Setup Firewall</a><br>
+<a href="./_initial_configuration/graphical_environment.html">Install Graphical Environment</a><br>
+<a href="./_initial_configuration/initial_data_disk.html">Setup the initial data disk</a><br>
+<a href="./_initial_configuration/after_initial_configuration.html">Take snapshot "After Initial Configuration"</a><br>
+</ol>
+	
+<h3>Update System</h3>
+<ol>
+<a href="./_update_system/add_files.html">Add Files to Files</a><br>
+<a href="./_update_system/dnf.html">Apply Updates</a><br>
+<a href="./_update_system/after_dnf_upgrade.html">Take snapshot "After DNF Upgrade"</a><br>
+</ol>
+
+<h3>Generate an SSL Cert for the server</h3>
+<ol>
+<a href="./_ssl/openssl_dummy.html">Setup OpenSSL with a self signed certificate</a><br>
+<a href="./_ssl/openssl_real.html">Setup OpenSSL with a real certificate</a><br>
+<a href="./_ssl/test_ssl.html">Test OpenSSL</a><br>
+<a href="./_ssl/after_ssl.html">Take snapshot "After SSL"</a><br>
+</ol>
+
+<h3>Add Users</h3>
+<ol>
+<a href="./_users/skel.html">Add entries to /etc/skel<br>
+<a href="./_users/user.html">Add users</a><br>
+<a href="./_users/after_users.html">Take snapshot "After Users"</a><br>
+</ol>
+
+<h3>Openldap Configuration</h3>
+<ol>
+<a href="./_openldap/openldap.html">Configure OpenLDAP</a><br>
+<a href="./_openldap/after_openldap.html">Take snapshot "After OpenldapTake snapshot "After LDAP Utils</a><br>
+</ol>
+
+<!--
+Leave this for later, when I determine how interested I am in continuing SSO
+<h3>Openldap Utilities</h3>
+<ol>
+<a href="./_ldap_utils/ldap_scripts.html">LDAP Scripts</a><br>
+<a href="./_ldap_utils/after_ldap_utils.html">Take snapshot After LDAP Utils</a><br>
+</ol>
+
+<h3>Windows File Server</h3>
+<ol>
+<a href="./_windows_fileserver/samba.html">Samba</a><br>
+<a href="./_windows_fileserver/after_samba.html">Take snapshot "After Samba"</a><br>
+</ol>
+
+<h3>Development Tools</h3>
+<ol>
+<a href="./_development_tools/java_I&V.html">Install Java</a><br>
+<a href="./_development_tools/c++_I&V.html">C++ Installation, Configuration and Verification</a><br>
+<a href="./_development_tools/perl_I&V.html">Perl Installation, Configuration and Verification</a><br>
+<a href="./_development_tools/shell_I&V.html">Shell Scripting Installation, Configuration and Verification</a><br>
+<a href="./_development_tools/python_I&V.html">Python Installation, Configuration and Verification</a><br>
+<a href="./_development_tools/ruby_I&V.html">Ruby Installation, Configuration and Verification</a><br>
+<a href="./_development_tools/nodejs_I&V.html">Node.js Installation, Configuration and Verification</a><br>
+<a href="./_development_tools/after_development_tools.html">Take snapshot "After Development Tool Verification"</a><br>
+</ol>
+
+<h3>Database Installation</h3>
+<ol>
+<a href="./_databases/postgresql.html">Install, Setup, and test Postgres</a><br>
+<a href="./_databases/mariadb.html">Install, Setup, and test MariaDB</a><br>
+<a href="./_databases/after_database.html">Take snapshot "After Database Installation"</a><br>
+</ol>
+
+<h3>Webserver Configuration</h3>
+<ol>
+<a href="./_web_services/default_index.html">Create an internal default index page</a><br>	
+<a href="./_web_services/apache80.html">Apache setup on port 80</a><br>
+<a href="./_web_services/apache443.html">Apache setup on port 443</a><br>
+
+<!--
+Leave this for later, when I determine how interested I am in continuing SSO
+<a href="./_web_services/apache_private.html">Private directory setup</a><br>
+
+
+<a href="./_web_services/http_userdir.html">Adding UserDir access</a><br>
+<a href="./_development_tools/javascript_I&V.html">Javscript Installation</a><br>
+<a href="./_web_services/web_math.html">Setup and test jsMath</a><br>
+<a href="./_web_services/jquery.html">jQuery installation</a><br>
+<a href="./_web_services/php.html">Php setup and verification</a><br>
+<a href="./_web_services/phpgraphlib.html">PHPGraphLib</a><br>		
+<a href="./_web_services/phppgadmin.html">Install PhpPgAdmin</a><br>
+<a href="./_web_services/phpmyadmin.html">Install PhpMyAdmin</a><br>
+<a href="./_web_services/phpldapadmin.html">Install PhpLDAPAdmin</a><br>
+<a href="./_web_services/media_wiki.html">Setup and test mediawiki</a><br>
+<a href="./_web_services/wordpress.html">Setup and test wordpress</a><br>
+<a href="./_web_services/after_webserver.html">Take snapshot "After Webserver"</a><br>
+</ol>
+
+<h3>Monitoring Tools</h3>
+<ol>
+<a href="./_monitoring/postfix.html">Install, Configure, and Test Mail</a><br>
+<a href="./_monitoring/awstats.html">AWStats installation</a><br>
+<a href="./_monitoring/cacti.html">Cacti installation</a><br>
+<a href="./_monitoring/after_monitoring.html">Take snapshot "After Monitoring Tools Installation"</a><br>
+</ol>
+
+<h3>Advanced Networking Tools</h3>
+<ol>
+<a href="./_additional/bind_installation_and_configuration.html">Setup BIND</a><br>
+</ol>
+
+<h3>Backup Tool Installation and configuration</h3>
+<ol>
+<a href="./_backup/bacula.html">Install Bacula</a><br>
+<a href="./_backup/webacula.html">Install Webacula</a><br>
+<a href="./_backup/verifybacula.html">Verify Bacula Install</a><br>
+<a href="./_backup/verifywebcula.html">Verify Webacula Install</a><br>
+<a href="./_backup/testrestore.html">Restore from Webacula if needed</a><br>
+<a href="./_backup/testbackup.html">Make a test backup from Webacula</a><br>
+<a href="./_backup/after_backup.html">Take snapshot "After Installing Backup System"</a><br>
+</ol>
+
+<!--
+<h3>Possible Next Installations</h3>
+<ol>
+<a href="./_monitoring/postfix.html">Nagios</a><br>
+<a href="./_cleanup/remove_install.html">Remove installation tools and files</a><br>
+<a href="./_unsorted/owf.html">Ozone Widget Framework</a><br>
+<a href="./_unsorted/set_root_passwd.html">Change the root password</a><br>
+<a href="./_unsorted/security_changes.html">System hardening</a><br>
+<a href="./_unsorted/root_cron.html">Setup the root cronjobs</a><br>
+<a href="./_unsorted/three_tier.html">An actual three tier web service</a><br>
+<a href="./_unsorted/proxy.html">Setting up a proxy</a><br>
+<a href="./_unsorted/keypair.html">Authentication via public/private keys </a><br>
+<a href="./_web_services/elk.html">ELK installation</a><br>
+</ol>
+-->
+</body>
+</html>

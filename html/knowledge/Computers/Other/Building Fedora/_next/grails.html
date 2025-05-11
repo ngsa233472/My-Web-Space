@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+<link rel="stylesheet" type = "text/css" href="/stylesheets/default./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<meta status=incomplete>
+<meta status=incomplete>
+</head>
+<body>
+
+<h2 class="title">Apache Ant</h2>
+
+<h5 class="title"><a>Purpose</a>
+A Java build tool like Make. Used for building java related programs
+
+<a>Prerequisites </a>
+<div class="tab">
+        <a href="./java.html">Java</a>
+</div>
+
+<h5 class="title">Login as root</a>
+
+<h5 class="title">Install Grails</a>
+<div class="command"><pre>
+cp /data/FILES/grails-2.2.3.zip /opt
+cd /opt
+unzip grails-2.2.3.zip
+</pre></div>
+
+<h5 class="title">Link current version to generic version
+<div class="command"><pre>
+cd /opt
+ln -s grails-2.2.3 grails
+</pre></div>
+
+<h5 class="title">Update paths
+<div class="command"><pre>
+echo "export GRAILS_HOME=/opt/grails" >> /etc/profile.d/grails.sh
+echo "export PATH=\${PATH}:\${GRAILS_HOME}/bin" >> /etc/profile.d/grails.sh
+</pre></div>
+
+<h5 class="title">Test Grails
+<div class="command"><pre>
+grails -version
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh grails
+</pre></div>
+
+
+</body>
+</html>
+

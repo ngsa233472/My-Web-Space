@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>MySQL Verification and Configuration</a></h2>
+
+<h3><a>Install MariaDB</a></h3>
+
+<a>Install the binary via DNF</a>
+<div class="command">
+<pre>dnf -y install mariadb-server</pre>
+</div>
+
+<a>Postinstall</a>
+<div class="tab">
+
+<a>Put initial configuration in place</a>
+<div class="command"><pre>cat << CONFIG > /etc/my.cnf
+[client-server]
+[mysqld]
+symbolic-links=0
+max_heap_table_size=64M
+max_allowed_packet=16777216
+tmp_table_size=64M
+join_buffer_size=64M
+innodb_buffer_pool_size=254M
+innodb_doublewrite=OFF
+innodb_flush_log_at_timeout=3
+innodb_read_io_threads=32
+innodb_write_io_threads=16
+!includedir /etc/my.cnf.d
+CONFIG
+</pre></div>
+
+<a>Fix directory in the start up</a>
+<div class="command">
+<pre>sed -i -e 's/datadir=\/var\/lib\/mysql/datadir=\/data\/mysql/' /etc/my.cnf.d/mariadb-server.cnf</pre>
+</div>
+
+<a>Create necessary tables and directories</a>
+<div class="command">
+<pre>mysql_install_db --user=mysql --datadir=/data/mysql</pre>
+</div>
+
+<a>Configure startup</a>
+<div class="command">
+<pre>/bin/systemctl enable mariadb</pre>
+</div>
+
+<a>Start mysqld</a>
+<div class="command">
+<pre>/bin/systemctl start mariadb</pre>
+</div>
+
+<a>Cbeck the status of mysqld</a>
+<div class="command">
+<pre>/bin/systemctl status mariadb</pre>
+</div>
+
+<p>You should get something like this:</p>
+<div class="output">
+<pre><font color="green">●</font>
+mariadb - MariaDB 10.0 database server
+Loaded: loaded (/usr/lib/systemd/system/mariadb; enabled; vendor preset: disabled)
+Active: <font color="green">active (running)</font> since Wed 2015-12-09 09:21:58 CST; 3s ago
+Process: 1615 ExecStartPost=/usr/libexec/mysql-check-upgrade (required=exited, status=0/SUCCESS)
+Process: 1474 ExecStartPost=/usr/libexec/mysql-wait-ready $MAINPID (required=exited, status=0/SUCCESS)
+Process: 1439 ExecStartPre=/usr/libexec/mysql-prepare-db-dir %n (required=exited, status=0/SUCCESS)
+Process: 1417 ExecStartPre=/usr/libexec/mysql-check-socket (required=exited, status=0/SUCCESS)
+Main PID: 1473 (mysqld_safe)
+CGroup: /system.slice/mariadb
+??1473 /bin/sh /usr/bin/mysqld_safe --basedir=/usr
+??1586 /usr/libexec/mysqld --basedir=/usr --datadir=/data/mysql --plugin-dir=/usr/lib64/mysql/plugin --log-error=/var/log/mariadb/mariadb.log --pid-file=/var/run/mariadb/mariadb.pid --socket=/var/lib/mysql/mysql.sock
+
+Dec 09 09:21:56 rotoroa.local.graysaustin.com systemd[1]: Starting MariaDB 10.0 database server...
+Dec 09 09:21:57 rotoroa.local.graysaustin.com mysqld_safe[1473]: 151209 09:21:57 mysqld_safe Logging to '/var/log/mariadb/mariadb.log'.
+Dec 09 09:21:57 rotoroa.local.graysaustin.com mysqld_safe[1473]: 151209 09:21:57 mysqld_safe Starting mysqld daemon with databases from /data/mysql
+Dec 09 09:21:58 rotoroa.local.graysaustin.com mysql-check-upgrade[1615]: The datadir located at /data/mysql needs to be upgraded using 'mysql_upgrade' tool. This can be done using the following steps:
+Dec 09 09:21:58 rotoroa.local.graysaustin.com mysql-check-upgrade[1615]: 1. Back-up your data before with 'mysql_upgrade'
+Dec 09 09:21:58 rotoroa.local.graysaustin.com mysql-check-upgrade[1615]: 2. Start the database daemon using 'service mariadb start'
+Dec 09 09:21:58 rotoroa.local.graysaustin.com mysql-check-upgrade[1615]: 3. Run 'mysql_upgrade' with a database user that has sufficient privileges
+Dec 09 09:21:58 rotoroa.local.graysaustin.com mysql-check-upgrade[1615]: Read more about 'mysql_upgrade' usage at:
+Dec 09 09:21:58 rotoroa.local.graysaustin.com mysql-check-upgrade[1615]: https://mariadb.com/kb/en/mariadb/documentation/sql-commands/table-commands/mysql_upgrade/
+Dec 09 09:21:58 rotoroa.local.graysaustin.com systemd[1]: Started MariaDB 10.0 database server.</pre>
+</div>
+    
+<h3><a>Check and upgrade databases</a></h3>
+
+<div class="command">
+<pre>mysql_upgrade</pre>
+</div>
+    
+<div class="command">
+<pre>/bin/systemctl stop mariadb</pre>
+</div>
+
+<div class="command">
+<pre>/bin/systemctl start mariadb</pre>
+</div>
+
+<h3><a>Assign passwords</a></h3>
+
+<div class="command">
+<pre>mysql -u root</pre>
+</div>
+        
+Assign a localhost password to the anonymous account
+<div class="command">
+<pre>SET PASSWORD FOR ''@'localhost' = PASSWORD('rootMe55');</pre>
+</div>
+    
+Assign a localhost password to the root account
+<div class="command">
+<pre>SET PASSWORD FOR 'root'@'localhost' = PASSWORD('rootMe55');</pre>
+</div>
+    
+Determine what the hostname the system is using with the command
+<div class="command">
+<pre>SELECT Host, User FROM mysql.user;</pre>
+</div>
+
+And replace <i>host_name</i> in the following commands.
+    
+<div class="command">
+<pre>SET PASSWORD FOR ''@'rotoroa.local.graysaustin.com' = PASSWORD('rootMe55');</pre>
+</div>
+    
+<div class="command">
+<pre>SET PASSWORD FOR 'root'@'rotoroa.local.graysaustin.com' = PASSWORD('rootMe55');</pre>
+</div>
+    
+Quit mysql
+<div class="command">
+<pre>\q</pre>
+</div>
+    
+</div>
+
+<h3><a>Create and test a database</a></h3>
+
+<p>Determine how many databases there are</p>
+<div class="optional"><pre>
+mysqlshow --user=root --password=rootMe55
+</div>
+
+<p>Create a database called 'testing'</p>
+<div class="optional"><pre>
+mysql --user=root --password=rootMe55
+</div>
+<div class="optional"><pre>
+create database testing;
+</div>
+Select the 'testing' database
+<div class="optional"><pre>
+USE testing;
+</div>
+Create a table
+<div class="optional"><pre>
+CREATE TABLE numbers (number int, name text);
+</div>
+<p>Show the tables in 'testing'</p>
+<div class="optional"><pre>
+show tables;
+</div>
+Create an index
+<div class="optional"><pre>
+CREATE INDEX number_idx on numbers(number);
+</div>
+Add some data
+<div class="optional"><pre>
+INSERT INTO numbers (number, name) VALUES (1, 'One');
+INSERT INTO numbers (number, name) VALUES (2, 'Two');
+INSERT INTO numbers (number, name) VALUES (3, 'Three');
+</div>
+Query the database
+<div class="optional"><pre>
+SELECT * FROM numbers;
+</div>
+In mysql you can create a user by granting him priviledges.
+<div class="optional"><pre>
+GRANT SELECT ON testing.* to 'numbersuser'@'localhost' IDENTIFIED BY 'password';
+</div>
+<div class="optional"><pre>
+quit
+</div>
+Now log back in as the numberuser user.
+<div class="optional"><pre>
+mysql --user=numbersuser --password=password testing
+</div>
+This should return three entries
+<div class="optional"><pre>
+SELECT * FROM numbers;
+</div>
+This should fail
+<div class="optional"><pre>
+INSERT INTO numbers (number, name) VALUES (4, 'Four');
+</div>
+<div class="optional"><pre>
+quit
+</div>
+Log back in as root
+<div class="optional"><pre>
+mysql --user=root --password=rootMe55 testing 
+</div>
+
+<div class="optional"><pre>
+REVOKE ALL ON testing.* from 'numbersuser'@'localhost';
+</div>
+
+<div class="optional"><pre>
+DROP USER 'numbersuser'@'localhost';
+DROP INDEX number_idx on numbers;
+DROP TABLE testing.numbers;
+</div>
+
+Drop database called "testing".
+<div class="optional"><pre>
+DROP DATABASE testing;
+</div>
+
+<div class="optional"><pre>
+\q
+</div>
+
+<p>Now verify that the "testing" database is gone</p>
+<div class="optional"><pre>
+mysqlshow --user=root --password=rootMe55
+</div>
+
+<h3><a>Note this step</a></h3>
+<div class="command"><pre>
+/usr/local/bin/note.sh mysql
+</pre></div>
+
+<h3><a>MySQL Usage</a></h3>
+The following programs/utilities use the databases on the system
+<p>
+PhpMyAdmin<br>
+MediaWiki<br>
+Wordpress<br>
+</p>
+
+</body>
+</html>

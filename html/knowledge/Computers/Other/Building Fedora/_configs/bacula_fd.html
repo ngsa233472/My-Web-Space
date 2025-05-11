@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" media="screen,print" href="/stylesheets/Welcome./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="/stylesheets/install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>/etc/bacula/bacula-fd.conf</a></h2>
+
+<div class="code"><pre>
+mkdir -p /data/Saved/etc/bacula
+cp /etc/bacula/bacula-fd.conf /data/Saved/etc/bacula/
+</pre></div>
+
+<div class="code"><pre>
+vi /etc/bacula/bacula-fd.conf
+</pre></div>
+
+<div class="code"><pre>
+dG
+i
+</pre></div>
+
+<div class="code"><pre>
+<pre>
+Director {
+  Name = iona-dir
+  Password = "rootMe55"
+}
+
+Director {
+  Name = bacula-mon
+  Password = "rootMe55"
+  Monitor = yes
+}
+
+FileDaemon {
+  Name = iona-fd
+  FDport = 9102
+  WorkingDirectory = /var/spool/bacula
+  Pid Directory = /var/run
+  Maximum Concurrent Jobs = 20
+}
+
+Messages {
+  Name = Standard
+  director = iona-dir = all, !skipped, !restored
+}
+</pre>
+</div>
+
+</body>
+</html>

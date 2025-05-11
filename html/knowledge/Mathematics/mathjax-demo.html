@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>MathJax v3 beta: TeX input, HTML Output Test</title>
+
+    <!-- Load MathJax -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+      defer
+    ></script>
+
+    <!-- MathJax can be configured for different behavior by adding an additional configuration script in the <head> -->
+    <script type="text/javascript">
+      window.MathJax = {
+        tex: {
+          inlineMath: [
+            ["$", "$"],
+            ["\\(", "\\)"],
+          ],
+          displayMath: [
+            ["$$", "$$"],
+            ["\\[", "\\]"],
+          ],
+        },
+      };
+    </script>
+  </head>
+  <body>
+    <div class="flex-container">
+      <h1>MathJax v3 beta: TeX input, HTML Output Test</h1>
+    </div>
+
+    <!-- Simple mathematical notation -->
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Variables</h2></div>
+      <div class="flex-item right-side"><p>$$x_1, y_1, z_{3,4}$$</p></div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Exponential</h2></div>
+      <div class="flex-item right-side"><p>$$a^2, x^y$, 2^{n-1}$$</p></div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Root</h2></div>
+      <div class="flex-item right-side">
+        <p>$$\sqrt{9}$$ $$\sqrt{x}$$ $$\sqrt[n]{x}$$</p>
+      </div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Logarithm</h2></div>
+      <div class="flex-item right-side"><p>$$\log{}x, \log_{2}x$$</p></div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Fraction</h2></div>
+      <div class="flex-item right-side">
+        <p>$$\frac{1}{2}, \left(-\frac{1}{2}\right)^n$$</p>
+      </div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Infinity</h2></div>
+      <div class="flex-item right-side"><p>$$\infty$$</p></div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Times Dot</h2></div>
+      <div class="flex-item right-side"><p>$$a\cdot b=ab$$</p></div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Divide Fraction</h2></div>
+      <div class="flex-item right-side"><p>$$a/b=\frac{a}{b}$$</p></div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Trinomial Equation</h2></div>
+      <div class="flex-item right-side"><p>$$a^2 + b^2 = c^2$$</p></div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Matrix Parentheses</h2></div>
+      <div class="flex-item right-side">
+        <p>$$\begin{pmatrix} a & b \\ c & d \end{pmatrix}$$</p>
+      </div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Matrix Brackets</h2></div>
+      <div class="flex-item right-side">
+        <p>$$\begin{bmatrix} a & b \\ c & d \end{bmatrix}$$</p>
+      </div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Matrix Equation</h2></div>
+      <div class="flex-item right-side">
+        <p>$$\begin{vmatrix} a & b \\ c & d \end{vmatrix}=ad-bc$$</p>
+      </div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Set</h2></div>
+      <div class="flex-item right-side">
+        <p>$$x\in A, A\ni x, x\notin A$$</p>
+      </div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Subset</h2></div>
+      <div class="flex-item right-side">
+        <p>$$A\subset B, A\subseteq B, A \not \subset B$$</p>
+      </div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Intersection & Union</h2></div>
+      <div class="flex-item right-side">
+        <p>$$A\cap B, A\cup B, \overline{A}$$</p>
+      </div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Quadratic formula</h2></div>
+      <div class="flex-item right-side">
+        <p>$$ x = {-b \pm \sqrt{b^2-4ac} \over 2a} $$</p>
+      </div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Binomial</h2></div>
+      <div class="flex-item right-side"><p>$$\sqrt{3x-1}+(1+x)^2$$</p></div>
+    </div>
+         
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Differentiation</h2></div>
+      <div class="flex-item right-side"><p>$$\sqrt{3x-1}+(1+x)^2$$</p></div>
+    </div>
+    
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Integral</h2></div>
+      <div class="flex-item right-side"><p>$$\int_0^1 f(x) dx$$</p></div>
+    </div>
+    
+      <div class="flex-item">
+        <div class="flex-item left-side"><h2>Integral Large</h2></div>
+        <div class="flex-item right-side"><p>$$\displaystyle \int_{-\infty }^{\infty}f(x)dx$$</p></div>
+      </div>
+    </div>
+    
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Max Sample</h2></div>
+      <div class="flex-item right-side"><p>$$\max(a,b)=\begin{cases}a&(a\geqq b)\\b&(a\lt b)\end{cases}$$</p></div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Big O [micron]</h2></div>
+      <div class="flex-item right-side"><p>$$\mathcal{O} or O$$</p></div>
+    </div>
+    
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Big Omega</h2></div>
+      <div class="flex-item right-side"><p>$$\Omega$$</p></div>
+    </div>
+    
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Small O [micron]</h2></div>
+      <div class="flex-item right-side"><p>$$o$$</p></div>
+    </div>
+    
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Small Omega</h2></div>
+      <div class="flex-item right-side"><p>$$\omega$$</p></div>
+    </div>
+    
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Constant Time</h2></div>
+      <div class="flex-item right-side"><p>$$O(1)$$</p></div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Logarithmic Time</h2></div>
+      <div class="flex-item right-side"><p>$$O(\log{}n)$$</p></div>
+    </div>
+    
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Linear Time</h2></div>
+      <div class="flex-item right-side"><p>$$O(n)$$</p></div>
+    </div>
+  
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Quasilinear Time</h2></div>
+      <div class="flex-item right-side"><p>$$O(n\log{}n)$$</p></div>
+    </div>
+    
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Quadratic Time</h2></div>
+      <div class="flex-item right-side"><p>$$O(n^2)$$</p></div>
+    </div>
+    
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Cubic Time</h2></div>
+      <div class="flex-item right-side"><p>$$O(n^3)$$</p></div>
+    </div>
+
+    </div>
+      <div class="flex-item">
+      <div class="flex-item left-side"><h2>Factorial Time</h2></div>
+      <div class="flex-item right-side"><p>$$O(n!)$$</p></div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Quadratic Equation</h2></div>
+      <div class="flex-item right-side"><p>$$ When \text{ } a \ne 0, \text{ there are two solutions to } (ax^2 + bx +
+          c = 0) \text{ and they are } x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$</p></div>
+    </div>
+    
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>The Lorenz Equations</h2></div>
+      <div class="flex-item right-side"><p>\begin{align} \dot{x} &amp; = \sigma(y-x) \\ \dot{y} &amp; = \rho x - y -xz \\ \dot{z} &amp; = -\beta z + xy \end{align}</p></div>
+    </div>
+    
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>The Cauchy-Schwarz Inequality</h2></div>
+      <div class="flex-item right-side"><p>$$ \left( \sum_{k=1}^n a_k b_k \right)^{\!\!2} \leq \left( \sum_{k=1}^na_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right) $$</p></div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>A Cross Product Formula</h2></div>
+      <div class="flex-item right-side"><p>$$ \mathbf{V}_1 \times \mathbf{V}_2 = \begin{vmatrix} \mathbf{i} &amp;
+          \mathbf{j} &amp; \mathbf{k} \\ \frac{\partial X}{\partial u} &amp;
+          \frac{\partial Y}{\partial u} &amp; 0 \\ \frac{\partial X}{\partial v}
+          &amp; \frac{\partial Y}{\partial v} &amp; 0 \\ \end{vmatrix} $$</p></div>
+    </div>
+    
+    <div class="flex-item">
+        <div class="flex-item left-side"><h2>The probability of getting \(k\) heads when flipping \(n\) coins</h2></div>
+        <div class="flex-item right-side"><p>$$ P(E) = {n \choose k} p^k (1-p)^{ n-k} $$</p></div>
+    </div>
+    
+    <div class="flex-item">
+        <div class="flex-item left-side"><h2>An Identity of Ramanujan</h2></div>
+        <div class="flex-item right-side"><p>$$ \frac{1}{(\sqrt{\phi \sqrt{5}}-\phi) e^{\frac25 \pi}} =
+      1+\frac{e^{-2\pi}} {1+\frac{e^{-4\pi}} {1+\frac{e^{-6\pi}}
+      {1+\frac{e^{-8\pi}} {1+\ldots} } } } $$</p></div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>A Rogers-Ramanujan Identity</h2></div>
+      <div class="flex-item right-side"><p>$$ 1 + \frac{q^2}{(1-q)}+\frac{q^6}{(1-q)(1-q^2)}+\cdots =
+    \prod_{j=0}^{\infty}\frac{1}{(1-q^{5j+2})(1-q^{5j+3})}, \quad\quad
+    \text{for $|q| &lt; 1$}. $$</p></div>
+    </div>
+
+    <div class="flex-item">
+      <div class="flex-item left-side"><h2>Maxwell's Equations (Differental Form)</h2></div>
+      <div class="flex-item right-side"><p>
+    \begin{align} \nabla \times \vec{\mathbf{B}} -\, \frac1c\,
+    \frac{\partial\vec{\mathbf{E}}}{\partial t} &amp; =
+    \frac{4\pi}{c}\vec{\mathbf{j}} \\ \nabla \cdot \vec{\mathbf{E}} &amp; = 4
+    \pi \rho \\ \nabla \times \vec{\mathbf{E}}\, +\, \frac1c\,
+    \frac{\partial\vec{\mathbf{B}}}{\partial t} &amp; = \vec{\mathbf{0}} \\
+    \nabla \cdot \vec{\mathbf{B}} &amp; = 0 \end{align}</p></div>
+  </div>
+  </body>
+</html>

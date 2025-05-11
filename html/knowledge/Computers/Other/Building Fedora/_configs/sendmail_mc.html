@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen,print"
+      href="/stylesheets/Welcome./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a name href="#Index">/etc/mail/sendmail.mc</a></h2>
+
+    <a>Open sendmail.mc</a>
+    <div class="code">
+      <pre>
+vi /etc/mail/sendmail.mc
+</pre
+      >
+    </div>
+
+    <a>Remove current contents and setup for insertion</a>
+    <div class="code">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <a>Paste new file in place</a>
+    <div class="code">
+      <pre>
+divert(-1)
+Nick's Master Sendmail File
+divert(0)
+#
+include(`/usr/share/sendmail-cf/m4/cf.m4')dnl
+VERSIONID(`@(#)Nick's Sendmail File $Revision: 2.0 $'')dnl
+OSTYPE(`linux')dnl
+define(`confDEF_USER_ID',``8:12'')dnl
+define(`confTO_CONNECT', `1m')dnl
+define(`PROCMAIL_MAILER_PATH',`/usr/bin/procmail')dnl
+define(`confLOG_LEVEL',99)dnl
+define(`confSMTP_LOGIN_MSG', `$j MYOB; $b')dnl
+define(`confRECEIVED_HEADER', `$?sfrom $s $.$?_($?s$|from $.$_) $.$?{auth_type}(authenticated) by $j (MYOB)$?r with $r$. id $i$?u for $u; $|; $.$b')dnl
+define(`confTRUSTED_USERS',`majordomo')dnl
+define(`confPRIVACY_FLAGS',``authwarnings,noexpn,novrfy,restrictqrun'')dnl
+dnl
+undefine(`FAX_RELAY')dnl
+undefine(`DECNET_RELAY')dnl
+undefine(`UUCP_RELAY')dnl
+undefine(`BITNET_RELAY')dnl
+dnl
+FEATURE(`use_cw_file')dnl
+FEATURE(`use_ct_file')dnl
+FEATURE(`mailertable',`hash -o /etc/mail/mailertable.db')dnl
+FEATURE(`virtusertable',`hash -o /etc/mail/virtusertable.db')dnl
+FEATURE(`access_db')dnl
+FEATURE(`smrsh',`/usr/sbin/smrsh')dnl
+dnl FEATURE(local_procmail,`',`procmail -t -Y -a $h -d $u')dnl
+FEATURE(local_procmail)dnl
+dnl
+MASQUERADE_AS(austin.rr.com)dnl
+FEATURE(allmasquerade)dnl
+FEATURE(masquerade_envelope)dnl
+FEATURE(always_add_domain)dnl
+dnl
+FEATURE(delay_checks)dnl
+FEATURE(`blacklist_recipients')dnl requires access.db
+FEATURE(dnsbl, `blackholes.mail-abuse.org', `Rejected - see http://www.mail-abuse.org/rbl/')dnl
+FEATURE(dnsbl, `dialups.mail-abuse.org', `Dialup - see http://www.mail-abuse.org/dul/')dnl
+FEATURE(dnsbl, `relays.mail-abuse.org', `Open spam relay - see http://work-rss.mail-abuse.org/rss/')dnl
+FEATURE(`accept_unresolvable_domains')dnl
+dnl
+define(`SMART_HOST',`smtp-server.austin.rr.com')dnl
+dnl
+FEATURE(`no_default_msa')dnl
+dnl
+dnl
+INPUT_MAIL_FILTER(`clamav', `S=local:/var/run/clamav-milter/clamav-milter.socket, F=, T=S:4m;R:4m')dnl
+INPUT_MAIL_FILTER(`spamassassin',`S=unix:/var/run/spamass-milter/spamass-milter.sock, T=S:5m;R:5m;E:5m')dnl
+dnl
+DAEMON_OPTIONS(`Port=smtp,Addr=127.0.0.1, Name=MTA')dnl
+dnl
+DAEMON_OPTIONS(`Port=smtps, Name=TLSMTA, M=s')dnl
+dnl
+DAEMON_OPTIONS(`Port=submission, Name=MSA, M=Ea')dnl
+dnl
+define(`confAUTH_OPTIONS', `y')dnl
+TRUST_AUTH_MECH(`PLAIN LOGIN PAM')dnl
+define(`confAUTH_MECHANISMS', `PLAIN LOGIN PAM')dnl
+dnl
+define(`confTLS_SRV_OPTIONS', `V')dnl
+define(`CERT_DIR',`/etc/pki')dnl
+define(`confCRL', `CERT_DIR/revoke.crl')
+define(`confSERVER_CERT', `CERT_DIR/tls/certs/server.crt')dnl
+define(`confSERVER_KEY', `CERT_DIR/tls/private/server.key')dnl
+define(`confCACERT_PATH', `CERT_DIR/CA')dnl
+define(`confCACERT', `CERT_DIR/CA/certs/CA.crt')dnl
+dnl
+dnl MAILER(local)dnl
+MAILER(smtp)dnl
+MAILER(procmail)dnl
+dnl
+</pre
+      >
+    </div>
+  </body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta name="Microsoft Theme" content="leaves 111, default">
+<meta status=incomplete>
+</head>
+
+<body>
+
+<h2><a NAME href="#Index">Java SDK Installation, Configuration, and Testing</a></font></h2>
+<a href="">Purpose </a></font>
+Install the JAVA Language development kit for use by other programs and development of java required
+
+<a href="">Prerequisites </a>
+None
+
+<a href="">Login as root</a>
+
+<a href="">Remove the old JAVA installation links</a></font>
+<div class="command">
+rm /usr/bin/java /usr/bin/javac /usr/bin/javadoc /usr/bin/javah /usr/bin/javaws 
+</div>
+
+<a href="">Copy the JAVA binary to the home directory the old JAVA installation links</a></font>
+<div class="command">
+cp $_FILES/jdk-6u29-linux-x64-rpm.bin .
+</div>
+
+<a href="">Make the binary executable</a></font>
+<div class="command">
+chmod 755 jdk-6u29-linux-x64-rpm.bin 
+</div>
+
+<a href="">Run the binary</a></font>
+<div class="command">
+./jdk-6u29-linux-x64-rpm.bin 
+</div>
+
+<a href="">Create the new JAVA installation links</a></font>
+<div class="command">
+ln -s /usr/java/latest/bin/javac /usr/bin/javac && 
+ln -s /usr/java/latest/bin/javadoc /usr/bin/javadoc && 
+ln -s /usr/java/latest/bin/javah /usr/bin/javah &&
+ln -s /usr/java/latest/bin/javaws /usr/bin/javaws 
+</div>
+
+<a href="">Install the initial CLASSPATH</a></font>
+<div class="command">
+echo -e "export JAVA_HOME=/usr/java/jdk1.6.0_29"&gt;&gt;/etc/profile.d/custom.sh
+</div>
+
+</font></body>
+</html>

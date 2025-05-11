@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a href="">ddclient</a></h2>
+
+    <a href="">Purpose </a>
+
+    <a href="">Login as root</a>
+
+    <a href="">Install ddclient</a>
+    <div class="command">
+      <pre>
+yum -y install ddclient
+</pre
+      >
+    </div>
+
+    <a href="">Edit the config file</a>
+    <div class="command">
+      <pre>
+vi /etc/ddclient.conf
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+daemon=600                  # check every 600 seconds
+syslog=yes                  # log update msgs to syslog
+mail=root                   # mail all msgs to root
+mail-failure=root           # mail failed update msgs to root
+pid=/var/run/ddclient/ddclient.pid   # record PID in file.
+cache=/tmp/ddclient.cache   # Cache file
+
+## from the status page for a linksys router/firewall
+use=linksys-ver2, fw=192.168.10.1, fw-login=admin, fw-password=2bitView
+
+
+## Enter your DynDNS.com username and password here
+
+login=nagray00           # your DynDNS.com username
+password=Gh05t123     # your DynDNS.com password
+
+
+## This section requires no changes unless you need to set a default proxy server
+## or you need to bypass your proxy server (because it interferes with the updates)
+
+protocol=dyndns2                    # default protocol
+server=members.dyndns.org           # default server
+#server=members.dyndns.org:8245     # default server (bypassing proxies)
+#proxy=fasthttp.sympatico.ca:80     # default proxy
+
+
+## Default options for Dynamic/Static DNS Hosts
+
+#mx=             # default MX host (leave undefined by default)
+#backupmx=NO     # MX host is primary MX? (leave undefined by default)
+#wildcard=YES     # add wildcard CNAME?
+
+## Dynamic DNS hosts go here
+magitek.dyndns.org
+</pre
+      >
+    </div>
+
+    <a href="">Disable until bringing online</a>
+    <div class="command">
+      <pre>
+chkconfig ddclient off
+service ddclient stop
+</pre
+      >
+    </div>
+
+    <a href="">Note this step</a>
+    <div class="command">
+      <pre>
+touch /install/ddclient.$INSTALL_VERSION
+</pre
+      >
+    </div>
+
+    <a href="">Exit root</a>
+    <div class="command">
+      <pre>
+exit
+</pre
+      >
+    </div>
+  </body>
+</html>
+
+<!-- Typical yum installation -->
+<!--
+<a href="">Use yum to install Xxxx</a>
+<div class="command"><pre>
+yum -y install xxxx
+</pre></div>
+-->
+
+<!-- Typical rpm installation -->
+<!--
+<a href="">Install Xxxx from rpms</a>
+<div class="command"><pre>
+rpm -i $_FILES/xxxx.rpm && 
+</pre></div>
+-->

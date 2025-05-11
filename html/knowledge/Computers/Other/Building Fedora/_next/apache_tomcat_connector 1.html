@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a href="">Configure Tomcat-Connector</a></h2>
+
+    Allows the connection of the Apache server (1st Tier) to the Tomcat instance
+    (2nd Tier)
+
+    <a>Prerequisites </a>
+    <div class="tab">
+      <a href="./java.html">Java</a><br />
+      <a href="./apache_tomcat.html">Tomcat</a>
+    </div>
+
+    <a>Login as root</a>
+
+    <a>Create a apache connector conf file</a>
+    <div class="command">
+      <pre>
+vi /etc/httpd/conf.d/tomcat.conf
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+
+ProxyPass /tomcat ajp://192.168.122.10:8009
+ProxyPassReverse /tomcat http://192.168.122.10
+</pre
+      >
+    </div>
+
+    <a>Restart both the web and application server</a>
+    <div class="command">
+      <pre>
+systemctl restart tomcat
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+systemctl restart httpd
+</pre
+      >
+    </div>
+
+    from the browser, run the servlet
+    <a href="http://192.168.122.10/tomcat/SimpleServlet/simple-servlet"
+      >http://192.168.122.10/tomcat/SimpleServlet/simple-servlet</a
+    >
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh apache_tomcat_connector
+</pre
+      >
+    </div>
+  </body>
+</html>

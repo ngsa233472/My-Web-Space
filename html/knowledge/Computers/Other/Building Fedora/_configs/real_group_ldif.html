@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen,print"
+      href="/stylesheets/Welcome./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <a>Create the /data/Install/openldap/real_group.ldif file</a>
+    <div class="code">
+      <pre>
+vi /data/Install/openldap/real_group.ldif
+</pre
+      >
+    </div>
+
+    <a>Remove current contents and setup for insertion</a>
+    <div class="code">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <a>Paste new file in place</a>
+    <div class="code">
+      <pre>
+dn: cn=nick,ou=Group,dc=local,dc=austin,dc=rr,dc=com
+objectClass: posixGroup
+objectClass: top
+cn: nick
+userPassword:
+gidNumber: 5000
+
+dn: cn=katie,ou=Group,dc=local,dc=austin,dc=rr,dc=com
+objectClass: posixGroup
+objectClass: top
+cn: katie
+userPassword:
+gidNumber: 5001
+
+dn: cn=macaella,ou=Group,dc=local,dc=austin,dc=rr,dc=com
+objectClass: posixGroup
+objectClass: top
+cn: macaella
+userPassword:
+gidNumber: 5002
+
+dn: cn=lily,ou=Group,dc=local,dc=austin,dc=rr,dc=com
+objectClass: posixGroup
+objectClass: top
+cn: lily
+userPassword:
+gidNumber: 5003
+</pre
+      >
+    </div>
+  </body>
+</html>

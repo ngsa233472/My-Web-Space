@@ -1,0 +1,27 @@
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+.box {
+  background-color: darkblue;
+  color: white;
+  /* padding-top: 20px;
+  /* padding: 20px; */
+  width: 300px;
+
+  /*
+  padding-top: 40px;
+  padding-right: 40px;
+  padding-bottom: 80px;
+  padding-left: 60px;
+   */
+
+  /* TRBL - Top Right Bottom Left */
+  /* padding: 20px 40px 80px 60px; Top Right Bottom Left */
+
+  /* Top-Bottom Left-Right*/
+  /*padding: 20px 40px;*/
+
+  /* Three values Top Left-Right Bottom*/
+  padding: 20px 40px 60px;
+}

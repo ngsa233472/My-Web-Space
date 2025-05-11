@@ -1,0 +1,90 @@
+body
+{
+	margin:20px;
+	background-image: url("./paper.jpg");
+    background-repeat: repeat;
+A               { color: #003366; text-decoration: underline;}
+A:link          { color: #003366; text-decoration: underline;}
+A:visited       { color: #663366; text-decoration: underline;}
+A:active        { color: #999999;}
+A:hover         { color: #999999;}
+
+     
+ } 
+#banner
+{
+	font-family:palatino,  georgia, verdana, arial, sans-serif;
+	color:#333;
+	font-size:x-large;
+	font-weight:normal;
+	border-bottom:4px double #666;
+}
+div.tab2{
+		    margin:20px;
+		}
+div.tab{
+		    margin:10px;
+		}
+
+.default{
+	color: #003366;
+	text-decoration: underline
+}
+
+.faa {
+	background-color: #FFE;
+	border: 1px solid #bbbbbb;
+	margin: 10px 10px;
+	overflow: auto;
+	padding-left: 1em;
+	word-wrap: normal;
+	font-size:12;
+	font-family:monospace;
+	border-radius: 9px;
+}
+
+.output{
+	background:#fff;
+	border:1px solid #bbbbbb;
+	margin:10px;
+	padding-left: 1em;
+	overflow: auto;
+	word-wrap: break-word;
+	font-size:12;
+	font-family:monospace;
+	border-radius: 9px;
+}
+
+.required {
+	background-color: #ffe;
+	border: 1px solid #bbbbbb;
+	margin: 10px;
+	overflow: auto;
+	padding-left: 1em;
+	word-wrap: break-word;
+	font-size:12;
+	font-family:monospace;
+	border-radius: 9px;
+}
+
+.checkthis {
+	background-color: #FAA;
+	border: 1px solid #bbbbbb;
+	margin: 10px 10px;
+	overflow: auto;
+	padding-left: 1em;
+	word-wrap: break-word;
+	font-size:12;
+	font-family:monospace;
+	border-radius: 9px;
+}
+
+#content
+{
+	background:#FFF;
+	margin-right:50px;
+	margin-left:20px;
+	margin-bottom:20px;
+	font-size:large;
+	border:1px solid #FFF;
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Root's Fcrontab file</a></h2>
+
+    <a>Become root</a>
+    <div class="command">
+      <span class="cmd"
+        ><font size="2"> sudo su -<br /> </font
+      ></span>
+    </div>
+
+    <a>Edit crontab</a>
+    <div class="command">
+      <span class="cmd"
+        ><font size="2"> fcrontab -e<br /> </font
+      ></span>
+    </div>
+
+    <div class="command">
+      <span class="cmd"
+        ><font size="2">
+          1G<br />
+          dG<br />
+          i<br /> </font
+      ></span>
+    </div>
+
+    <div class="command">
+      <span class="cmd"
+        ><font size="2">
+          <pre>
+# Run the webalizer script once an hour
+00 * * * * /admin/webalizer.sh
+
+# Run the alarms.sh script every 5 minutes
+@mail(no) 5 /admin/alarms.sh
+
+# Simple log report once a day
+00 02 * * * /usr/sbin/logwatch
+
+# This job rotates the logfiles
+00 3 * * * /usr/sbin/logrotate /etc/logrotate.conf
+
+# This updates the locate database nightly
+00 5 * * * /usr/bin/updatedb
+
+# Update the revoked certificate file daily
+30 5 * * * /usr/bin/wget -N http://www.cacert.org/revoke.crl -P /etc/pki/
+</pre
+          >
+        </font></span
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh root_cron
+</pre
+      >
+    </div>
+
+    <a>Exit root</a>
+    <div class="command">
+      <span class="cmd"><font size="2"> exit </font></span>
+    </div>
+  </body>
+</html>

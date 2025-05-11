@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Postfix Configurationa and testing</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Postfix and Mailx</a></h2>
+
+    <a>Install Postfix and Mailx </a>
+    <div class="command">
+      <pre>
+dnf update
+dnf install -y postfix
+dnf install -y mailx
+</pre
+      >
+    </div>
+
+    <a>Config File</a>
+    <div class="command">
+      <pre>
+vi /etc/postfix/main.cf
+</pre
+      >
+    </div>
+
+    <div class="input">
+      <pre>
+relayhost = [smtp.gmail.com]:587
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtp_sasl_security_options = noanonymous
+smtp_sasl_mechanism_filter = plain
+smtp_tls_security_level = encrypt
+</pre
+      >
+    </div>
+
+    <a>Setup SASL password for mail relay</a>
+    <div class="command">
+      <pre>
+cd /etc/postfix
+vi sasl_passwd
+</pre
+      >
+    </div>
+    <div class="input">
+      <pre>
+[smtp.gmail.com]:587 nickontravel@gmail.com:49084908
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+postmap sasl_passwd
+</pre
+      >
+    </div>
+
+    <a>Enable and Start Postfix</a>
+    <div class="command">
+      <pre>
+systemctl enable postfix
+systemctl start postfix
+</pre
+      >
+    </div>
+
+    <a>Check Postfix Running</a>
+    <div class="command">
+      <pre>
+netstat -tulpn | grep 25
+</pre
+      >
+    </div>
+
+    <a>Test Mail</a>
+    <div class="command">
+      <pre>
+mail -s "Testing Send-only Postfix SMTP" nick@graysaustin.com < /dev/null
+</pre
+      >
+    </div>
+
+    <a>Note this step</a>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh after_postfix
+</pre
+      >
+    </div>
+  </body>
+</html>

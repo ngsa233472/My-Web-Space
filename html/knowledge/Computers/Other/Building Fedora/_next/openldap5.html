@@ -1,0 +1,451 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<meta status=done>
+<head>
+<title>Fedora 17 Installation</title></head>
+<link rel="stylesheet" type = "text/css" media="screen,print" href="/stylesheets/Welcome./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="/stylesheets/install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<body>
+
+<h2><a>Basic LDAP setup</a></h2>
+
+<div class="tab">
+        Starting point for other work with LDAP
+</div>
+
+<h5 class="title"><a>Prerequisites</a>
+<div class="tab">
+Fedora installed as per installation instructions
+Host machine access to internet
+</div>
+	
+<h5 class="title"><a>Login as root</a>&nbsp;&nbsp;</a>
+
+<h5 class="title"><a>Install the required software</a>&nbsp;&nbsp;<a href=.>Details</a>	
+
+Save the /etc/hosts file
+<div class="code"><pre>
+mkdir -p /data/Saved/etc
+cp -pr /etc/hosts /data/Saved/etc/hosts
+<pre></pre></div>
+
+Change the /etc/hosts file
+<div class="code"><pre>
+echo -e "192.168.190.200 iona.local.austin.rr.com iona\n127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4" &gt; /etc/hosts
+</pre></div>
+
+Verify the installation of LDAP
+<div class="code"><pre>
+rpm -qa | grep ldap
+</pre></div>
+<p>You should get something like this:</p>
+<div class="output">
+<pre>openldap-<i>version</i></pre>
+</div>
+Install the ldap-servers and ldap-client packages via yum
+<div class="code"><pre>
+yum -y install openldap-servers
+yum -y install openldap-clients
+</pre></div>
+	
+<h5 class="title"><a>Create the new ldap databases directory</a>	
+<div class="code"><pre>
+mkdir -p /data/openldap
+chown -R ldap:ldap /data/openldap
+</pre></div>
+
+Save original openldap
+<div class="code"><pre>
+mkdir -p /data/Saved/etc
+cp -pr /etc/openldap /data/Saved/etc/
+cp -pr /etc/nsswitch.conf /data/Saved/etc/
+</pre></div>
+        
+Setup the DB_CONFIG file
+<div class="code"><pre>
+cp /usr/share/openldap-servers/DB_CONFIG.example /data/openldap/DB_CONFIG
+chown -Rf ldap:ldap /data/openldap
+</pre></div>
+
+Setup logging
+<div class="code"><pre>
+sed -ie '/^local7.*/a \ \n\local4.*                                                /var/log/ldap' /etc/rsyslog.conf
+</pre>
+</div>
+
+Restart the rsyslog daemon
+<div class="code"><pre>
+/bin/systemctl restart rsyslog
+</pre></div>
+
+Check the rsyslog daemon
+<div class="code"><pre>
+/bin/systemctl status rsyslog
+</pre></div>
+
+<p>You should get something like this:</p>
+<div class="output"><pre>
+<pre>
+rsyslog - System Logging Service
+          Loaded: loaded (/lib/systemd/system/rsyslog; enabled)
+          Active: <font color="green">active (running)</font> since Sat, 26 May 2012 15:01:26 -0500; 8s ago
+         Process: 1192 ExecStartPre=/bin/systemctl stop systemd-kmsg-syslogd (code=exited, status=0/SUCCESS)
+        Main PID: 1193 (rsyslogd)
+          CGroup: name=systemd:/system/rsyslog
+                  � 1193 /sbin/rsyslogd -n -c 5
+</pre>
+</div>
+
+Start the slapd daemon
+<div class="code"><pre>
+/bin/systemctl start slapd
+</pre></div>
+
+Check the slapd daemon
+<div class="code"><pre>
+/bin/systemctl status slapd
+</pre></div>
+
+<p>You should get something like this:</p>
+<div class="output"><pre>
+<pre>
+slapd - LSB: starts and stopd OpenLDAP server daemon
+          Loaded: loaded (/etc/rc.d/init.d/slapd)
+          Active: <font color="green">active (running)</font> since Sat, 26 May 2012 15:01:44 -0500; 5s ago
+         Process: 1201 ExecStart=/etc/rc.d/init.d/slapd start (code=exited, status=0/SUCCESS)
+        Main PID: 1231 (slapd)
+          CGroup: name=systemd:/system/slapd
+                  � 1231 /usr/sbin/slapd -h  ldap:/// ldapi:/// -u ldap
+</pre>
+</div>
+<b>You will also get a few lines of the log, this is new. Ignore the fact that DB_CONFIG doesn't exist, the config is pointing at the wrong directory until you change it below!</b>
+
+<a>Add the samba schema to /data/Install/openldap/schema</a>
+
+<div class="tab">
+	<a href="./configs/samba_ldif.html">link to /data/Install/openldap/schema/samba.ldif file</a>
+</div>
+
+<a>Change the configuration DIT</a>
+
+In OpenLDAP 2.4+ you can't edit the config files by hand, if you do, a slaptest -u will return a checksum error. You need to use ldapmodify
+
+This can be accomplished 2 ways, one by creating a file and reading it in or another by actually typing commands in in real time.
+
+
+First we need to add schemas that used to be part of the default set
+<div class="code"><pre>
+ldapadd -Y EXTERNAL -H ldapi:/// -f /data/Install/openldap/schema/cosine.ldif
+ldapadd -Y EXTERNAL -H ldapi:/// -f /data/Install/openldap/schema/inetorgperson.ldif
+ldapadd -Y EXTERNAL -H ldapi:/// -f /data/Install/openldap/schema/misc.ldif
+ldapadd -Y EXTERNAL -H ldapi:/// -f /data/Install/openldap/schema/nis.ldif
+ldapadd -Y EXTERNAL -H ldapi:/// -f /data/Install/openldap/schema/openldap.ldif
+ldapadd -Y EXTERNAL -H ldapi:/// -f /data/Install/openldap/schema/samba.ldif
+</pre></div>
+
+
+Add a rootdn password using a config file
+Create a file
+Generate a SSHA password
+<div class="code"><pre>
+PASSWORD=`slappasswd -s rootMe55`
+</pre></div>
+<div class="code"><pre>
+cat << CONFIG > /root/modify.ldif
+
+<font color="green">dn:</font><font color="red"> olcDatabase={2}hdb,cn=config</font>
+<font color="green">changetype:</font><font color="red"> modify</font>
+<font color="green">replace:</font><font color="red"> olcRootPW</font>
+<font color="green">olcRootPW:</font><font color="red"> $PASSWORD</font>
+
+CONFIG
+</pre></div>
+
+Perform the change with the ldapmodify command using the file.
+<div class="code"><pre>
+ldapmodify -Y EXTERNAL -H ldapi:/// -f /root/modify.ldif
+</pre></div>
+
+Now verifiy the entry
+<div class="code"><pre>
+ldapsearch -LLLQY EXTERNAL -H ldapi:/// -b cn=config olcDatabase={2}hdb olcRootPW
+</pre></div>
+
+<p>You should get something like this:</p>
+<div class="output"><pre>
+<pre>
+dn: olcDatabase={2}hdb,cn=config
+olcRootPW: {SSHA}5YYqtqNlBSdy0IjBrXOId4w8V6haH/Sd
+</pre>
+</div>
+
+Interactively change the Database Directory
+
+In a terminal type:
+<div class="code"><pre>
+ldapmodify -Y EXTERNAL -H ldapi:///
+</pre></div>
+
+<p>You should get something like this:</p>
+<div class="output"><pre>
+<pre>
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+</pre>
+</div>
+
+At the blank line, type:
+<div class="code"><pre>
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+replace: olcDbDirectory
+olcDbDirectory: /data/openldap
+</pre></div>
+
+<p>Type a carriage return twice, to process the entry</p>
+<p>Type &lt;CTRL-D>, to exit ldapmodify</p>
+
+Now verifiy the entry
+<div class="code"><pre>
+ldapsearch -LLLQY EXTERNAL -H ldapi:/// -b cn=config olcDatabase={2}hdb olcDbDirectory
+</pre></div>
+
+<p>You should get something like this:</p>
+
+<div class="output"><pre>
+<pre>
+dn: olcDatabase={2}hdb,cn=config
+olcDbDirectory: /data/openldap
+</pre>
+</div>
+
+Modify the RootDN and Suffix
+
+In a terminal type:
+<div class="code"><pre>
+ldapmodify -Y EXTERNAL -H ldapi:///
+</pre></div>
+<div class="code"><pre>
+
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+replace: olcRootDN
+olcRootDN: cn=Manager,dc=local,dc=austin,dc=rr,dc=com
+
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+replace: olcSuffix
+olcSuffix: dc=local,dc=austin,dc=rr,dc=com
+</pre></div>
+
+<p>Type a carriage return twice, to process the entry</p>
+
+<!--
+dn: cn=config
+changetype: modify
+add: olcTLSCACertificateFile
+olcTLSCACertificateFile: /etc/pki/tls/certs/slapd.pem
+
+dn: cn=config
+changetype: modify
+add: olcTLSCertificateFile
+olcTLSCertificateFile: /etc/pki/tls/certs/slapd.pem
+
+dn: cn=config
+changetype: modify
+add: olcTLSCertificateKeyFile
+olcTLSCertificateKeyFile: /etc/pki/tls/certs/slapd.pem
+
+
+I don't think this is correct, but dont delete until I have a chance to test the the other below
+
+
+# Allow users to change their own password
+# Allow anonymous to authenticate against the password
+# Allow admin to change anyone's password
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+add: olcAccess
+olcAccess: {0}to attrs=userPassword by self write by anonymous auth by * none
+olcAccess: {0}to attrs=userPassword by self write by anonymous auth by dn.base="cn=admin,dc=home,dc=local" write by * none
+
+# Allow users to change their own record
+# Allow anyone to read directory
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+add: olcAccess
+olcAccess: {1}to * by self write by * read
+olcAccess: {1}to * by self write by dn.base="cn=admin,dc=home,dc=local" write by * read
+</pre></div>
+
+Modify the /etc/ldap.conf file
+<div class="code"><pre>
+vim /etc/ldap.conf
+</pre></div>
+<div class="code"><pre>
+dG
+i
+</pre></div>
+
+
+
+Dont forget to put this in there, it works
+
+ldapsearch -x -b 'dc=local,dc=austin,dc=rr,dc=com' -D cn=Manager,dc=local,dc=austin,dc=rr,dc=com -W
+-->
+
+Modify the remaining settings
+
+In a terminal type:
+
+<div class="code"><pre>
+
+# Allow users to change their own password
+# Allow anonymous to authenticate against the password
+# Keep everyone else out
+olcAccess: {0}to attrs=userPassword by self write by anonymous auth by * none
+
+# Allow users to change their own record
+# Allow anyone else to read directory
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+add: olcAccess
+olcAccess: {1}to * by self write by * read
+</pre></div>
+
+<p>Type a carriage return twice, to process the entry</p>
+<p>Type &lt;CTRL-D>, to exit ldapmodify</p>
+
+Modify the indicies
+
+<div class="code"><pre>
+vi /data/Saved/samba_indices.ldif
+</pre></div>
+
+<div class="code"><pre>
+i
+</pre></div>
+
+<div class="code"><pre>
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+add: olcDbIndex
+olcDbIndex: uidNumber eq
+olcDbIndex: gidNumber eq
+olcDbIndex: loginShell eq
+olcDbIndex: uid eq,pres,sub
+olcDbIndex: memberUid eq,pres,sub
+olcDbIndex: uniqueMember eq,pres
+olcDbIndex: sambaSID eq
+olcDbIndex: sambaPrimaryGroupSID eq
+olcDbIndex: sambaGroupType eq
+olcDbIndex: sambaSIDList eq
+olcDbIndex: sambaDomainName eq
+olcDbIndex: default sub
+</pre></div>
+
+<div class="code"><pre>
+ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f /data/Saved/samba_indices.ldif
+</pre></div>
+
+Modify the /etc/ldap.conf file
+<div class="code"><pre>
+vim /etc/ldap.conf
+</pre></div>
+<div class="code"><pre>
+i
+</pre></div>
+
+<div class="code"><pre>
+BASE    dc=local,dc=austin,dc=rr,dc=com
+URI     ldap://iona.local.austin.rr.com ldaps://iona.local.austin.rr.com:636
+TLS_REQCERT allow
+TLS_CACERTDIR   /etc/pki/CA/certs
+HOST iona.local.austin.rr.com
+BIND_POLICY soft
+
+#SIZELIMIT      12
+#TIMELIMIT      15
+#DEREF          never
+</pre></div>
+
+Link the /etc/ldap.conf file to the /etc/openldap.conf file
+<div class="code"><pre>
+rm /data/Install/openldap/ldap.conf
+ln -s /etc/ldap.conf /data/Install/openldap/ldap.conf
+</pre></div>
+
+Run a config test
+<div class="code"><pre>
+slaptest -u
+</pre></div>
+
+Set up system for ldaps
+<div class="code"><pre>
+sed -ie 's/\(SLAPD_URLS=\"ldapi:\/\/\/\ ldap:\/\/\/\)"/\1\ ldaps:\/\/\/"/' /etc/sysconfig/slapd
+</pre></div>
+
+Restart the daemon
+<div class="code"><pre>
+/bin/systemctl restart slapd
+</pre></div>
+
+Check the daemon
+<div class="code"><pre>
+netstat -plt --numeric-ports | grep slapd
+</pre></div>
+
+<p>You should get something like this:</p>
+<div class="output"><pre>
+<pre>
+tcp        0      0 *:636                       *:*                         LISTEN      10141/<font color="red">slapd</font>         
+tcp        0      0 *:389                       *:*                         LISTEN      10141/<font color="red">slapd</font>
+tcp        0      0 *:636                       *:*                         LISTEN      10141/<font color="red">slapd</font>
+tcp        0      0 *:389                       *:*                         LISTEN      10141/<font color="red">slapd</font>
+</pre>
+</div>
+
+Setup auto start
+<div class="code"><pre>
+/bin/systemctl enable slapd
+</pre></div>
+
+Check system for ldaps
+<div class="code"><pre>
+ldapsearch -x -b '' -s base '(objectclass=*)' namingContexts
+</pre></div>
+<p>You should get something like this:</p>
+<div class="output"><pre>
+<pre>
+# extended LDIF
+#
+# LDAPv3
+# base &lt;&gt; with scope baseObject
+# filter: (objectclass=*)
+# requesting: namingContexts 
+#
+
+#
+dn:
+namingContexts: dc=local,dc=austin,dc=rr,dc=com
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 2
+# numEntries: 1
+[root@localhost certs]# 
+</pre>
+</div>
+
+<h4><a>Note this step</a></h4>
+<div class="code"><pre>
+/usr/local/bin/note.sh openldap
+</pre></div>
+
+</body>
+</html>

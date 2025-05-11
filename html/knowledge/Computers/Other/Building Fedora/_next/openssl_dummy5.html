@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" media="screen,print" href="/stylesheets/Welcome./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="/stylesheets/install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<a name="DUMMY_OPENSSL"></a>
+<h2><a>OpenSSL Configuration using a self-generated CA Cert</a></h2>
+
+<a>Purpose </a>
+<h6>A little background</h6>
+SSL (Secure Sockets Layer) is the original protocol implementation. SSLv3 is still allowed by 
+
+<b>SSL and TLS terms are often used in confusing ways:</b>
+
+    SSL (Secure Sockets Layer) is the original protocol implementation. SSLv3 is still in use by some programs, but not very many.
+    TLS (Transport Layer Security) replaced the SSL protocol. TLSv1 protocol is used practically always nowadays. Some clients use TLS to mean that they're going to use STARTTLS command after connecting to the standard imap (143), pop3 (110) or smtp port (25/587).
+ 
+<h6>Status quo</h6>
+<p>Since Fedora Core 4 digital certificates are stored somewhere within /etc/pki. Unfortunately, there a no guidelines on where to exactly place what certificates or certificate-related stuff. Consequently, some applications put certificates in /etc/pki/tls/certs and /etc/pki/tls/private, others create new directories within /etc/pki, others put them somewhere in /etc or /usr/share.</p>
+
+<a>Download the revoke.crl certificate</a>
+<div class="code"><pre>
+cd /etc/pki
+wget cacert.org/revoke.crl
+</pre></div>
+
+<a>Generate CA Certificate</a>
+
+<font color="red"><p>Note: Do not use the values here since they are known.</p></font>
+
+<font color="red"><p>Note: The Common Name of the CA and the site Certificates must be different.</p></font>
+
+<p>The first step is to create a new Certificate Authority (CA) Certificate. 
+A CA certificate is used to sign all other certificates.</p>
+<p>First we make a new CA.key</p>
+<div class="code"><pre>
+cd /etc/pki/CA/private &&
+/usr/bin/openssl genrsa -des3 -out CA.key 1024
+</pre></div>
+
+<div class="output"><pre>
+Generating RSA private key, 1024 bit long modulus
+.................++++++
+................++++++
+e is 65537 (0x10001)
+Enter pass phrase for CA.key: <font color="blue">rootMe55</font>
+
+Verifying - Enter pass phrase for CA.key: <font color="blue">rootMe55</font>
+</div>
+
+
+<p>And next we generate a CA certficate from that key</p>
+<div class="code"><pre>
+mkdir /etc/pki/CA/certs
+/usr/bin/openssl req -new -key CA.key -x509 -days 1095 -out ../certs/CA.crt
+</pre></div>
+
+<div class="output"><pre>
+Enter pass phrase for CA.key: <font color="blue">rootMe55</font>
+
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [GB]: <font color="blue">US</font>
+
+State or Province Name (full name) [Berkshire]: <font color="blue">Texas</font>
+Locality Name (eg, city) [Newbury]: <font color="blue">Austin</font>
+Organization Name (eg, company) [My Company Ltd]: <font color="blue">Sert Inc</font>
+Organizational Unit Name (eg, section) []: <font color="blue">None</font>
+Common Name (eg, your name or your server's hostname) []: <font color="blue">certserver.sert.org</font>
+Email Address []: <font color="blue">webmaster@sert.org</font>
+</div>
+
+<a>Server Certificate</a>
+<p>We will generate only one certificate for the entire server, this can be split up, but there is no point.</p>
+<p> First we generate an Server Key</p>
+<div class="code"><pre>
+cd /etc/pki/tls/private &#38;&#38;
+/usr/bin/openssl genrsa -out server.key 1024
+</pre></div>
+
+Using this key, we generate a Certificate Request (CSR)
+<div class="code"><pre>
+/usr/bin/openssl req -new -key server.key -out server.csr
+</pre></div>
+
+<div class="output"><pre>
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [GB]: <font color="blue">US</font>
+State or Province Name (full name) [Berkshire]: <font color="blue">Texas</font>
+Locality Name (eg, city) [Newbury]: <font color="blue">Dripping Springs</font>
+
+Organization Name (eg, company) [My Company Ltd]: <font color="blue">Indigo</font>
+Organizational Unit Name (eg, section) []: <font color="blue">HQ</font>
+Common Name (eg, your name or your server's hostname) []: <font color="blue">iona.local.austin.rr.com</font>
+Email Address []: <font color="blue">nagray00@austin.rr.com</font>
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []: <font color="blue">&lt cr &gt</font>
+
+An optional company name []: <font color="blue">&lt cr &gt</font>
+</pre></div>
+
+We sign the Certificate using the CA. 
+<div class="code"><pre>
+/usr/bin/openssl x509 \
+-req \
+-days 3650 \
+-in /etc/pki/tls/private/server.csr \
+-CA /etc/pki/CA/certs/CA.crt \
+-CAkey /etc/pki/CA/private/CA.key \
+-CAcreateserial \
+-out /etc/pki/tls/certs/server.crt
+</div>
+
+<div class="output"><pre>
+Signature ok
+subject=/C=US/ST=Texas/L=Cedar Park/O=Efficax/OU=HQ/CN=hawaii.efficax.net/emailAddress=nagray@austin.rr.com
+Getting CA Private Key
+Enter pass phrase for /etc/pki/private/CA.key: <font color="blue">rootMe55</font>
+</div>
+
+<a>File Permissions</a>
+now that we are done with all of the key generation lets ensure that these are only readable by root.
+<div class="code"><pre>
+chmod 0700 -R /etc/pki/CA/private
+chmod 0700 -R /etc/pki/tls/private
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="code"><pre>
+/usr/local/bin/note.sh setup_ssl_certs
+</pre></div>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>Mediawiki</a></h2>
+<a>Install the binaries</a>
+<div class="command"><pre>
+dnf -y install php-ZendFramework-Cache-Backend-Apc.noarch
+dnf -y install mediawiki
+</pre></div>
+
+<a>Replace the mediawiki.conf</a>
+<div class="command"><pre>
+cat << PHPCONFIG > /etc/httpd/conf.d/mediawiki.conf
+Alias /wiki /usr/share/mediawiki
+
+&lt;Location /wiki>
+    &lt;IfModule mod_authz_core.c>
+        Require local
+        Require ip 172.16.10
+        SSLRequireSSL
+    &lt;/IfModule>
+&lt;/Location>
+
+PHPCONFIG
+</pre></div>
+
+<a>Restart Daemons</a>
+<div class="command"><pre>
+systemctl restart httpd
+</pre></div>
+
+<a href="http://$_CURRENT_IP/private/">From the index page check the Media Wiki Page</a>
+
+Click on the "set up the wiki" link<br>
+
+Follow the instructions on the page to continue the mediawiki setup<br>
+
+<a>Move the config file</a></font>
+<div class="command"><pre>
+mv /usr/share/mediawiki/config/LocalSettings.php /usr/share/mediawiki/
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh media_wiki
+</pre></div>
+
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2>
+      <a>Web based Distributed Authoring and Versioning (WebDAV)Server</a>
+    </h2>
+
+    Setting up a webbdav server.
+
+    <a>Install Litmus</a>
+    <div class="command">
+      <pre>
+dnf -y install litmus
+</pre
+      >
+    </div>
+
+    <a>Edit /etc/httpd/conf.d/webdav.conf file</a>
+    <div class="command">
+      <pre>
+vi /etc/httpd/conf.d/webdav.conf
+</pre
+      >
+    </div>
+
+    <a>Remove current contents and setup for insertion</a>
+    <div class="command">
+      <pre>
+i
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+DAVLockDB /var/lib/dav/lockdb
+
+Alias /webdav/private /data/webdav/private
+&lt;Directory /data/webdav/private>
+        Dav On
+        SSLRequireSSL
+        Options +Indexes
+        IndexIgnore ..
+        IndexOptions -IconsAreLinks NameWidth=* FancyIndexing SuppressLastModified FoldersFirst
+        IndexOrderDefault Ascending Name
+        AuthName "WebDAV Restricted"
+        AuthType Basic
+        AuthBasicProvider ldap
+        AuthLDAPURL "ldap://127.0.0.1/ou=People,ou=Users,dc=local,dc=graysaustin,dc=com?uid?"
+        Require valid-user
+&lt;/Directory>
+
+Alias /webdav/public /data/webdav/public
+&lt;Directory /data/webdav/public>
+        Dav On
+        SSLRequireSSL
+        Options Indexes
+        IndexIgnore ..
+        IndexOptions -IconsAreLinks NameWidth=* FancyIndexing SuppressLastModified FoldersFirst
+        IndexOrderDefault Ascending Name
+        AuthName "WebDAV Public"
+        AuthType Basic
+        AuthBasicProvider ldap
+        AuthLDAPURL "ldap://127.0.0.1/ou=People,ou=Users,dc=local,dc=graysaustin,dc=com?uid?"
+        &lt;LimitExcept GET>
+                Require valid-user
+        &lt;/LimitExcept>
+&lt;/Directory>
+
+Alias /webdav/digest /data/webdav/digest
+&lt;Directory /data/webdav/digest>
+        Dav On
+        SSLRequireSSL
+        Options Indexes
+        IndexIgnore ..
+        IndexOptions -IconsAreLinks NameWidth=* FancyIndexing SuppressLastModified FoldersFirst
+        IndexOrderDefault Ascending Name
+        AuthType Digest
+        AuthName "WebDAV Digest"
+        AuthUserFile /etc/httpd/conf/passwd
+        Require valid-user
+&lt;/Directory>
+</pre
+      >
+    </div>
+
+    <a>Setup the WebDav directory structure</a>
+    <div class="command">
+      <pre>
+mkdir /data/webdav
+mkdir /data/webdav/public
+mkdir /data/webdav/private
+mkdir /data/webdav/digest
+chmod -R 1777 /data/webdav
+touch /data/webdav/public/public_testfile
+touch /data/webdav/private/private_testfile
+touch /data/webdav/digest/digest_testfile
+chown -R apache:apache /data/webdav
+</pre
+      >
+    </div>
+
+    <a>Create a digest user and password</a>
+    <div class="command">
+      <pre>
+htdigest -c /etc/httpd/conf/passwd "WebDAV Digest" digestuser
+</pre
+      >
+    </div>
+
+    <a>Restart the web server</a>
+    <div class="command">
+      <pre>
+/bin/systemctl restart  httpd
+</pre
+      >
+    </div>
+
+    <a>Test installation</a>
+    The first test will fail since you can't write to this webdav w/o a
+    USER/PASSWORD.
+    <div class="command">
+      <pre>
+litmus https://$_CURRENT_IP/webdav/public
+</pre
+      >
+    </div>
+    With the exception of some WARNINGS and a skipped test due to SSL , all
+    tests should pass
+    <div class="command">
+      <pre>
+litmus https://$_CURRENT_IP/webdav/public testuser rootMe55
+</pre
+      >
+    </div>
+    With the exception of some WARNINGS and a skipped test due to SSL , all
+    tests should pass
+    <div class="command">
+      <pre>
+litmus https://$_CURRENT_IP/webdav/private testuser rootMe55
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+litmus https://$_CURRENT_IP/webdav/digest digestuser rootMe55
+</pre
+      >
+    </div>
+    <br />
+
+    <a>Test with an actual file</a>
+
+    <div class="command">
+      <pre>
+vi /data/webdav/public/public_testfile
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+i
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+          1        2         3         4         5         6         7         8 
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+</pre
+      >
+    </div>
+
+    <a>Install cadaver</a>
+    <div class="command">
+      <pre>
+dnf -y install cadaver
+</pre
+      >
+    </div>
+
+    <a>Using webdav get a file change and upload it</a>
+    <div class="command">
+      <pre>
+cadaver https://192.168.122.10/webdav/public
+</pre
+      >
+    </div>
+
+    Accept certificate and login as testuser/rootMe55
+
+    <div class="command">
+      <pre>
+get public_testfile
+quit
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+vi public_testfile
+yy
+3p
+ZZ
+cp public_testfile modified_testfile
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+cadaver https://192.168.122.10/webdav/public
+</pre
+      >
+    </div>
+
+    Accept certificate and login as testuser/rootMe55
+
+    <div class="command">
+      <pre>
+put modified_testfile
+ls
+quit
+</pre
+      >
+    </div>
+
+    <a href="https://192.168.122.10/webdav/public"
+      >Check public access to webdave via this link</a
+    >
+
+    <a>Disable digest mode unless needed</a>
+    <div class="command">
+      <pre>
+sed -i -e '/\&lt;Directory\ \/data\/webdav\/digest\>/,/\&lt;Diretory\>/ s/Dav\ On/Dav\ Off/' /etc/httpd/conf.d/webdav.conf
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+/bin/systemctl restart  httpd
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh webdav
+</pre
+      >
+    </div>
+  </body>
+</html>

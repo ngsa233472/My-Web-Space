@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>Bacula Installation</a></h2>
+
+<a>Purpose </a></font>
+
+<a>Login as root</a>
+
+<a>Temporarily disable vim alias</a>
+<div class="command"><pre>
+unalias vi
+</pre></div>
+
+<a>Use yum to install bacula</a></font>
+<div class="command"><pre>
+yum -y install bacula-client.x86_64
+yum -y install bacula-console.x86_64
+yum -y install bacula-director.x86_64
+yum -y install bacula-docs.noarch
+yum -y install bacula-storage
+yum -y install bacula-common
+</pre></div>
+
+<a>Become postgres</a>
+<div class="command"><pre>
+su - postgres
+</pre></div>
+
+<a>Setting up Postgres for Bacula</a>
+<div class="command"><pre>
+/usr/libexec/bacula/create_postgresql_database
+</pre></div>
+
+<div class="command"><pre>
+/usr/libexec/bacula/make_postgresql_tables
+</pre></div>
+<div class="command"><pre>
+/usr/libexec/bacula/grant_postgresql_privileges
+</pre></div>
+
+<a>Exit posgres</a>
+<div class="command"><pre>
+exit
+</pre></div>
+
+<a>Configuring Bacula</a>
+
+<a>Modify the /etc/bacula/bacula-dir.conf file</a>
+<div class="tab">
+	<a href="./configs/bacula_dir.html">link to /etc/bacula/bacula-dir.conf file</a>
+</div>
+
+<a>Modify the /etc/bacula/bacula-sd.conf file</a>
+<div class="tab">
+	<a href="./configs/bacula_sd.html">link to /etc/bacula/bacula-sd.conf file</a>
+</div>
+
+<a>Modify the /etc/bacula/bacula-fd.conf file</a>
+<div class="tab">
+	<a href="./configs/bacula_fd.html">link to /etc/bacula/bacula-fd.conf file</a>
+</div>
+
+<a>Fix a permission problem</a>
+<div class="command"><pre>
+sed -ie s/SD_USER=bacula/SD_USER=root/ /etc/sysconfig/bacula-sd
+</pre></div>
+
+<div class="command"><pre>
+sed -ie s/DIR_USER=bacula/DIR_USER=root/ /etc/sysconfig/bacula-dir
+</pre></div>
+
+<a>Label the volume</a>
+<div class="command"><pre>
+bconsole
+</pre></div>
+
+<div class="command"><pre>
+label Volume001
+</pre></div>
+
+<a>Setting Bacula startup</a>
+
+<div class="command"><pre>
+/bin/systemctl enable bacula-dir
+/bin/systemctl enable bacula-fd
+/bin/systemctl enable bacula-sd 
+</pre></div>
+
+<div class="command"><pre>
+/bin/systemctl start bacula-dir
+/bin/systemctl start bacula-fd
+/bin/systemctl start bacula-sd
+</pre></div>
+
+<a>Run the initial backups</a>
+<div class="command"><pre>
+bconsole
+</pre></div>
+<div class="command"><pre>
+run
+</pre></div>
+<div class="command"><pre>
+1
+</pre></div>
+<div class="command"><pre>
+mod
+</pre></div>
+<div class="command"><pre>
+1
+</pre></div>
+<div class="command"><pre>
+1
+</pre></div>
+<div class="command"><pre>
+yes
+</pre></div>
+
+
+<a>Restore vim alias</a>
+<div class="command"><pre>
+alias vi=vim
+</pre></div>
+
+<a>Note this step</a></font>
+<div class="command"><pre>
+touch /install/bacula_install.$INSTALL_VERSION
+</pre></div>
+
+<!-- This is for resetting bacula
+
+<a>b.Resetting and clearing bacula</a></font>
+
+Stop Bacula
+<div class="command"><pre>
+/bin/systemctl stop bacula-dir
+/bin/systemctl stop bacula-fd
+/bin/systemctl stop bacula-sd
+
+</div>
+
+Remove and restore database and priveleges
+<div class="command"><pre>
+su - postgres
+/usr/libexec/bacula/drop_postgresql_tables
+/usr/libexec/bacula/make_postgresql_tables
+/usr/libexec/bacula/grant_postgresql_privileges
+exit
+</div>
+
+Remove data files
+<div class="command"><pre>
+rm -r /var/spool/bacula/*
+rm -r /var/log/bacula/*
+rm -r /backup/*
+</div>
+
+Restore bacula
+<div class="command"><pre>
+/bin/systemctl start bacula-dir
+/bin/systemctl start bacula-fd
+/bin/systemctl start bacula-sd
+</div>
+
+
+New install of Bacula
+
+Initial Backup by hand
+-->
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh bacula
+</pre></div>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Set root's dn passwd</a></h2>
+
+    <a>Purpose</a>
+    To set the password of root to an less known value
+
+    <a></a>
+
+    Add a rootdn password using a config file Create a file Generate a SSHA
+    password
+    <div class="command">
+      <pre>
+PASSWORD=`slappasswd -s PASSWORD`
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+cat << CONFIG > /root/modify.ldif
+
+<font color="green">dn:</font><font color="red"> olcDatabase={2}hdb,cn=config</font>
+<font color="green">replace:</font><font color="red"> olcRootPW</font>
+<font color="green">olcRootPW:</font><font color="red"> $PASSWORD</font>
+
+CONFIG
+</pre>
+    </div>
+
+    Perform the change with the ldapmodify command using the file.
+    <div class="command">
+      <pre>
+ldapmodify -Y EXTERNAL -H ldapi:/// -f /root/modify.ldif
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh set_rootdn_passwd
+</pre
+      >
+    </div>
+  </body>
+</html>

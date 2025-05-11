@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>Check Mail Installation</a></h2>
+Verify that proper programs are installed
+
+<a>Purpose</a>
+Verify that the programs are installed for the remaining mail configurations
+
+<a>Sendmail</a>
+<p>Verify that sendmail was compiled and installed with the SASL and SSLTLS options</p>
+<div class="command"><pre>
+sendmail -bt -d0.1 &lt; /dev/null
+<pre></pre></div>
+<p>You should get something like this!:</p>
+<div class="output"><pre>
+<pre>
+Version 8.14.5
+ Compiled with: DNSMAP HESIOD HES_GETMAILHOST LDAPMAP LOG MAP_REGEX
+		MATCHGECOS MILTER MIME7TO8 MIME8TO7 NAMED_BIND NETINET NETINET6
+		NETUNIX NEWDB NIS PIPELINING SASLv2 SCANF SOCKETMAP STARTTLS
+		TCPWRAPPERS USERDB USE_LDAP_INIT
+
+============ SYSTEM IDENTITY (after readcf) ============
+      (short domain name) $w = orcas
+  (canonical domain name) $j = orcas.local.austin.rr.com
+         (subdomain name) $m = local.austin.rr.com
+              (node name) $k = orcas.local.austin.rr.com
+========================================================
+
+ADDRESS TEST MODE (ruleset 3 NOT automatically invoked)
+Enter <ruleset> <address>
+</pre>
+</div>
+
+<a>Procmail</a>
+<p>Verify that procmail was compiled and installed</p>
+<div class="command"><pre>
+procmail -v
+<pre></pre></div>
+<p>You should get something like this!:</p>
+<div class="output"><pre><pre>
+procmail v3.22 2001/09/10
+    Copyright (c) 1990-2001, Stephen R. van den Berg    <srb@cuci.nl>
+    Copyright (c) 1997-2001, Philip A. Guenther         <guenther@sendmail.com>
+
+Submit questions/answers to the procmail-related mailinglist by sending to:
+        <procmail-users@procmail.org>
+
+And of course, subscription and information requests for this list to:
+        <procmail-users-request@procmail.org>
+
+Locking strategies:     dotlocking, fcntl()
+Default rcfile:         $HOME/.procmailrc
+        It may be writable by your primary group
+Your system mailbox:    /var/mail/root
+</pre></div>
+
+<a>SASLAuthd</a>
+<p>Verify that saslauthd was compiled and installed</p>
+<div class="command"><pre>
+saslauthd -v
+<pre></pre></div>
+<p>You should get something like this!:</p>
+<div class="output"><pre>
+<pre>
+saslauthd 2.1.23
+authentication mechanisms: getpwent kerberos5 pam rimap shadow ldap
+
+</pre>
+</div>
+
+<a>Fetchmail</a>
+<p>Install Fetchmail</p>
+<div class="command"><pre>
+dnf -y install fetchmail
+<pre></pre></div>
+<div class="command"><pre>
+fetchmail -V
+<pre></pre></div>
+<p>You should get something like this!:</p>
+<div class="output"><pre><pre>
+fetchmail: WARNING: Running as root is discouraged.
+This is fetchmail release 6.3.22+GSS+RPA+NTLM+SDPS+SSL+HESIOD+NLS+KRB5.
+
+Copyright (C) 2002, 2003 Eric S. Raymond
+Copyright (C) 2004 Matthias Andree, Eric S. Raymond,
+                   Robert M. Funk, Graham Wilson
+Copyright (C) 2005 - 2006, 2010 - 2011 Sunil Shetye
+Copyright (C) 2005 - 2011 Matthias Andree
+Fetchmail comes with ABSOLUTELY NO WARRANTY. This is free software, and you
+are welcome to redistribute it under certain conditions. For details,
+please see the file COPYING in the source or documentation directory.
+This product includes software developed by the OpenSSL Project
+for use in the OpenSSL Toolkit. (http://www.openssl.org/)
+
+Fallback MDA: (none)
+Linux localhost.localdomain 3.6.9-2.fc17.x86_64 #1 SMP Tue Dec 4 13:26:04 UTC 2012 x86_64 x86_64 x86_64 GNU/Linux
+Taking options from command line
+No mailservers set up -- perhaps /root/.fetchmailrc is missing?
+</pre></div>
+
+<a>Spamassassin</a>
+<p>Install Spamassassin</p>
+<h6><a>Install Spamass-milter</a></h6>
+<div class="command"><pre>
+dnf install -y spamass-milter
+</pre></div>
+<div class="command"><pre>
+spamassassin -V
+<pre></pre></div>
+<p>You should get something like this!:</p>
+<div class="output"><pre>
+<pre>
+SpamAssassin version 3.3.2
+  running on Perl version 5.14.3
+</pre>
+</div>
+
+<a>Dovecot</a>
+<p>Install Dovecot</p>
+<div class="command"><pre>
+dnf -y install dovecot
+<pre></pre></div>
+<div class="command"><pre>
+dovecot -n
+<pre></pre></div>
+<p>You should get something like this!:</p>
+<div class="output"><pre><pre>
+# 2.2.5: /etc/dovecot/dovecot.conf
+# OS: Linux 3.10.6-200.fc19.x86_64 x86_64 Fedora release 19 (Schr�dinger�s Cat)
+mbox_write_locks = fcntl
+namespace inbox {
+  inbox = yes
+  location =
+  mailbox Drafts {
+    special_use = \Drafts
+  }
+  mailbox Junk {
+    special_use = \Junk
+  }
+  mailbox Sent {
+    special_use = \Sent
+  }
+  mailbox "Sent Messages" {
+    special_use = \Sent
+  }
+  mailbox Trash {
+    special_use = \Trash
+  }
+  prefix =
+}
+passdb {
+  driver = pam
+}
+ssl = required
+ssl_cert = </etc/pki/dovecot/certs/dovecot.pem
+ssl_key = </etc/pki/dovecot/private/dovecot.pem
+userdb {
+  driver = passwd
+}
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh mail_installation
+</pre></div>
+
+</body>
+</html>

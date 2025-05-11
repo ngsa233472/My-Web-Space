@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen,print"
+      href="/stylesheets/Welcome./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a name href="#Index">/etc/httpd/conf/httpd.conf</a></h2>
+
+    <div class="code">
+      <pre>
+vi /etc/httpd/conf/httpd.conf
+</pre
+      >
+    </div>
+
+    <div class="code">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <div class="code">
+      <pre>
+ServerTokens OS
+ServerSignature Off
+ServerRoot "/etc/httpd"
+PidFile run/httpd.pid
+Timeout 60
+KeepAlive Off
+MaxKeepAliveRequests 100
+KeepAliveTimeout 5
+Listen 80
+Include conf.modules.d/*.conf
+User apache
+Group apache
+ServerAdmin root@localhost
+
+&lt;Directory />
+AllowOverride none
+Require all denied
+&lt;/Directory>
+DocumentRoot "/data/www/html/unencrypted"
+&lt;Directory "/data/www/html/unencrypted">
+Options Indexes FollowSymLinks
+Require all granted
+AllowOverride None
+&lt;/Directory>
+&lt;Directory "/var/www/cgi-bin">
+AllowOverride None
+Options None
+Require all granted
+&lt;/Directory>
+&lt;Directory "/data/www/icons">
+Options Indexes MultiViews FollowSymLinks
+AllowOverride None
+Require all granted
+&lt;/Directory>
+
+HostnameLookups Off
+ErrorLog "logs/error_log"
+LogLevel warn
+AddDefaultCharset UTF-8
+EnableSendfile on
+
+&lt;Files ".ht*">
+Require all denied
+&lt;/Files>
+
+&lt;IfModule dir_module>
+DirectoryIndex index.html
+&lt;/IfModule>
+
+&lt;IfModule log_config_module>
+	LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined
+	LogFormat "%h %l %u %t \"%r\" %>s %b" common
+	&lt;IfModule logio_module>
+		LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %I %O" combinedio
+	&lt;/IfModule>
+	CustomLog "logs/access_log" combined
+&lt;/IfModule>
+
+&lt;IfModule mod_dav_fs.c>
+DAVLockDB /var/lib/dav/lockdb
+&lt;/IfModule>
+
+&lt;IfModule alias_module>
+	ScriptAlias /cgi-bin/ "/var/www/cgi-bin/"
+	Alias /error/ "/data/www/error/"
+&lt;/IfModule>
+
+&lt;IfModule mime_module>
+	TypesConfig /etc/mime.types
+	AddType application/x-compress .Z
+	AddType application/x-gzip .gz .tgz
+	AddType text/html .shtml
+	AddType application/x-compress .Z
+	AddType application/x-gzip .gz .tgz
+	AddType application/x-x509-ca-cert .crt
+	AddType application/x-pkcs7-crl    .crl
+	AddHandler type-map var
+	AddType text/html .shtml
+	AddLanguage ca .ca
+	AddLanguage cs .cz .cs
+	AddLanguage da .dk
+	AddLanguage de .de
+	AddLanguage el .el
+	AddLanguage en .en
+	AddLanguage eo .eo
+	AddLanguage es .es
+	AddLanguage et .et
+	AddLanguage fr .fr
+	AddLanguage he .he
+	AddLanguage hr .hr
+	AddLanguage it .it
+	AddLanguage ja .ja
+	AddLanguage ko .ko
+	AddLanguage ltz .ltz
+	AddLanguage nl .nl
+	AddLanguage nn .nn
+	AddLanguage no .no
+	AddLanguage pl .po
+	AddLanguage pt .pt
+	AddLanguage pt-BR .pt-br
+	AddLanguage ru .ru
+	AddLanguage sv .sv
+	AddLanguage zh-CN .zh-cn
+	AddLanguage zh-TW .zh-tw
+	AddOutputFilter INCLUDES .shtml
+&lt;/IfModule>
+
+&lt;IfModule mime_magic_module>
+	MIMEMagicFile conf/magic
+&lt;/IfModule>
+
+&lt;IfModule mod_setenvif>
+	BrowserMatch "Mozilla/2" nokeepalive
+	BrowserMatch "MSIE 4\.0b2;" nokeepalive downgrade-1.0 force-response-1.0
+	BrowserMatch "RealPlayer 4\.0" force-response-1.0
+	BrowserMatch "Java/1\.0" force-response-1.0
+	BrowserMatch "JDK/1\.0" force-response-1.0
+	BrowserMatch "Microsoft Data Access Internet Publishing Provider" redirect-carefully
+	BrowserMatch "MS FrontPage" redirect-carefully
+	BrowserMatch "^WebDrive" redirect-carefully
+	BrowserMatch "^WebDAVFS/1.[0123]" redirect-carefully
+	BrowserMatch "^gnome-vfs/1.0" redirect-carefully
+	BrowserMatch "^XML Spy" redirect-carefully
+	BrowserMatch "^Dreamweaver-WebDAV-SCM1" redirect-carefully
+&lt;/IfModule>
+                    
+&lt;IfModule proxy_module>
+        ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9000/data/www/html/unencrypted/$1
+&lt;/IfModule>
+
+IncludeOptional conf.d/*.conf
+</pre
+      >
+    </div>
+  </body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen,print"
+      href="/stylesheets/Welcome./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a name href="#Index">"Real" user files</a></h2>
+
+    <a>Create the /data/Install/openldap/real_user.ldif file</a>
+    <div class="code">
+      <pre>
+vi /data/Install/openldap/real_user.ldif
+</pre
+      >
+    </div>
+
+    <a>Remove current contents and setup for insertion</a>
+    <div class="code">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <a>Paste new file in place</a>
+    <div class="code">
+      <pre>
+dn: uid=nick,ou=People,dc=local,dc=austin,dc=rr,dc=com
+uid: nick
+cn: Nick Gray
+objectClass: account
+objectClass: posixAccount
+objectClass: top
+objectClass: shadowAccount
+userPassword:
+shadowLastChange: 14846
+shadowMax: 99999
+shadowWarning: 7
+loginShell: /bin/bash
+uidNumber: 5000
+gidNumber: 5000
+homeDirectory: /data/home/nick
+gecos: Nick Gray
+
+dn: uid=katie,ou=People,dc=local,dc=austin,dc=rr,dc=com
+uid: katie
+cn: Katie Gray
+objectClass: account
+objectClass: posixAccount
+objectClass: top
+objectClass: shadowAccount
+userPassword:
+shadowLastChange: 14846
+shadowMax: 99999
+shadowWarning: 7
+loginShell: /bin/bash
+uidNumber: 5001
+gidNumber: 5001
+homeDirectory: /data/home/katie
+gecos: Katie Gray
+
+dn: uid=macaella,ou=People,dc=local,dc=austin,dc=rr,dc=com
+uid: macaella
+cn: Macaella Gray
+objectClass: account
+objectClass: posixAccount
+objectClass: top
+objectClass: shadowAccount
+userPassword:
+shadowLastChange: 14846
+shadowMax: 99999
+shadowWarning: 7
+loginShell: /bin/bash
+uidNumber: 5002
+gidNumber: 5002
+homeDirectory: /data/home/macaella
+gecos: Macaella Gray
+
+dn: uid=lily,ou=People,dc=local,dc=austin,dc=rr,dc=com
+uid: lily
+cn: Lily Gray
+objectClass: account
+objectClass: posixAccount
+objectClass: top
+objectClass: shadowAccount
+userPassword:
+shadowLastChange: 14846
+shadowMax: 99999
+shadowWarning: 7
+loginShell: /bin/bash
+uidNumber: 5003
+gidNumber: 5003
+homeDirectory: /data/home/lily
+gecos: Lily Gray
+</pre
+      >
+    </div>
+  </body>
+</html>

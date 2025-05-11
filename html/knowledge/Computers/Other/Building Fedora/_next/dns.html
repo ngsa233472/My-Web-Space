@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>BIND installation and configuration</a></h2>
+<div class="tab">
+
+DNS (Domain Name Resolution) Allows an Internet wide method of accessing systems by name instead of IP Address. This configuration allows you to create a subset of names by creating a subset of a legal domain that allows resolution of a domain such as an RFC 1918 and still allows access of the "Parent" domain. It is very similar to what would happen if you had a real child domain config.
+
+<a>Login as root</a>
+
+<a>Stop the DNS service</a>
+<div class="command"><pre>
+/bin/systemctl stop named
+</pre></div>
+
+<a>Download the root file</a>
+<div class="command"><pre>
+cd /var/named/chroot/var/named/
+dig a.root-servers.net . ns > named.ca
+</pre></div>
+
+<a>Modify the /etc/sysconfig/named file</a>
+<div class="command"><pre>
+echo "ROOTDIR=/var/named/chroot" > /etc/sysconfig/named
+</pre></div>
+
+<a>Modify the /etc/named.conf file</a>
+<div class="tab">
+	<a href="./configs/named_conf.html">link to /etc/mail/named.conf file</a>
+</div>
+
+<a>Make the chrooted data directory</a>
+<div class="command"><pre>
+mkdir -p /var/named/chroot/var/named/data
+</pre></div>
+
+<a>Create the /var/named/chroot/var/named/data/local.austin.rr.com</a>
+<div class="tab">
+	<a href="./configs/local_austin_rr_com.html">link to /var/named/chroot/var/named/data/local.austin.rr.com</a>
+</div>
+
+<a>Create the /var/named/chroot/var/named/data/122.168.192</a>
+<div class="tab">
+	<a href="./configs/local_122_168_192.html">link to /var/named/chroot/var/named/data/122.168.192</a>
+</div>
+
+<a>Make the managed-keys.bind</a>
+<div class="command"><pre>
+mkdir -p /var/named/chroot/var/named/data/dynamic
+touch /var/named/chroot/var/named/data/dynamic/managed-keys.bind
+</pre></div>
+
+<a>Changing permissions</a>
+<div class="command"><pre>
+chown -R named:named /var/named/chroot/var/named
+chmod 775 /var/named/chroot/var/named
+</pre></div>
+
+<a>Checking the configuration</a>
+<div class="command">
+named-checkconf /etc/named.conf
+</div>
+<div class="command">
+named-checkzone -d local.austin.rr.com /var/named/chroot/var/named/data/local.austin.rr.com
+</div>
+<div class="command">
+named-checkzone -d 122.168.192.in-addr.arpa /var/named/chroot/var/named/data/local.122.168.192
+</div>
+
+</div>
+<a>Starting BIND</a>
+<div class="command"><pre>
+systemctl enable named
+</pre></div>
+
+<div class="command"><pre>
+systemctl start named
+</pre></div>
+
+<div class="command"><pre>
+grep named /var/log/messages
+</pre></div>
+<table border=1><tr><td>
+<pre>
+koko named[31181]: starting BIND 9.5.0b1 -u named -t /var/named/chroot
+koko named[31181]: found 1 CPU, using 1 worker thread
+koko named[31181]: loading configuration from '/etc/named.conf'
+koko named[31181]: listening on IPv4 interface lo, 127.0.0.1#53
+koko named[31181]: automatic empty zone: 127.IN-ADDR.ARPA
+koko named[31181]: automatic empty zone: 254.169.IN-ADDR.ARPA
+koko named[31181]: automatic empty zone: 2.0.192.IN-ADDR.ARPA
+koko named[31181]: automatic empty zone: 255.255.255.255.IN-ADDR.ARPA
+koko named[31181]: automatic empty zone: 0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.IP6.ARPA
+koko named[31181]: automatic empty zone: 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.IP6.ARPA
+koko named[31181]: automatic empty zone: D.F.IP6.ARPA
+koko named[31181]: automatic empty zone: 8.E.F.IP6.ARPA
+koko named[31181]: automatic empty zone: 9.E.F.IP6.ARPA
+koko named[31181]: automatic empty zone: A.E.F.IP6.ARPA
+koko named[31181]: automatic empty zone: B.E.F.IP6.ARPA
+koko named[31181]: command channel listening on 127.0.0.1#953
+koko named[31181]: command channel listening on ::1#953				
+koko named[31181]: zone 122.168.192.in-addr.arpa/IN: loaded serial 10		<font color="red"><-- Successful load</font>
+koko named[31181]: zone austin.rr.com/IN: loaded serial 10			<font color="red"><-- Successful load</font>
+koko named[31181]: running
+</pre>
+</td></tr></table>
+</div>
+
+<a>Set the /etc/resolv.conf</a>
+<div class="command"><pre>
+echo "nameserver 192.168.122.10" > /etc/resolv.conf
+</pre></div>
+
+<a>Testing the Server</a>
+<div class="command"><pre>
+dig www.local.austin.rr.com
+dig local.austin.rr.com AXFR @localhost
+dig maui.local.austin.rr.com
+ping rome
+ping rome.austin.rr.com
+ping rome.local.austin.rr.com
+ping www.yahoo.com
+ping smtp-server.austin.rr.com
+host 192.168.122.10
+<pre></pre></div>
+
+<a>Note this step</a>
+<div class="command"><pre>
+touch /install/bind_installation_and_configuration.$INSTALL_VERSION
+</pre></div>
+
+</body>
+</html>

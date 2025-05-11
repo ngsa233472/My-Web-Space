@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>FAQ</a></h2>
+
+    <a>How do I change the IP Address of the target in the documentation?</a>
+    <a>Can I use this to install to a different machine?</a>
+    <div class="faa">
+      Yes, copy all the bundled files to a machine that you can do a cross file
+      replacement (sed, ActiveState Komodo),<br />
+      1. Replace the main IP in all the files (192.168.122.10, XXX.XXX.XXX.XXX),
+      where the X's represent the desired IP.<br />
+      2. Now change the first three octets in all files (192.168.122,
+      XXX.XXX.XXX), where the X's represent the desired IP. This will modify
+      file records that use just the netmask or the first three octets in
+      common, like DNS resource records.<br />
+    </div>
+
+    <a>I found a mistake!</a>
+    <a>There is a better way to do XXXXX</a>
+    <div class="faa">
+      I am not infallable, send me the location and description, along with a
+      solution. I will take a look and either fix it, or send a rebuttal
+    </div>
+
+    <a>Why VMWare 8?</a>
+    <div class="faa">
+      No reason other than, this is what I have one the laptop where I do the
+      development of these instructions
+    </div>
+
+    <a>Why Fedora?</a>
+    <div class="faa">I like it</div>
+
+    <a>rootMe55 is not a very good password!</a>
+    <div class="faa">
+      It is an easy to remember password for setup. You should go through and
+      search all files for rootMe55 and change them either in the document or
+      mentally so that they are unique to your system.
+    </div>
+
+    <a>What are the color requireds?</a>
+    <div class="faa">
+      Blue is unread link, purple is a visited link, yellow is a page in
+      progress, and red is a future page.
+    </div>
+
+    <a>how do I keep track of which steps I have performed?</a>
+    <div class="faa">
+      There are two ways, one is the color required of the links, they will
+      change to purple after you visit them. The other is the /install
+      directory, after each step you touch a file that indicates you finished
+      the respective step
+    </div>
+
+    <a>Your DNS records are different than mine!</a>
+    <div class="faa">Well of course they are!</div>
+
+    <!--
+<a>XXXXXXXXXXXX</a>
+<a>XXXXXXXXXXXX</a>
+<a>XXXXXXXXXXXX</a>
+<a>XXXXXXXXXXXX</a>
+<a>XXXXXXXXXXXX</a>
+<a>XXXXXXXXXXXX</a>
+<a>XXXXXXXXXXXX</a>
+-->
+  </body>
+</html>

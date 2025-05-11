@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen,print"
+      href="/stylesheets/Welcome./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2>
+      <a name href="#Index"
+        >/var/named/chroot/var/named/data/local.austin.rr.com</a
+      >
+    </h2>
+
+    <div class="code">
+      <pre>
+vi /var/named/chroot/var/named/data/local.austin.rr.com
+</pre
+      >
+    </div>
+
+    <div class="code">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <div class="code">
+      <pre>
+$TTL 1D
+@       IN      SOA     iona.local.austin.rr.com. root.local.austin.rr.com. (
+        2012052901      ; Serial
+        8H              ; Refresh
+        2H              ; Retry
+        4W              ; Expire
+        1D )            ; Minimum
+;
+        IN      NS              iona                    ; Name Server for the domain
+        IN      MX      10      iona                    ; Mail Exchange
+; Home Network
+niihau          IN      A       192.168.190.1           ; Linksys RV042
+zone1           IN      A       192.168.190.2           ; Netgear WAP
+zone2           IN      A       192.168.190.3           ; DLink N300
+iona            IN      A       192.168.190.200           ; Fedora Linux Fileserver
+molokai         IN      A       192.168.190.5           ; QNAP NAS
+lanaii          IN      A       192.168.190.6           ; Tivo #1
+kahoolawe       IN      A       192.168.190.7           ; Tivo #2
+hawaii          IN      A       192.168.190.8           ; Lily's Mac Mini
+coronado        IN      A       192.168.190.9           ; Macaella's Mac Mini
+catalina        IN      A       192.168.190.10          ; Dell 780
+maui            IN      A       192.168.190.11          ; Unused
+eigg            IN      A       192.168.190.12          ; Unused
+islay           IN      A       192.168.190.13          ; Unused
+mull            IN      A       192.168.190.14          ; Unused
+bute            IN      A       192.168.190.15          ; Unused
+;
+; DHCP Addresses
+paris           IN      A       192.168.190.100         ; DHCP #1
+london          IN      A       192.168.190.101         ; DHCP #2
+prague          IN      A       192.168.190.102         ; DHCP #3
+amsterdam       IN      A       192.168.190.103         ; DHCP #4
+honolulu        IN      A       192.168.190.104         ; DHCP #5
+rio             IN      A       192.168.190.105         ; DHCP #6
+seattle         IN      A       192.168.190.106         ; DHCP #7
+portland        IN      A       192.168.190.107         ; DHCP #8
+miami           IN      A       192.168.190.108         ; DHCP #9
+edinburgh       IN      A       192.168.190.109         ; DHCP #10
+copenhagen      IN      A       192.168.190.110         ; DHCP #11
+rome            IN      A       192.168.190.111         ; DHCP #12
+madrid          IN      A       192.168.190.112         ; DHCP #13
+; Virtual Server and Hosts
+aku             IN      A       192.168.190.201         ; Virtual #2
+au              IN      A       192.168.190.202         ; Virtual #3
+kaku            IN      A       192.168.190.203         ; Virtual #4
+moi             IN      A       192.168.190.204         ; Virtual #5
+manini          IN      A       192.168.190.205         ; Virtual #6
+ono             IN      A       192.168.190.206         ; Virtual #7
+opakaka         IN      A       192.168.190.207         ; Virtual #8
+ulua            IN      A       192.168.190.208         ; Virtual #9
+uhu             IN      A       192.168.190.209         ; Virtual #10
+; Printer
+epson645        IN      A       192.168.190.254         ; Epson Workforce in Office
+; Aliases
+www             IN      CNAME   iona                    ; 'iona is also known as www'
+puppet          IN      CNAME   iona                    ; 'iona is also a puppet server'
+</pre
+      >
+    </div>
+  </body>
+</html>

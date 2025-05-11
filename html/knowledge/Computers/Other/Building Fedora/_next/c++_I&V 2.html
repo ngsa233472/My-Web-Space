@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>Default</a></h2>
+
+
+None
+
+<a>Login as root</a>
+
+ 
+ <a>Check the installation</a></font>
+<div class="command"><pre>
+g++ -v
+</pre></div>
+
+<p>You should get something like this</p>
+<div class="output"><pre>
+Using built-in specs.
+COLLECT_GCC=/usr/bin/g++
+COLLECT_LTO_WRAPPER=/usr/libexec/gcc/x86_64-redhat-linux/4.7.2/lto-wrapper
+Target: x86_64-redhat-linux
+Configured with: ../configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=http://bugzilla.redhat.com/bugzilla --enable-bootstrap --enable-shared --enable-threads=posix --enable-checking=release --disable-build-with-cxx --disable-build-poststage1-with-cxx --with-system-zlib --enable-__cxa_atexit --disable-libunwind-exceptions --enable-gnu-unique-object --enable-linker-build-id --with-linker-hash-style=gnu --enable-languages=c,c++,objc,obj-c++,java,fortran,ada,go,lto --enable-plugin --enable-initfini-array --enable-java-awt=gtk --disable-dssi --with-java-home=/usr/lib/jvm/java-1.5.0-gcj-1.5.0.0/jre --enable-libgcj-multifile --enable-java-maintainer-mode --with-ecj-jar=/usr/share/java/eclipse-ecj.jar --disable-libjava-multilib --with-ppl --with-cloog --with-tune=generic --with-arch_32=i686 --build=x86_64-redhat-linux
+Thread model: posix
+gcc version 4.7.2 20120921 (Red Hat 4.7.2-2) (GCC)
+</pre></div>
+
+<a>Unalias vi</a>
+<div class="command"><pre>
+unalias vi
+</pre></div>
+
+<a>Create the testfile</a></fonth5>
+<div class="command"><pre>
+mkdir /data/src/g++
+cd /data/src/g++
+</pre></div>
+
+<div class="command"><pre>
+vi helloworld.cpp
+</pre></div>
+
+<div class="command"><pre>
+#include &lt;iostream>
+using namespace std;
+int main()
+{
+  cout &lt;&lt; "Hello World!" &lt;&lt; endl;   cout &lt;&lt; "Welcome to C++ Programming" &lt;&lt; endl; }
+</pre></div>
+
+<div class="command"><pre>
+g++ helloworld.cpp
+</pre></div>
+
+<a>Run the testfile</a></font>
+<div class="command"><pre>
+./a.out
+</pre></div>
+
+<p>You should get something like this</p>
+<div class="output"><pre>
+Hello World!
+Welcome to C++ Programming
+</pre></div>
+
+<a>Restore vi alias</a>
+<div class="command"><pre>
+alias vi=vim
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh c++IandV
+</pre></div>
+
+</body>
+</html>

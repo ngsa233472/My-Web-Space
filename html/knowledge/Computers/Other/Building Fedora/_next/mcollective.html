@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/fedora_install.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>MCollective</a></h2>
+
+    <a>Pre-requisite</a>
+    <div class="tab"><a href="./java.html">Install Java</a><br /></div>
+
+    MCollective is a distributed shell. It uses ActiveMQ to queue and distribute
+    commands.
+
+    <a></a>
+
+    <a>Install MCollective Server</a>
+    <div class="command">
+      <pre>
+dnf -y install mcollective
+</pre
+      >
+    </div>
+
+    <a>Install MCollective Client</a>
+    <div class="command">
+      <pre>
+dnf -y install mcollective-client
+</pre
+      >
+    </div>
+
+    <a>Install Install ActiveMQ from the local repository</a>
+    <div class="command">
+      <pre>
+dnf -y localinstall $_FILES/tanukiwrapper-3.5.9-1.el5.x86_64.rpm
+dnf -y localinstall $_FILES/activemq-5.5.0-1.el5.noarch.rpm
+dnf -y localinstall $_FILES/activemq-info-provider-5.5.0-1.el5.noarch.rpm
+</pre
+      >
+    </div>
+
+    <a>Start ActiveMQ</a>
+    <div class="command">
+      <pre>
+/etc/init.d/activemq start
+</pre
+      >
+    </div>
+
+    <a>Verify ActiveMQ running</a>
+    <div class="command">
+      <pre>
+ps auxw|grep java
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+netstat -plt --numeric-ports | grep 61613
+</pre
+      >
+    </div>
+
+    <a>Check the ActiveMQ admin page with the password admin/admin</a>
+    <div class="command">
+      <pre>
+ps auxw|grep java
+<a href="http://192.168.122.10:8161/admin/">http://192.168.122.10:8161/admin/</a><br>
+</pre>
+    </div>
+
+    <a>Start MCollective</a>
+    <div class="command">
+      <pre>
+systemctl start mcollective
+</pre
+      >
+    </div>
+
+    <a>Test MCollective</a>
+    <div class="command">
+      <pre>
+mco ping
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh mcollective
+</pre
+      >
+    </div>
+  </body>
+</html>

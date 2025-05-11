@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a href="">Install Tomcat.</a></h2>
+
+    Tomcat is a WebApp Server
+
+    <a>Prerequisites </a>
+    <div class="tab">
+      <a href="./java.html">Java</a>
+    </div>
+
+    <a>Login as root</a>
+
+    <a href="">Install Tomcat</a>
+    <div class="command">
+      <pre>
+yum install -y tomcat7
+yum install -y tomcat-webapps.noarch
+yum install -y tomcat-admin-webapps.noarch
+</pre
+      >
+    </div>
+
+    <a
+      >Move /usr/share/tomcat to /data/tomcat and link /usr/share/tomcat to
+      /data/tomcat</a
+    >
+    <div class="command">
+      <pre>
+mv /usr/share/tomcat /data
+cd /usr/share
+ln -s /data/tomcat tomcat
+rm /data/tomcat/webapps
+mv /var/lib/tomcat/webapps /data/tomcat/
+ln -s /data/tomcat/webapps /var/lib/tomcat/webapps
+</pre
+      >
+    </div>
+
+    <a
+      >Move /usr/share/tomcat to /data/tomcat and link /usr/share/tomcat to
+      /data/tomcat</a
+    >
+    <div class="command">
+      <pre>
+chmod g+x /usr/share/tomcat/logs
+chmod g+x /etc/tomcat
+chmod g+x /usr/share/tomcat/webapps/
+chmod g+x /usr/share/tomcat/temp
+chmod g+x /usr/share/tomcat/work
+chmod g+x /var/cache/tomcat
+chown -R tomcat:tomcat /etc/tomcat/Catalina
+chmod g+x /var/lib/tomcat/
+</pre
+      >
+    </div>
+
+    <a href="">Set the password for the manager role</a>
+    <div class="command">
+      <pre>
+mkdir -p /data/Saved/etc/tomcat
+cp /etc/tomcat/tomcat-users.xml /data/Saved/etc/tomcat/tomcat-users.xml
+sed -ie '/\/tomcat-users/i\&lt;user name="tomcat" password="rootMe55" roles="manager" />' /etc/tomcat/tomcat-users.xml
+</pre
+      >
+    </div>
+
+    Change the "Host name" variable to an IP Address
+    <div class="command">
+      <pre>
+mkdir -p /data/Saved/etc/tomcat
+cp /etc/tomcat/server.xml /data/Saved/etc/tomcat/server.xml
+sed -i -e s/Host\ name=\"localhost\"/Host\ name=\"192\.168\.122\.200\"/ /etc/tomcat/server.xml
+</pre
+      >
+    </div>
+
+    <a>Create the /etc/tomcat/Catalina/localhost/manager.xml file</a>
+    <div class="command">
+      <pre>
+vi /etc/tomcat/Catalina/localhost/manager.xml
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+i
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+&lt;Context path="/manager" debug="0" privileged="true"
+         docBase="/data/tomcat/webapps/manager"&gt;
+&lt;/Context>
+</pre
+      >
+    </div>
+
+    <a>Configure startup</a>
+    <div class="command">
+      <pre>
+systemctl enable tomcat
+</pre
+      >
+    </div>
+
+    <a>Start tomcat</a>
+    <div class="command">
+      <pre>
+systemctl start tomcat
+</pre
+      >
+    </div>
+
+    <a href="http://192.168.122.10:8080">Check Tomcat page in browser</a>
+
+    <a>Verify that auto-unpack of a .war file works</a>
+    Copy the the SimpleServlet.war file into /data/tomcat/webapps
+    <div class="command">
+      <pre>
+cp $_FILES/SimpleServlet.war /data/tomcat/webapps/
+</pre
+      >
+    </div>
+
+    <a href="http://192.168.122.10:8080/SimpleServlet/simple-servlet"
+      >Check SimpleServlet in browser</a
+    >
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh apache_tomcat
+</pre
+      >
+    </div>
+  </body>
+</html>

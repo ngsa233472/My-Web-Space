@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type="text/css" href="/css/install.css" />
+<link rel="stylesheet" type="text/css" href="../install.css" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>jQuery - A Generic Javascript Library</a></font></h2></a></h2>
+
+<div class="command"><pre>
+cp $_FILES/jquery-3.2.1.js /data/www/javascript/
+ln -s /data/www/javascript/jquery-3.2.1.js /data/www/javascript/jquery.js
+</pre></div>
+
+<div class="command"><pre>
+vi /data/www/html/unencrypted/jquery.html
+</pre></div>
+
+<div class="input"><pre>
+&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+&lt;script src="/js/jquery.js">&lt;/script>
+&lt;script>
+$(document).ready(function(){
+    $("p").click(function(){
+        $(this).hide();
+    });
+});
+&lt;/script>
+&lt;/head>
+&lt;body>
+
+&lt;p>If you click on me, I will disappear.&lt;/p>
+&lt;p>Click me away!&lt;/p>
+&lt;p>Click me too!&lt;/p>
+
+&lt;/body>
+&lt;/html>
+</pre></div>
+
+<a>Fix the ownership of the apache directory</a>
+<div class="command"><pre>
+chown -R apache:apache /data/www
+find /data/www -type d -exec chmod 755 {} \;
+find /data/www -type f -exec chmod 644 {} \;
+</pre></div>
+
+<a>From the index page, check the "JQuery Test Page"</a>
+<pre>http://$_CURRENT_IP/private</pre>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh jquery
+</pre></div>
+
+</body>
+</html>
+

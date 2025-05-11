@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>Setup sudo for Nick</a></h2>
+
+
+<p>To replace all instances of testuser with nick</p>
+
+<a>As root, fix sudoers</a>
+<div class="command"> 
+sed -i -e s/testuser/nick/ /etc/sudoers
+</div>
+
+<a>Test sudo</a>
+<div class="command"> 
+su - nick
+</div>
+
+<div class="command"><pre>
+sudo su -
+</div>
+
+<div class="command"><pre>
+exit
+</div>
+
+<div class="command"><pre>
+exit
+</div>
+
+<a>Fix samba</a>
+<div class="command"><pre>
+sed -i -e s/testuser/nick/ /etc/samba/smb.conf
+smbpasswd -d testuser
+smbpasswd -a nick
+smbpasswd -e nick
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh replace_testuser
+</pre></div>
+
+</body>
+</html>

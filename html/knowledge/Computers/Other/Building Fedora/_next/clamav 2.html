@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=done>
+</head>
+<body>
+
+<h2><a>ClamAV</a></h2>
+
+<div class="tab">
+
+Clam AntiVirus is an open source (GPL) anti-virus toolkit for UNIX, designed especially for e-mail scanning.
+
+<h5 class="title"><a>Login as root</a>&nbsp;&nbsp;</a>
+
+<a>Temporarily disable vim alias</a>
+<div class="command"><pre>
+unalias vi
+</pre></div>
+
+<a>Install files</a>
+<div class="command"><pre>
+yum -y install clamav
+yum -y install clamav-update
+yum -y install clamav-milter
+yum -y install clamav-milter-systemd
+yum -y install clamav-scanner-systemd
+</pre></div>
+
+Modify the /etc/clam.d/scan.conf file
+<div class="tab">
+	<a href="./configs/scan_conf.html">link to /etc/clam.d/scan.conf file</a>
+</div>
+
+Modify the /etc/mail/clamav-milter.conf file
+<div class="tab">
+	<a href="./configs/clamav_milter_conf.html">link to /etc/mail/clamav-milter.conf file</a>
+</div>
+
+Modify the /etc/freshclam.conf file
+<div class="tab">
+	<a href="./configs/freshclam_conf.html">link to /etc/freshclam.conf file</a>
+</div>
+
+<a>Install Logwatch</a>
+<div class="command"><pre>
+yum -y install logwatch
+</pre></div>
+
+<a>Make modifications to the clamav-update files</a>
+
+Comment out "FRESHCLAM_DELAY" in /etc/sysconfig/freshclam file
+<div class="command"><pre>
+sed -i -e "/FRESHCLAM_DELAY/s/^/#/" /etc/sysconfig/freshclam
+</pre></div>
+
+Create the /etc/logwatch/conf/logfiles/clam-update.conf file because clamav-update is logging using syslog
+<div class="command"><pre>
+echo "*OnlyService = freshclam" >> /etc/logwatch/conf/logfiles/clam-update.conf
+echo "*RemoveHeaders" >> /etc/logwatch/conf/logfiles/clam-update.conf
+</pre></div>
+
+<a>Update the virus database</a>
+<div class="command"><pre>
+freshclam
+</pre></div>
+
+<a>Create /var/run/clamd.scan directory</a>
+<div class="command"><pre>
+mkdir -p /var/run/clamd.scan
+chgrp clamscan /var/run/clamd.scan
+chmod 700 /var/run/clamd.scan
+</pre></div>
+
+<a>Create ClamAV-Milter Run</a>
+<div class="command"><pre>
+mkdir -p /var/run/clamav-milter
+chgrp clamilt /var/run/clamav-milter
+chmod 700 /var/run/clamav-milter
+</pre></div>
+
+<a>Configure ClamAV logfile</a>
+<div class="command"><pre>
+touch /var/log/clamd.scan
+chgrp clamscan /var/log/clamd.scan
+chmod g+w /var/log/clamd.scan
+</pre></div>
+
+<a>Configure startup</a>
+<div class="command"><pre>
+/bin/systemctl enable clamd@scan
+/bin/systemctl enable clamav-milter
+</pre></div>
+
+<div class="command"><pre>
+/bin/systemctl  start clamd@scan
+/bin/systemctl  start clamav-milter
+</pre></div>
+
+<a>Restore vim alias</a>
+<div class="command"><pre>
+alias vi=vim
+</pre></div>
+
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh clamav
+</pre></div>
+
+</body></html>
+

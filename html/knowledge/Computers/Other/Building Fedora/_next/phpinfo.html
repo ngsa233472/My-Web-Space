@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>Php verification</a></font></h2>
+
+<a>Login as root</a>
+
+<a>Install php-fpm</a>
+<div class="command"><pre>
+yum -y install php-fpm.x86_64
+</pre></div>
+
+<a>Edit the php.ini file</a>
+<div class="command"><pre>
+sed -ie s/\;date\.timezone.*/date.timezone=America\\/Chicago/ /etc/php.ini
+</pre></div>
+
+<a>Start php-fpm</a>
+<div class="command"><pre>
+systemctl enable php-fpm
+</pre></div>
+
+<div class="command"><pre>
+systemctl start php-fpm 
+</pre></div>
+
+
+<a>Create the phpinfo.php page</a>
+<div class="command"><pre>
+vi /data/www/html/unencrypted/private/phpinfo.php
+</pre></div>
+
+<div class="command"><pre>
+i
+</pre></div>
+
+<div class="command"><pre>
+&lt;?php
+phpinfo();
+?>
+</pre></div>
+
+<a>Change the ownership of the apache directory</a>
+<div class="command"><pre>
+chown apache:apache  /data/www/html/unencrypted/private/phpinfo.php
+chmod 700  /data/www/html/unencrypted/private/phpinfo.php
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh phpinfo
+</pre></div>
+
+</body>
+</html>

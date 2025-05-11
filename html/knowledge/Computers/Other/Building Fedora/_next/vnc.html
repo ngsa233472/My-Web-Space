@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" media="screen,print" href="/stylesheets/Welcome./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="/stylesheets/install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>Install VNC Server</a></h2>
+
+<a>Purpose </a>
+
+
+<a>Login as root</a>
+
+<a>Install VNC</a>
+<div class="code"><pre>
+yum install -y tigervnc
+yum install -y tigervnc-server
+</pre></div>
+
+<a>Modify /etc/sysconfig/vncservers</a>
+
+<div class="code"><pre>
+vi /etc/sysconfig/vncservers
+</pre></div>
+
+<div class="code"><pre>
+dG
+i
+</pre></div>
+
+<div class="code"><pre>
+VNCSERVERS="1:root"
+VNCSERVERARGS[1]="-geometry 1400x800 -nolisten tcp -localhost"
+</pre></div>
+
+<a>Start vnc on boot</a>
+<div class="code"><pre>
+chkconfig vncserver on
+</pre></div>
+
+<a>Cd into root</a>
+<div class="code"><pre>
+cd
+</pre></div>
+
+<a>Create the users vncdir</a>
+<div class="code"><pre>
+mkdir .vnc
+</pre></div>
+
+<a>Modify .vnc/xstartup</a>
+<div class="code"><pre>
+vi .vnc/xstartup
+</pre></div>
+
+<div class="code"><pre>
+dG
+i
+</pre></div>
+
+<div class="code"><pre>
+vncconfig -iconic &
+unset SESSION_MANAGER
+exec /etc/X11/xinit/xinitrc
+</pre></div>
+
+<a>Modify mode bits on the xstartup</a>
+<div class="code"><pre>
+chmod 755 .vnc/xstartup
+</pre></div>
+
+<a>Create a password for root</a>
+<div class="code"><pre>
+vncpasswd
+</pre></div>
+
+<a>Configure startup</a>
+<div class="code"><pre>
+chkconfig vncserver on
+</pre></div>
+
+<div class="code"><pre>
+service vncserver start
+</pre></div>
+
+<a>Test server</a></font>
+<div class="code"><pre>
+vncviewer localhost:5901
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="code"><pre>
+/usr/local/bin/note.sh install_vnc
+</pre></div>
+
+<a>Exit root</a>
+<div class="code"><pre>
+exit
+</pre></div>
+
+</body>
+</html>

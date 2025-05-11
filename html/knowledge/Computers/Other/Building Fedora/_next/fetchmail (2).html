@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a>Configure fetchmail</a></h2>
+
+    <a>Open .fetchmailrc</a>
+    <div class="command">
+      <pre>
+vi /data/home/testuser/.fetchmailrc
+</pre
+      >
+    </div>
+
+    <a>Remove current contents and setup for insertion</a>
+    <div class="command">
+      <pre>
+i
+</pre
+      >
+    </div>
+
+    <a>Replace with contents below</a>
+    <div class="command">
+      <pre>
+poll pop-server.austin.rr.com proto pop3
+  user "kgray006" with pass "xxxxxxx" is "testuser" here
+</pre
+      >
+    </div>
+
+    <a>Change mod of .fetchmailrc</a>
+    <div class="command">
+      <pre>
+chown testuser:testuser /data/home/testuser/.fetchmailrc
+chmod 0600 /data/home/testuser/.fetchmailrc
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh configure_fetchmail
+</pre
+      >
+    </div>
+  </body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <!--
+<h2><a>Default</a></h2>
+-->
+    <a>Pre-requisite</a>
+    <div class="tab"><a href="./java.html">Install Java</a><br /></div>
+
+    <!--
+
+None
+
+<a>Login as root</a>
+
+
+
+
+<a>Note this step</a>
+<div class="command"><pre>
+touch /install/default.$INSTALL_VERSION
+</pre></div>
+-->
+
+    <a>Moving Fast</a>
+    <div class="command">
+      <pre>
+yum -y install mcollective
+yum -y install mcollective-client
+yum -y localinstall $_FILES/tanukiwrapper-3.5.9-1.el5.x86_64.rpm
+yum -y localinstall $_FILES/activemq-5.5.0-1.el5.noarch.rpm
+yum -y localinstall $_FILES/activemq-info-provider-5.5.0-1.el5.noarch.rpm
+/etc/init.d/activemq start
+ps auxw|grep java
+netstat -plt --numeric-ports | grep 61613
+check the http://192.168.122.10:8161/admin/ page
+with the password admin/admin
+systemctl start mcollective
+mco ping
+
+ensure that activemq is installed and comment out the security in activemq.xml
+
+vi Producer.java
+
+public class Producer {
+    // URL of the JMS server. DEFAULT_BROKER_URL will just mean
+    // that JMS server is on localhost
+    private static String url = ActiveMQConnection.DEFAULT_BROKER_URL;
+
+    // Name of the queue we will be sending messages to
+    private static String subject = "TESTQUEUE";
+
+    public static void main(String[] args) throws JMSException {
+        // Getting JMS connection from the server and starting it
+        ConnectionFactory connectionFactory =
+            new ActiveMQConnectionFactory(url);
+        Connection connection = connectionFactory.createConnection();
+        connection.start();
+
+        // JMS messages are sent and received using a Session. We will
+        // create here a non-transactional session object. If you want
+        // to use transactions you should set the first parameter to 'true'
+        Session session = connection.createSession(false,
+            Session.AUTO_ACKNOWLEDGE);
+
+        // Destination represents here our queue 'TESTQUEUE' on the
+        // JMS server. You don't have to do anything special on the
+        // server to create it, it will be created automatically.
+        Destination destination = session.createQueue(subject);
+
+        // MessageProducer is used for sending messages (as opposed
+        // to MessageConsumer which is used for receiving them)
+        MessageProducer producer = session.createProducer(destination);
+
+        // We will send a small text message saying 'Hello' in Japanese
+        TextMessage message = session.createTextMessage("こんにちは");
+
+        // Here we are sending the message!
+        producer.send(message);
+        System.out.println("Sent message '" + message.getText() + "'");
+
+        connection.close();
+    }
+}
+
+javac -cp .:`find /var/lib/activemq/lib -name "*.jar" | tr "\n" ":"` Producer.java
+javac -cp .:`find /var/lib/activemq/lib -name "*.jar" | tr "\n" ":"` Producer.java
+
+import javax.jms.*;
+
+import org.apache.activemq.ActiveMQConnection;
+import org.apache.activemq.ActiveMQConnectionFactory;
+
+public class Consumer {
+    // URL of the JMS server
+    private static String url = ActiveMQConnection.DEFAULT_BROKER_URL;
+
+    // Name of the queue we will receive messages from
+    private static String subject = "TESTQUEUE";
+
+    public static void main(String[] args) throws JMSException {
+        // Getting JMS connection from the server
+        ConnectionFactory connectionFactory
+            = new ActiveMQConnectionFactory(url);
+        Connection connection = connectionFactory.createConnection();
+        connection.start();
+
+        // Creating session for seding messages
+        Session session = connection.createSession(false,
+            Session.AUTO_ACKNOWLEDGE);
+
+        // Getting the queue 'TESTQUEUE'
+        Destination destination = session.createQueue(subject);
+
+        // MessageConsumer is used for receiving (consuming) messages
+        MessageConsumer consumer = session.createConsumer(destination);
+
+        // Here we receive the message.
+        // By default this call is blocking, which means it will wait
+        // for a message to arrive on the queue.
+        Message message = consumer.receive();
+
+        // There are many types of Message and TextMessage
+        // is just one of them. Producer sent us a TextMessage
+        // so we must cast to it to get access to its .getText()
+        // method.
+        if (message instanceof TextMessage) {
+            TextMessage textMessage = (TextMessage) message;
+            System.out.println("Received message '"
+                + textMessage.getText() + "'");
+        }
+        connection.close();
+    }
+}
+
+javac -cp .:`find /var/lib/activemq/lib -name "*.jar" | tr "\n" ":"` Consumer.java
+java -cp .:`find /var/lib/activemq/lib -name "*.jar" | tr "\n" ":"` Consumer
+
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh activemq
+</pre
+      >
+    </div>
+  </body>
+</html>

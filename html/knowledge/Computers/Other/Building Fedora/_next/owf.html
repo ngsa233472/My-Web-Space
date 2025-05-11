@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/fedora_install.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Ozone Widget Framework</a></h2>
+
+    <a>Web Based Windowing Framework for Widget Applications</a>
+    None
+
+    <a>Prerequisites </a>
+    <div class="tab">
+      <pre>
+        <a href="./java.html">Java</a>
+        <a href="./apache_tomcat.html">Tomcat</a>
+        <a href="./apache_ant.html">Ant</a>        
+</pre>
+    </div>
+
+    <a></a>
+
+    <a>Verify Prerequisites</a>
+    <div class="command">
+      <pre>
+java -version
+</pre
+      >
+    </div>
+    <p>You should get</p>
+    <div class="output">
+      <pre>
+java version "1.6.0_38"
+Java(TM) SE Runtime Environment (build 1.6.0_38-b05)
+Java HotSpot(TM) 64-Bit Server VM (build 20.13-b02, mixed mode)
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+rpm -qa | grep tomcat
+</pre
+      >
+    </div>
+    <p>You should at least get</p>
+    <div class="output">
+      <pre>
+tomcat-7.0.42-1.fc19.noarch
+tomcat-admin-webapps-7.0.42-1.fc19.noarch
+tomcat-webapps-7.0.42-1.fc19.noarch
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+ant -version
+</pre
+      >
+    </div>
+    <p>You should get</p>
+    <div class="output">
+      <pre>
+Apache Ant(TM) version 1.8.4 compiled on May 22 2012
+</pre
+      >
+    </div>
+
+    <a>Install Support Applications</a>
+
+    <h6><a>Grails</a></h6>
+    <div class="command">
+      <pre>
+cp grails-2.2.3.zip /opt/
+cd /opt
+unzip grails-2.2.3.zip
+ln -s grails-2.2.3 grails
+rm /opt/grails-2.2.3.zip
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+vi /etc/profile.d/grails.sh
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+#!/bin/bash
+
+GRAILS_HOME=/opt/grails
+PATH=$PATH:$GRAILS_HOME/bin
+
+export GRAILS_HOME
+export PATH
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+. /etc/profile.d/grails.sh
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+grails -version
+</pre
+      >
+    </div>
+    <p>You should get</p>
+    <div class="output">
+      <pre>
+Grails version: 2.2.3
+</pre
+      >
+    </div>
+
+    <h6><a>Groovy</a></h6>
+    <div class="command">
+      <pre>
+cp groovy-binary-2.1.6.zip /opt
+cd /opt
+unzip groovy-binary-2.1.6.zip
+ln -s groovy-2.1.6 groovy
+rm groovy-binary-2.1.6.zip
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+cat << CONFIG > /etc/profile.d/groovy.sh
+#!/bin/bash
+
+GROOVY_HOME=/opt/groovy
+PATH=$PATH:$GROOVY_HOME/bin
+
+export GROOVY_HOME
+export PATH
+
+CONFIG
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+. /etc/profile.d/groovy.sh
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+groovy -v
+</pre
+      >
+    </div>
+    <p>You should get</p>
+    <div class="output">
+      <pre>
+Groovy Version: 2.1.6 JVM: 1.6.0_38 Vendor: Sun Microsystems Inc. OS: Linux
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+create a pgsql db named owf
+a user named owf_user and a password of "rootMe55"
+download the jdbc driver for pgsql
+gem install compass
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh owf
+</pre
+      >
+    </div>
+  </body>
+</html>

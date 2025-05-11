@@ -1,0 +1,221 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>MySQL Verification and Configuration</a></h2>
+
+<h3><a>Purpose </a></h3>
+<p>To ensure that mysql is installed & operational.</p>
+<a>Login as root</a>
+
+<a>Install MariaDB</a>
+<div class="command"><pre>
+yum -y install mariadb-server
+</pre></div>
+
+<a>MySQL postinstall</a>
+<div class="tab">
+
+<a>Create necessary tables and directories</a>
+<div class="command"><pre>
+mysql_install_db --datadir=/data/mysql
+</pre></div>
+
+<a>Configure startup</a>
+<div class="command"><pre>
+/bin/systemctl enable mysqld
+</pre></div>
+
+<a>Start mysqld</a>
+<div class="command"><pre>
+/bin/systemctl start mysqld
+</pre></div>
+
+<a>Cbeck the status of mysqld</a>
+<div class="command"><pre>
+/bin/systemctl status mysqld
+</div>
+
+<p>You should get something like this:</p>
+<div class="output"><pre>
+<pre>
+mysqld - MySQL database server
+        Loaded: loaded (/usr/lib/systemd/system/mysqld; enabled)
+        Active: <font color="green">active (running)</font> since Sun, 02 Dec 2012 16:21:52 -0600; 10s ago
+       Process: 1124 ExecStartPost=/usr/libexec/mysqld-wait-ready $MAINPID (required=exited, status=0/SUCCESS)
+       Process: 984 ExecStart=/usr/bin/mysqld_safe --nowatch --basedir=/usr (required=exited, status=0/SUCCESS)
+       Process: 922 ExecStartPre=/usr/libexec/mysqld-prepare-db-dir (required=exited, status=0/SUCCESS)
+      Main PID: 1123 (mysqld)
+        CGroup: name=systemd:/system/mysqld
+                | 1123 /usr/libexec/mysqld --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib64/mysql/plugin --log-error=/var/lo...
+
+Dec 02 16:21:48 iona.local.austin.rr.com mysqld-prepare-db-dir[922]: databases and anonymous user created by default.  This is
+Dec 02 16:21:48 iona.local.austin.rr.com mysqld-prepare-db-dir[922]: strongly recommended for production servers.
+Dec 02 16:21:48 iona.local.austin.rr.com mysqld-prepare-db-dir[922]: See the manual for more instructions.
+Dec 02 16:21:48 iona.local.austin.rr.com mysqld-prepare-db-dir[922]: You can start the MySQL daemon with:
+Dec 02 16:21:48 iona.local.austin.rr.com mysqld-prepare-db-dir[922]: cd /usr ; /usr/bin/mysqld_safe &
+Dec 02 16:21:48 iona.local.austin.rr.com mysqld-prepare-db-dir[922]: You can test the MySQL daemon with mysql-test-run.pl
+Dec 02 16:21:48 iona.local.austin.rr.com mysqld-prepare-db-dir[922]: cd /usr/mysql-test ; perl mysql-test-run.pl
+Dec 02 16:21:48 iona.local.austin.rr.com mysqld-prepare-db-dir[922]: Please report any problems with the /usr/bin/mysqlbug script!
+Dec 02 16:21:48 iona.local.austin.rr.com mysqld_safe[984]: 121202 16:21:48 mysqld_safe Logging to '/var/log/mysqld.log'.
+Dec 02 16:21:48 iona.local.austin.rr.com mysqld_safe[984]: 121202 16:21:48 mysqld_safe Starting mysqld daemon with databases from /var/lib/mysql
+</pre>
+</div>
+
+<a>Assign passwords</a>
+
+<div class="command"><pre>
+mysql -u root
+</pre></div>
+
+Assign a localhost password to the anonymous account
+<div class="command"><pre>
+SET PASSWORD FOR ''@'localhost' = PASSWORD('rootMe55');
+</pre></div>
+
+Assign a localhost password to the root account
+<div class="command"><pre>
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('rootMe55');
+</pre></div>
+
+Determine what the hostname the system is using with the command
+<div class="command"><pre>
+SELECT Host, User FROM mysql.user;
+</pre></div>
+
+And replace <i>host_name</i> in the following commands.
+
+<div class="command"><pre>
+SET PASSWORD FOR ''@'iona.local.austin.rr.com' = PASSWORD('rootMe55');
+</pre></div>
+
+<div class="command"><pre>
+SET PASSWORD FOR 'root'@'iona.local.austin.rr.com' = PASSWORD('rootMe55');
+</pre></div>
+
+Quit mysql
+<div class="command"><pre>
+\q
+</pre></div>
+
+<a>Create and test a database</a>
+<p>As root su over to mysql</p>
+<div class="command"><pre>
+su - mysql
+</div>
+<p>Determine how many databases there are</p>
+<div class="command"><pre>
+mysqlshow --user=root --password=rootMe55
+</div>
+
+<p>Create a database called 'testing'</p>
+<div class="command"><pre>
+mysql --user=root --password=rootMe55 mysql
+</div>
+<div class="command"><pre>
+create database testing;
+</div>
+Select the 'testing' database
+<div class="command"><pre>
+USE testing;
+</div>
+Create a table
+<div class="command"><pre>
+CREATE TABLE numbers (number int, name text);
+</div>
+<p>Show the tables in 'testing'</p>
+<div class="command"><pre>
+show tables;
+</div>
+Create an index
+<div class="command"><pre>
+CREATE INDEX number_idx on numbers(number);
+</div>
+Add some data
+<div class="command"><pre>
+INSERT INTO numbers (number, name) VALUES (1, 'One');
+INSERT INTO numbers (number, name) VALUES (2, 'Two');
+INSERT INTO numbers (number, name) VALUES (3, 'Three');
+</div>
+Query the database
+<div class="command"><pre>
+SELECT * FROM numbers;
+</div>
+In mysql you can create a user by granting him priviledges.
+<div class="command"><pre>
+GRANT SELECT ON testing.* to 'numbersuser'@'localhost' IDENTIFIED BY 'password';
+</div>
+<div class="command"><pre>
+quit
+</div>
+Now log back in as the numberuser user.
+<div class="command"><pre>
+mysql --user=numbersuser --password=password testing
+</div>
+This should return three entries
+<div class="command"><pre>
+SELECT * FROM numbers;
+</div>
+This should fail
+<div class="command"><pre>
+INSERT INTO numbers (number, name) VALUES (4, 'Four');
+</div>
+<div class="command"><pre>
+quit
+</div>
+Log back in as root
+<div class="command"><pre>
+mysql --user=root --password=rootMe55 testing 
+</div>
+
+<div class="command"><pre>
+REVOKE ALL ON testing.* from 'numbersuser'@'localhost';
+</div>
+
+<div class="command"><pre>
+DROP USER 'numbersuser'@'localhost';
+DROP INDEX number_idx on numbers;
+DROP TABLE testing.numbers;
+</div>
+
+Drop database called "testing".
+<div class="command"><pre>
+DROP DATABASE testing;
+</div>
+
+<div class="command"><pre>
+\q
+</div>
+
+<p>Now verify that the "testing" database is gone</p>
+<div class="command"><pre>
+mysqlshow --user=root --password=rootMe55
+</div>
+
+<a>Exit mysql</a>
+<div class="command"><pre>
+exit
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh mysql
+</pre></div>
+
+<a>MySQL Usage</a>
+The following programs/utilities use the databases on the system
+<p>
+Wordpress<br>
+MediaWiki<br>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta charset="UTF-8">
+</head>
+<body>
+<h2><a>Setup apache for basic https configuration</a></h2>
+
+<a>Install mod_ssl</a>
+<div class="command"><pre>
+dnf -y install mod_ssl.x86_64
+</pre></div>
+
+<a>Save files</a>
+<div class="command"><pre>
+mkdir -p /data/Saved/etc/httpd/conf.d &&
+cp /etc/httpd/conf.d/ssl.conf /data/Saved/etc/httpd/conf.d/
+</pre></div>
+
+<a  href="">Modify the /etc/httpd/conf/ssl.conf file</a>
+<div class="tab">
+        <a  href="../_configs/ssl_conf.html">link to /etc/httpd/conf/ssl.conf file</a>
+</div>
+
+<a>Make html root directories</a>
+<div class="command"><pre>
+mkdir -p /data/www/html/ssl
+</pre></div>
+
+<a  href="">Create the default index files</a>
+<div class="tab">
+        <a  href="../_configs/index_ssl.html">link to /etc/httpd/conf/index_ssl.html file</a>
+</div>
+
+<a>Fix the ownership of the apache directory</a>
+<div class="command"><pre>
+chown -R apache:apache /data/www
+find /data/www -type d -exec chmod 755 {} \;
+find /data/www -type f -exec chmod 644 {} \;
+</pre></div>
+
+<a>Backup the ssl-pass-dialog file</a>
+<div class="command"><pre>
+mkdir -p /data/Saved/etc/httpd/conf.d/
+cp /usr/libexec/httpd-ssl-pass-dialog /data/Saved/etc/httpd/conf.d/
+</pre></div>
+
+<a>Write a new ssl-pass-dialog file</a>
+<div class="command"><pre>
+cat << DIALOG > /usr/libexec/httpd-ssl-pass-dialog
+#!/bin/bash
+echo "rootMe55"
+DIALOG
+</pre></div>
+
+</div>
+<a>Restart the daemon </a></font>
+<div class="command"><pre>
+/bin/systemctl restart httpd
+</pre></div>
+
+</div>
+<a>Check the daemon is running </a></font>
+<div class="command"><pre>
+/bin/systemctl status httpd
+</pre></div>
+
+
+<!--
+<a>Add Https to firewall rules</a>
+<div class="command"><pre>firewall-cmd --permanent --zone=FedoraServer --add-service=https</pre></div>
+<div class="command"><pre>firewall-cmd --reload</pre></div>
+-->
+
+<a>From the index page, check the "Encrypted Public Index Page"</a>
+<pre>https://$_CURRENT_IP/</pre>
+
+<a>Note this step</a>
+<div class="command"><pre>
+/usr/local/bin/note.sh apache443
+</pre></div>
+
+</body>
+</html>

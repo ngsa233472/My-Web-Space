@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Set root's passwd</a></h2>
+
+    <a>Purpose</a>
+    To set the password of root to an less known value
+
+    <a></a>
+
+    <h4><a>Save password and group files</a></h4>
+    <div class="command">
+      <pre>
+mkdir -p /data/Saved/etc &&
+cp -pr /etc/group /data/Saved/etc/group
+cp -pr /etc/passwd /data/Saved/etc/passwd 
+</pre
+      >
+    </div>
+
+    <a>Change the passwd</a>
+    <div class="command">
+      <pre>
+passwd
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh set_root_passwd
+</pre
+      >
+    </div>
+  </body>
+</html>

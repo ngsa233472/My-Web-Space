@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>Setup sudo for Nick</a></h2>
+
+
+<p>To ensure that sudo works</p>
+
+<a>As root, add user to sudoers</a></font>
+<div class="command"> 
+sed -i -e "/^root\tALL=(ALL)/a\nick\tALL=(ALL)\tNOPASSWD:ALL" /etc/sudoers
+</div></font>
+
+<a>Test sudo</a></font>
+<div class="command"> 
+su - nick
+</div></font>
+
+<div class="command"><pre>
+sudo su -
+</div></font>
+
+<div class="command"><pre>
+exit
+</div></font>
+
+<div class="command"><pre>
+exit
+</div></font>
+
+<a>Note this step</a>
+<div class="command"><pre>
+touch /install/sudo_setup.$INSTALL_VERSION
+</pre></div>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Shell Scripting Installation, Configuration, and Testing</a></h2>
+
+    <a>Create the source directory</a>
+    <div class="command">
+      <pre>
+mkdir /data/src/bash
+</pre
+      >
+    </div>
+
+    <a>Create the testfile</a>
+    <div class="optional">
+      <pre>
+cd /data/src/bash
+</pre
+      >
+    </div>
+
+    <div class="optional">
+      <pre>
+vi helloworld.sh
+</pre
+      >
+    </div>
+
+    <div class="input">
+      <pre>
+#!/bin/bash
+echo "Hi there!"
+</pre
+      >
+    </div>
+
+    <div class="optional">
+      <pre>
+chmod 755 helloworld.sh
+</pre
+      >
+    </div>
+
+    <a>Run the testfile</a>
+    <div class="optional">
+      <pre>
+./helloworld.sh
+</pre
+      >
+    </div>
+
+    <a>You should get something like this</a>
+    <div class="output">
+      <pre>
+Hi there!
+</pre
+      >
+    </div>
+
+    <a>Note this step</a>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh shell_IandV
+</pre
+      >
+    </div>
+  </body>
+</html>

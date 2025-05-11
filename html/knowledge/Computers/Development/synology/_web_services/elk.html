@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora aServer Installation</title>
+<link rel="stylesheet" type="text/css" href="../install.css" />
+<link rel="stylesheet" type="text/css" href="/css/install.css" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>ELK Services</a></font></h2>
+
+<h4><a href="">Prerequisites </a>
+<pre>
+   Install Java SDK and Apache HTTPD
+</pre>
+
+<a>Install Elastic Search GPG Key</a>
+<div class="command"><pre>
+rpm --import http://packages.elastic.co/GPG-KEY-elasticsearch
+</pre></div>
+
+<a>Install Elastic Search Repo</a>
+<div class="command"><pre>
+cat << CONFIG > /etc/yum.repos.d/elasticsearch.repo
+[elasticsearch-2.x]
+name=Elasticsearch repository for 2.x packages
+baseurl=http://packages.elastic.co/elasticsearch/2.x/centos
+gpgcheck=1
+gpgkey=http://packages.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+CONFIG
+</pre></div>
+
+<a>Install Elastic Search</a>
+<div class="command"><pre>
+dnf -y install elasticsearch
+</pre></div>
+
+<div class="command"><pre>
+sed -ie "$ a network.host: localhost" /etc/elasticsearch/elasticsearch.yml
+</pre></div>
+
+<div class="command"><pre>
+systemctl enable elasticsearch
+systemctl start elasticsearch
+</pre></div>
+
+<a>Install Kibana Repo</a>
+<div class="command"><pre>
+cat << CONFIG > /etc/yum.repos.d/kibana.repo
+[kibana-4.4]
+name=Kibana repository for 4.4.x packages
+baseurl=http://packages.elastic.co/kibana/4.4/centos
+gpgcheck=1
+gpgkey=http://packages.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+CONFIG
+</pre></div>
+
+<a>Install Kibana</a>
+<div class="command"><pre>
+dnf -y install kibana
+</pre></div>
+
+<div class="command"><pre>
+sed -ie "$ a network.host: localhost" /opt/kibana/kibana.yml
+</pre></div>
+
+<a>Create the Kibana reverse proxy configuration</a>
+<div class="command"><pre>
+cat << KIBANACONF > /etc/httpd/conf.d/kibana.conf
+Alias /kibana /opt/kibana
+ &lt;Location /kibana>
+    &lt;IfModule mod_authz_core.c>
+        Require local
+        Require ip 172.16.10
+        SSLRequireSSL
+    &lt;/IfModule>
+&lt/Location>
+ProxyPassMatch ^/kibana/(.*\.php(/.*)?)$ fcgi://127.0.0.1:5601/opt/kibana/\$1
+ProxyPassMatch ^/kibana/(.*\.php(/.*)?)$ fcgi://127.0.0.1:5601/opt/kibana\$1index.php
+
+KIBANACONF
+</pre></div>
+
+<div class="command"><pre>
+systemctl enable kibana
+systemctl start kibana
+</pre></div>
+
+<a>Install Logstash Repo</a>
+<div class="command"><pre>
+cat << CONFIG > /etc/yum.repos.d/logstash.repo
+[logstash-2.2]
+name=logstash repository for 2.2 packages
+baseurl=http://packages.elasticsearch.org/logstash/2.2/centos
+gpgcheck=1
+gpgkey=http://packages.elasticsearch.org/GPG-KEY-elasticsearch
+enabled=1
+CONFIG
+</pre></div>
+
+<a>Install Logstash</a>
+<div class="command"><pre>
+dnf -y install kibana
+</pre></div>
+
+</body>
+</html>
+
+<a>Download Beats</a>
+<div class="command"><pre>
+curl -L -O https://download.elastic.co/beats/dashboards/beats-dashboards-1.1.0.zip
+</pre></div>
+
+<div class="command"><pre>
+cd beats-dashboards-*
+</pre></div>
+
+<div class="command"><pre>
+./load.sh
+</pre></div>
+
+<!--
+https://www.digitalocean.com/community/tutorials/how-to-install-elasticsearch-logstash-and-kibana-elk-stack-on-centos-7
+-->

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta charset="UTF-8">
+</head>
+<body>
+	
+<h2 class="title">Postgres Verification and Configuration</a></h2>
+
+<h3><a>Install PostgreSQL</a></h3>
+
+<a>Install the binary via DNF</a>
+<div class="command"><pre>
+dnf -y install postgresql-server
+</pre></div>
+
+<a> Create the database directory</a>
+<div class="command"><pre>
+mkdir -p /data/pgsql/datadir
+</pre></div>
+
+<div class="command"><pre>
+chown postgres:postgres /data/pgsql
+chown postgres:postgres /data/pgsql/datadir
+</pre></div>
+
+<a>Postgres postinstall</a>
+
+<div class="command"><pre>
+sed -ie 's/\(^Environment=PGDATA=\).*/\1\/data\/pgsql\/datadir/' /lib/systemd/system/postgresql.service
+</div>
+
+<div class="command"><pre>
+/bin/systemctl daemon-reload
+</div>
+
+<a>Start postgresql for the first time</a>
+<div class="command"><pre>
+postgresql-setup --initdb --unit postgresql
+</div>
+
+<a>Move the initial pg_hba.conf</a><div class="command"><pre>
+mkdir -p /data/Saved/data/pgsql/datadir
+mv /data/pgsql/datadir/pg_hba.conf /data/Saved/data/pgsql/datadir
+</pre></div>
+
+<a>Create a new pg_hba.conf</a><div class="command"><pre>
+cat << CONFIG > /data/pgsql/datadir/pg_hba.conf
+# TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
+
+# "local" is for Unix domain socket connections only
+local   davical     all                               trust
+local   all         all                               trust
+
+# IPv4 local connections:
+host    all         all         127.0.0.1/32          trust
+CONFIG
+</pre></div>
+
+<a>Start and Enabled the postgresql service </a><div class="command"><pre>
+/bin/systemctl enable postgresql
+</pre></div>
+
+<div class="command"><pre>
+/bin/systemctl start postgresql
+</div>
+
+<a>Check the status of postgres</a>
+<div class="command"><pre>
+/bin/systemctl status postgresql
+</div>
+
+<p>You should get something like this:</p>
+<div class="output"><pre>
+<pre>
+          Loaded: loaded (/usr/lib/systemd/system/postgresql; disabled)
+          Active: <font color="green">active (running)</font> since Sun, 02 Dec 2012 06:52:00 -0600; 2s ago
+         Process: 1969 ExecStart=/usr/bin/pg_ctl start -D ${PGDATA} -s -o -p ${PGPORT} -w -t 300 (required=exited, status=0/SUCCESS)
+         Process: 1964 ExecStartPre=/usr/bin/postgresql-check-db-dir ${PGDATA} (required=exited, status=0/SUCCESS)
+        Main PID: 1973 (postgres)
+          CGroup: name=systemd:/system/postgresql
+                  | 1973 /usr/bin/postgres -D /data/pgsql/datadir -p 5432
+                  | 1974 postgres: logger process
+                  | 1976 postgres: writer process
+                  | 1977 postgres: wal writer process
+                  | 1978 postgres: autovacuum launcher process
+                  | 1979 postgres: stats collector process
+</pre>
+</div>
+
+<h3><a>Create and test a database</a></h3>
+<p>As root su over to postgres</p>
+<div class="optional"><pre>
+su - postgres
+</div>
+<p>Determine how many databases there are</p>
+<div class="optional"><pre>
+psql -l
+</div>
+Create database called "testing".
+<div class="optional"><pre>
+/usr/bin/createdb testing
+</div>
+Note that there is now a database (table) called "testing"
+<div class="optional"><pre>
+psql -l
+</div>
+<p>Log into the database "testing"</p>
+<div class="optional"><pre>
+psql -d testing
+</div>
+Create a table
+<div class="optional"><pre>
+create table numbers
+(
+number int not null,
+name text,
+primary key (number)
+);
+</div>
+<p>Show the tables in "testing"</p>
+<div class="optional"><pre>
+\d
+</div>
+Create an index
+<div class="optional"><pre>
+CREATE INDEX number_idx on numbers(number);
+</div>
+Add some data
+<div class="optional"><pre>
+INSERT INTO numbers (number, name) VALUES (1, 'One');
+INSERT INTO numbers (number, name) VALUES (2, 'Two');
+INSERT INTO numbers (number, name) VALUES (3, 'Three');
+</div>
+Query the database
+<div class="optional"><pre>
+SELECT * FROM numbers;
+</div>
+Create a user
+<div class="optional"><pre>
+create USER numberuser with PASSWORD 'rootMe';
+</div>
+<div class="optional"><pre>
+GRANT SELECT ON numbers TO numberuser;
+</div>
+<div class="optional"><pre>
+\quit
+</div>
+Now log back in as the numberuser user.
+<div class="optional"><pre>
+psql -d testing -U numberuser
+</div>
+This should return three entries
+<div class="optional"><pre>
+SELECT * FROM numbers;
+</div>
+This should fail
+<div class="optional"><pre>
+INSERT INTO numbers (number, name) VALUES (4, 'Four');
+</div>
+<div class="optional"><pre>
+\quit
+</div>
+Log back in as root
+<div class="optional"><pre>
+psql -d testing
+</div>
+<div class="optional"><pre>
+revoke all on numbers from numberuser;
+</div>
+<div class="optional"><pre>
+DROP USER numberuser;
+</div>
+<div class="optional"><pre>
+\quit
+</div>
+Drop database called "testing".
+<div class="optional"><pre>
+/usr/bin/dropdb testing
+</div>
+Now verify that the "testing" database is gone
+<div class="optional"><pre>
+psql -l
+</div>
+
+<a>Exit postgres</a>
+<div class="optional"><pre>
+exit
+</div>
+
+<h3><a>Note this step</a></h3>
+<div class="command"><pre>
+/usr/local/bin/note.sh postgresql
+</pre></div>
+
+<h3><a>The following programs/utilities use the postgres on the system</h3>
+<p>
+PhpPGAdmin<br>
+Bacula<br>
+Webacula<br>
+<!--
+Davical<br>
+-->
+</p>
+
+</body>
+</html>

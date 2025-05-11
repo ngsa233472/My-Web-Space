@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a>Remove Testuser</a></h2>
+
+    Remove the testuser and all his access
+
+    <a>Login as root</a>
+
+    <a>Remove user "testuser" from ldap</a>
+    <div class="command">
+      <pre>
+ldapdelete -x -h 127.0.0.1 -D "cn=Manager,dc=local,dc=austin,dc=rr,dc=com" 'uid=testuser,ou=People,dc=local,dc=austin,dc=rr,dc=com' -w rootMe55
+</pre
+      >
+    </div>
+
+    <a>Remove group "testuser" from ldap</a>
+    <div class="command">
+      <pre>
+ldapdelete -x -h 127.0.0.1 -D "cn=Manager,dc=local,dc=austin,dc=rr,dc=com" 'cn=testuser,ou=Group,dc=local,dc=austin,dc=rr,dc=com' -w rootMe55
+</pre
+      >
+    </div>
+
+    <a>Remove "testuser" from sudo</a>
+    <div class="command">
+      <pre>
+sed -ie '/testuser/d' /etc/sudoers
+</pre
+      >
+    </div>
+
+    <a>Disable "testuser" in Samba</a>
+    Samba's ability to remove a user from it's database is broken, but you can
+    disable the account
+    <div class="command">
+      <pre>
+smbpasswd -d testuser<!-- smbpasswd -x testuser -->
+</pre>
+    </div>
+
+    <a>Delete testuser's home</a>
+    <div class="command">
+      <pre>
+rm -r /data/home/testuser
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh remove_testuser
+</pre
+      >
+    </div>
+  </body>
+</html>

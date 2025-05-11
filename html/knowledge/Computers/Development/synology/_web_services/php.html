@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type="text/css" href="/css/install.css" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>Php verification</a></font></h2>
+
+<a></a>
+
+<a>Install php</a>
+<div class="command"><pre>
+dnf -y install php.x86_64
+</pre></div>
+
+<a>Edit the php.ini file</a>
+<div class="input"><pre>
+sed -ie s/\;date\.timezone.*/date.timezone=America\\/Chicago/ /etc/php.ini
+</pre></div>
+
+<a>Create the phpinfo.php page</a>
+<div class="command"><pre>
+vi /data/www/html/unencrypted/private/phpinfo.php
+</pre></div>
+
+<div class="command"><pre>
+i
+</pre></div>
+
+<div class="input"><pre>
+&lt;?php
+phpinfo();
+?>
+</pre></div>
+
+<a>Create the unencrypted,public, hello world pages</a>
+<div class="command"><pre>
+vi /data/www/html/unencrypted/public.php
+</pre></div>
+
+<div class="input">
+<pre>
+&lt;html>
+&lt;head>
+&lt;title>Unencrypted Public&lt;/title>
+&lt;/head>
+&lt;body>
+&lt;?php
+phpinfo();
+?> 
+&lt;/body>
+&lt;/html></pre>
+</div>
+
+<a>Create the unencrypted,private page</a>
+<div class="command"><pre>
+vi /data/www/html/unencrypted/private/private.php
+</pre></div>
+<div class="input">
+<pre>
+&lt;html>
+&lt;head>
+&lt;title>Unencrypted Private&lt;/title>
+&lt;/head>
+&lt;body>
+&lt;?php
+phpinfo();
+?> 
+&lt;/body>
+&lt;/html></pre>
+</div>
+<a>Create the encrypted,public page</a>
+<div class="command"><pre>
+vi /data/www/html/ssl/public.php
+</pre></div>
+<div class="input">
+<pre>
+&lt;html>
+&lt;head>
+&lt;title>Encrypted Public&lt;/title>
+&lt;/head>
+&lt;body>
+&lt;?php
+phpinfo();
+?> 
+&lt;/body>
+&lt;/html></pre>
+</div>
+<a>Create the encrypted,private page</a>
+<div class="command"><pre>
+vi /data/www/html/ssl/private/private.php
+</pre></div>
+<div class="input">
+<pre>
+&lt;html>
+&lt;head>
+&lt;title>Encrypted Private&lt;/title>
+&lt;/head>
+&lt;body>
+&lt;?php
+phpinfo();
+?> 
+&lt;/body>
+&lt;/html></pre>
+</div>
+
+<a>Change the ownership of the apache directory</a>
+<div class="command"><pre>
+chown -R apache:apache  /data/www/html
+chmod -R 700 /data/www/html
+</pre></div>
+
+<div class="command"><pre>
+systemctl restart httpd 
+</pre></div>
+
+<a>From the index page, check the "Unencrypted Public PHP Page", "Unencrypted Private PHP Page", "Encrypted Public PHP Page" and the "Encrypted Private PHP Page"</a>
+<pre>http://$_CURRENT_IP/private</pre>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh php
+</pre></div>
+
+</body>
+</html>

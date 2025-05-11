@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a  href="">Change the Apache configuration</a></font></h2>
+
+<a  href="">Login as root</a>
+
+<a href="">Save files</a>
+<div class="command"><pre>
+mkdir -p /data/Saved/etc/httpd/conf &&
+cp /etc/httpd/conf/httpd.conf /data/Saved/etc/httpd/conf
+
+mkdir -p /data/Saved/etc/httpd/conf.d &&
+cp /etc/httpd/conf.d/ssl.conf /data/Saved/etc/httpd/conf.d
+</pre></div>
+
+
+<a  href="">Modify the /etc/httpd/conf/httpd.conf file</a>
+<div class="tab">
+        <a  href="./configs/http_conf.html">link to /etc/httpd/conf/httpd.conf file</a>
+</div>
+
+<a  href="">Modify the /etc/httpd/conf/ssl.conf file</a>
+<div class="tab">
+        <a  href="./configs/ssl_conf.html">link to /etc/httpd/conf/ssl.conf file</a>
+</div>
+
+<a href="">Move /var/www to /data/www and link /var/www to /data/www</a>
+<div class="command"><pre>
+mv /var/www /data
+cd /var
+ln -s /data/www www
+</pre></div>
+
+<a href="">Make html root directories</a>
+<div class="command"><pre>
+mkdir /data/www/html/unencrypted
+mkdir /data/www/html/ssl
+</pre></div>
+
+<a  href="">Create the default index files</a>
+<div class="tab">
+        <a  href="./configs/index.html">link to /etc/httpd/conf/index.html file</a>
+</div>
+
+
+<a href="">Setup the daemon to start on boot</a>
+<div class="command"><pre>
+/bin/systemctl enable httpd
+</pre></div>
+
+<a href="">Change the ownership of the apache directory</a>
+<div class="command"><pre>
+chown -R apache:apache /data/www
+chmod -R 700 /data/www
+</pre></div>
+
+</div>
+<a href="">Start the daemon </a></font>
+<div class="command"><pre>
+/bin/systemctl start httpd
+</pre></div>
+
+</div>
+<a href="">Check the daemon is running </a></font>
+<div class="command"><pre>
+/bin/systemctl status httpd
+</pre></div>
+
+<!--
+<a href="http://192.168.122.10">Check basic page in browser</a>
+
+<a  href="">Become apache</a>
+<div class="command"><pre>
+su - apache
+</pre></div>
+
+<a href="">Create the phpinfo.php page</a>
+<div class="command"><pre>
+vi /data/www/html/phpinfo.php
+</pre></div>
+
+<div class="command"><pre>
+dG
+i
+</pre></div>
+
+<div class="command"><pre>
+&lt;?php
+phpinfo();
+?>
+</pre></div>
+
+<a href="">Create demo page</a>
+<div class="command"><pre>
+vi /data/www/html/index.html
+</pre></div>
+
+<div class="command"><pre>
+dG
+i
+</pre></div>
+
+<div class="command"><pre>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+&lt;html>
+&lt;head>
+&lt;title>Fedora Server Installation Demo Page&lt;/title>
+&lt;link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+&lt/head>
+&lt;body>
+&lt;h2>&lt;a  href="">Demo Page&lt;/a>&lt;/font>&lt;/h2>
+&lt;a href="http://192.168.122.10/phpPgAdmin">phpPgAdmin&lt;/a>&lt;br>
+&lt;a href="http://192.168.122.10/phpMyAdmin">phpMyAdmin&lt;/a>&lt;br>
+&lt;a href="http://192.168.122.10/wiki">MediaWiki&lt;/a>&lt;br>
+&lt;a href="http://192.168.122.10/wordpress">Wordpress&lt;/a>&lt;br>
+&lt;a href="http://192.168.122.10:8080">Tomcat&lt;/a>&lt;br>
+&lt;a href="http://192.168.122.10/tomcat6/SimpleServlet/simple-servlet">Tomcat Simple Servlet&lt;/a>&lt;br>
+&lt;a href="http://192.168.122.10/usage">Webalizer&lt;/a>&lt;br>
+&lt;a href="http://192.168.122.10/phpinfo.php">Phpinfo page&lt;/a>&lt;br>
+&lt;a href="http://192.168.122.10/phpldapadmin">Phpldapadmin/&lt/a>&lt;br>
+&lt;body>
+&lt;html>
+</pre></div>
+
+<a href="http://192.168.122.10">Check demo page in browser</a>
+
+<a href="">Create test page</a>
+<div class="command"><pre>
+mkdir /data/www/html/testing
+</pre></div>
+
+When prompted, enter "nick/rootMe55" for username and password
+
+<a href="http://192.168.122.10/testing">Check testing page in browser</a>
+
+<a href="">Exit apache</a>
+<div class="command"><pre>
+exit
+</pre></div>
+
+<a href="">Note this step</a>
+<div class="command"><pre>
+touch /install/apache_configuration.$INSTALL_VERSION
+</pre></div>
+
+<a href="">Exit root</a>
+<div class="command"><pre>
+exit
+</pre></div>
+-->
+</body>
+</html>

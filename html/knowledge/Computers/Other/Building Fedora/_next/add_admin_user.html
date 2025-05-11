@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Create an admin users account</a></h2>
+
+    To configure accounts that have enhanced access to the system such as sudo
+    to root
+
+    <a>Add user to sudoers</a>
+    <div class="command">
+      <pre>
+USER='nick'
+sed -i -e '/^root\tALL=(ALL)/a\'$USER'\tALL=(ALL)\tNOPASSWD:ALL' /etc/sudoers
+</pre
+      >
+    </div>
+    <br />
+    NOTE TYPES OF DATA THAT IS GOING HERE/MAIL,FILES,PERSONAL WEB PAGES,LINKS<br />
+    <br />
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh add_admin_users
+</pre
+      >
+    </div>
+
+    <a>Exit root</a>
+    <div class="command">
+      <pre>
+exit
+</pre
+      >
+    </div>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/fedora_install.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Default</a></h2>
+
+    <p>
+      The idea is to create a repository that you can sftp over to the server
+      after you have built the $_FILES directory. In this manner, you can get
+      large files even if the system is off line. This is an easy way to install
+      files that are not installed via dnf
+    </p>
+    <p>
+      On a machine that you can sftp from create a set of files that you can
+      bring down into /data/FILES on the newly built server
+    </p>
+
+    <p>
+      This may be an incomplete list as I keep the files on the vmware box and
+      copy them from there
+    </p>
+    <pre>
+apache-ant-1.8.4-bin.tar.gz
+CalDavZAP_0.7.0.zip
+jsMath-3.6e.zip
+axis2-1.6.2-bin.zip
+davical-0.9.9.7-1.noarch.rpm
+jsMath-fonts-1.3.zip
+struts-2.3.8-all.zip
+axis2-1.6.2-war.zip
+fortune-mod-calvin-0.1.1.tar.gz
+libawl-php-0.49-1.noarch.rpm
+tomcat-connectors-1.2.37-src.tar.gz
+base64-1.3.tar.bz2
+jdk-6u38-linux-amd64.rpm
+SimpleServlet.war
+webalizer-2.23-05-src.tgz
+</pre
+    >
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh create_files
+</pre
+      >
+    </div>
+  </body>
+</html>

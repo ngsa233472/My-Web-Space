@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>Mutt configuration</a></h2>
+To install and configure mutt
+
+<a>Purpose</a>
+To configure mutt as the text based mailer since it supports Maildir
+
+<a>Prerequisites</a>
+None
+
+<a>Login as root</a>
+
+<a>Install mail readers</a>
+<div class="command"><pre>
+yum -y install mailx
+yum -y install mutt
+</pre></div>
+
+<a>Unalias vi</a>
+<div class="command"><pre>
+unalias vi
+</pre></div>
+
+<a>Change the default mailer</a>
+<div class="command"><pre>
+rm /usr/bin/mail
+ln -s /usr/bin/mutt /usr/bin/mail
+</pre></div>
+
+<a>Modify the /etc/muttrc.local</a>
+<div class="command"><pre>
+vi /etc/Muttrc.local</pre></div>
+
+<div class="command"><pre>
+dG
+i
+</pre></div>
+
+<div class="command"><pre>
+# Local configuration for Mutt.
+set mbox_type=Maildir
+set folder="~/Maildir"
+set mask="!^\\.[^.]"
+set mbox="~/Maildir"
+set record="+.Sent"
+set postponed="+.Drafts"
+set spoolfile="~/Maildir"
+mailboxes `echo -n "+ "; find ~/Maildir -maxdepth 1 -type d -name ".*" -printf "+'%f' "`
+macro index c "<change-folder>?<toggle-mailboxes>" "open a different folder"
+macro pager c "<change-folder>?<toggle-mailboxes>" "open a different folder"
+macro index C "<copy-message>?<toggle-mailboxes>" "copy a message to a mailbox"
+macro index M "<save-message>?<toggle-mailboxes>" "move a message to a mailbox"
+macro compose A "<attach-message>?<toggle-mailboxes>" "attach message(s) to this message"
+</pre></div>
+
+<a>Restore vim alias</a>
+<div class="command"><pre>
+alias vi=vim
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh mutt
+</pre></div>
+
+</body>
+</html>

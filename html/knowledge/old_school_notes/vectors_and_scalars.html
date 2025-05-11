@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width">
+  <script id="MathJax-script" async src="/mathjax/es5/tex-chtml.js"></script>
+</head>
+<body>
+<h3>XXXXXXXXXXXXXXXXX</h3>
+\begin{align}
+<H1>Vectors and Scalars</H1>
+
+<b>Definition:</b>
+<p>A <b>scalar</b> is a quantity like mass or temperature that only has a magnitude. On the other had, <b>a vector</b> is a mathematical object that has magnitude and direction. </p>
+<p>
+Typical notation to designate a vector is a boldfaced character, a character with and arrow on it, or a character with a line under it
+</p>
+<center>
+<b>B</b> , \begin{align}\buildrel\rightarrow\over B</span> or <u><i>B</i></u> 
+</center>
+</br>
+Vectors can be expressed in many coordinate systems. to simplify this discussion we will limit the vectors to two dimensions and only discuss polar cartesian and polar coordinate systems.<br>
+</br>
+Single points in space are usually contained within brakets (), and vectors within curly brakets <>.
+</br>
+</br>
+Let \begin{align}P_0 </span> be one point in space and, \begin{align} P_1 </span> be another. Vector \begin{align}\buildrel\rightarrow\over{V}</span> is defined as the line from \begin{align}P_0</span> to \begin{align}P_1</span><br>
+</br>
+<center>
+<img src=./vector.png>
+</center>
+<i>In Cartesian Coordinates</i>
+\begin{align}
+{P_0}={(x_0,y_0)}=(1,1)
+\end{align}
+\begin{align}
+{P_1}={(x_1,y_1)}=(3,3)
+\end{align}
+\begin{align}
+\buildrel\rightarrow\over{V}={\bf \vec{{P_0}{P_1}}}={ < x_1-x_0,y_1-y_0 > } = < 4-2,5-3> = < v_1,v_2 > = < 2,2 >
+\end{align}
+<i>In Polar Coordinates</i>
+\begin{align}
+{P_0}={(r_0,\theta_0)}=(\sqrt 2,\arctan(1/1))=(\sqrt 2, \pi/4)
+\end{align}
+\begin{align}
+{P_1}={(r_1,\theta_1})=(\sqrt 8,\arctan(3/3))=(\sqrt 8, \pi/4)
+\end{align}
+\begin{align}
+\buildrel\rightarrow\over{V}={\bf \vec{{P_0}{P_1}}}={ < \sqrt{{r_1}^2-{r_0}^2},\arctan{(\theta_1/\theta_0)}> } = <  \sqrt{3^2-1^2},\arctan(\pi/4/\pi/4)> = < \sqrt 8,\pi/4 >
+\end{align}
+</br>
+<b>Addition:</b>
+\begin{align}{\bf \vec{v}}+{\bf \vec{w}} ={ < v_1+w_1,v_2+w_2 > }\end{align}
+<br>
+<b>Subtraction:</b>
+\begin{align}{\bf \vec{v}}-{\bf \vec{w}}={ < v_1-w_1,v_2-w_2 > }\end{align}
+<br>
+<b>Constant Multiplier:</b>
+\begin{align}
+\begin{align}{\bf k\vec{w}}</span> = \begin{align}{ < kw_1,kw_2 > }</span>
+\end{align}
+<br>
+\begin{align}
+<br>
+\end{align}
+<b>midpoint formula:</b>
+\begin{align}
+{\bf \vec{W}_{mid}}=\frac 1 2{\bf {P_0}{P_1}}={ < \frac {x_1-x_0} 2 ,\frac {y_1-y_2} 2,\frac {z_1-z_0} 2 > }
+\end{align}
+<br>
+<b>length of a vector:</b>
+\begin{align}
+{\mid \mid {\bf V} \mid \mid} = \sqrt { {V_1}^2 + {V_2}^2 + {V_2}^2}
+\end{align}
+<br>
+<b>Dot Product</b> - produces a scaler (magnitude) only
+\begin{align}
+{\bf a \cdot b}={\sum^n_{i=1}}a_i{b_i} = a_1{b_1}+ a_2{b_2} + \cdots + a_n{b_n} = {\mid \mid ab \mid \mid cos t}
+\end{align}
+\begin{align}
+<br>
+\begin{align}{where\ t\ is\ the\ angle\ between\ vectors}</span>
+\end{align}
+<p align="center"><img src="vecdot.png"></p>
+\begin{align}For\ two\ vectors\ \buildrel\rightarrow\over{a}=<1, 3, 5>\ and\ \buildrel\rightarrow\over{b}=<4, -2, -1></span>
+<br>
+</br>
+\begin{align}
+<1, 3, 5> \cdot <4, -2, -1> = (1)(4) + (3)(-2) + (-5)(-1) = 3
+\end{align}
+<br>
+<b>Vector Product (or Cross Product)</b> - produces another vector</br>
+</br>
+\begin{align}
+{\bf V \times B}={\mid \mid V \mid \mid \mid \mid B \mid \mid \sin \theta}<br>
+\end{align}
+<center>
+\begin{align}{where\ \theta\ is\ the\ angle\ between\ vectors}</span>
+</center>
+<br>
+<b>Unit vectors:</b><br>
+</br>
+Unit Vectors are a way of expressing a vector in its component parts. This notation allows us to do some pretty complex math with vectors.
+</br>
+</br>
+<center>
+\begin{align}\buildrel\rightarrow\over{A} = A_X \hat i+A_X \hat j+A_X \hat k\end{align}
+</center>
+</br>
+<b>Vector Product (or Cross Product)</b></br>
+A vector orthogonal to the plane of the two vectors being crossed, whose magnitude is equal to the area of the parallelogram defined by the two vectors. Notice there can be two such vectors. The cross product produces the vector that would be in a right-handed coordinate system with the plane<br>
+<br>
+Using the method of cofactors:
+\begin{align}
+{\bf F}={\bf V \times B}=
+\left|\,\matrix{
+  V_2 & V_3 \cr
+  B_2 & B_3 } \right|i -
+
+\left|\,\matrix{
+  V_1 & V_3 \cr
+  B_1 & B_3 } \right|j -
+
+\left|\,\matrix{
+  V_1 & V_2 \cr
+  B_1 & B_2 } \right|k
+<br>
+\end{align}
+where,
+\begin{align}
+\left|\,\matrix{
+  a & b \cr
+  c & d } \right| = ad-bc
+\end{align}
+so, if<br>
+<br>
+\begin{align}
+\buildrel\rightarrow\over{V} = <2,1,-1> and \buildrel\rightarrow\over{B} = <-3,4,1>\end{align}
+<br>
+<br>
+the cross product is
+<br>
+\begin{align}
+\left|\,\matrix{
+  1 & -1 \cr
+  4 & 1 } \right|i -
+
+\left|\,\matrix{
+  2 & -1 \cr
+  -3 & 1 } \right|j -
+
+\left|\,\matrix{
+  2 & 1 \cr
+  -3 & 4 } \right|k
+<br>
+\end{align}
+\begin{align}(1 \times 1 - (-1) \times 4)\hat i - (2 \times 1 - (-3) \times (-1) )\hat j - (2 \times 4 - (-3) \times 1)\hat k\end{align}
+\begin{align}5\hat i + 1\hat j - 11\hat k\end{align}
+<br>
+<b>right hand rule</b>
+<br>
+
+<p align="center"><font size="3" face="Arial"><img src="rhrule.png" width="174" height="144"></font></p>
+<p align="left"><font size="3" face="Arial">To find the direction of <em><strong>F</strong></em> use your right hand and:</font></p>
+<ol>
+<li><p align="left"><font size="3" face="Arial">Point
+your thumb into the direction of <em><strong>v</strong></em>.</font></p>
+</li>
+<li><p align="left"><font size="3" face="Arial">Point your fingers into the direction of <em><strong>B</strong></em>.</font></p>
+</li>
+<li><p align="left"><font size="3" face="Arial">The direction of the force will be out of your palm.  Your fingers will curl into the direction of the force.</font></p>
+</li>
+</ol>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>OpenSSL Configuration using a self-generated CA Cert</a></h2>
+
+    <a>A little background</a>
+    <b>SSL and TLS terms are often used in confusing ways:</b>
+    <p>
+      (Secure Sockets Layer) is the original protocol implementation. SSLv3 is
+      still in use by some programs, but not very many. TS (Transport Layer
+      Security) replaced the SSL protocol. TLSv1 protocol is used practically
+      always nowadays. Some clients use TLS to mean that they're going to use
+      STARTTLS command after connecting to the standard imap (143), pop3 (110)
+      or smtp port (25/587).
+    </p>
+
+    <a>Download the revoke.crl certificate</a>
+    <div class="command">
+      <pre>wget http://crl.cacert.org/revoke.crl -P /etc/pki</pre>
+    </div>
+
+    <a>Generate CA Certificate</a>
+
+    <p>
+      The first step is to create a new Certificate Authority (CA) Certificate.
+      Fedora 26 has removed the CA directory structure, so you need to put it
+      back. A CA certificate is used to sign all other certificates.
+    </p>
+    <div class="command">
+      <pre>mkdir -p /etc/pki/CA/private; mkdir /etc/pki/CA/certs</pre>
+    </div>
+
+    <p>First we make a new CA.key</p>
+    <div class="command">
+      <pre>
+/usr/bin/openssl genrsa -aes256 -out /etc/pki/CA/private/CA.key -passout env:_BUILD_PASSWORD 4096</pre
+      >
+    </div>
+
+    <p>And next we generate a CA certficate from that key</p>
+    <!--
+<div class="command"><pre>mkdir -p /etc/pki/CA/certs</pre>
+</div>
+-->
+    <div class="command">
+      <pre>
+/usr/bin/openssl req -new -key /etc/pki/CA/private/CA.key -x509 -days 1460 -out /etc/pki/CA/certs/CA.crt -subj "/C=US/ST=Texas/L=Austin/O=Sert Inc/OU=None/CN=certserver.sert.org" -passin env:_BUILD_PASSWORD</pre
+      >
+    </div>
+
+    <a>Server Certificate</a>
+    <p>
+      We will generate only one certificate for the entire server, this can be
+      split up, but there is no point.
+    </p>
+    <p>First we generate an Server Key</p>
+    <div class="command">
+      <pre>
+/usr/bin/openssl genrsa -aes256 -out /etc/pki/tls/private/server.key -passout env:_BUILD_PASSWORD 4096
+</pre
+      >
+    </div>
+
+    Using this key, we generate a Certificate Request (CSR)
+    <div class="command">
+      <pre>
+/usr/bin/openssl req -new -sha256 -key /etc/pki/tls/private/server.key -out /etc/pki/tls/private/server.csr -subj "/C=US/ST=Texas/L=Austin/O=Indigo/OU=HQ/CN=$_CURRENT_FQDN" -passin env:_BUILD_PASSWORD</pre
+      >
+    </div>
+
+    <a>Signing the Certificate</a>
+    We sign the Certificate using the CA.
+    <div class="command">
+      <pre>
+/usr/bin/openssl x509 -req -days 1460 -in /etc/pki/tls/private/server.csr -CA /etc/pki/CA/certs/CA.crt -CAkey /etc/pki/CA/private/CA.key -CAcreateserial -out /etc/pki/tls/certs/server.crt -passin env:_BUILD_PASSWORD</pre
+      >
+    </div>
+
+    <a>File Permissions</a>
+    now that we are done with all of the key generation lets ensure that these
+    are only readable by root.
+    <div class="command">
+      <pre>
+chmod 0700 -R /etc/pki/CA/private
+chmod 0700 -R /etc/pki/tls/private
+</pre
+      >
+    </div>
+
+    <a>Verify the certs</a>
+    <div class="command">
+      <pre>
+tree /etc/pki/CA
+</pre
+      >
+    </div>
+    <div class="command">
+      <pre>
+tree /etc/pki/tls
+</pre
+      >
+    </div>
+
+    <a>Note this step</a>
+    <div class="command"><pre>/usr/local/bin/note.sh setup_ssl_certs</pre></div>
+  </body>
+</html>

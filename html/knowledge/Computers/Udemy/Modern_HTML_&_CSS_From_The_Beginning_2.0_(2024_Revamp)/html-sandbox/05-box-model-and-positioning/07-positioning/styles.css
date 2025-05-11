@@ -1,0 +1,61 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.box {
+  width: 200px;
+  height: 200px;
+  background: lightblue;
+  border: 1px solid black;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box1 {
+  position: static;
+  left: 30px; /* This doesn't do anything because of postition: static */
+}
+
+.box2 {
+  position: relative;
+  left: 30px;
+  top: 20px;
+}
+
+.box3 {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.box4 {
+  position: sticky;
+  top: 200px;
+}
+
+.box5 {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  background: coral;
+  z-index: 1;
+}
+
+.box6 {
+  position: absolute;
+  top: 35px;
+  left: 35px;
+  margin: 0;
+}
+
+.box7 {
+}
+
+.box8 {
+}
+
+.box9 {
+}

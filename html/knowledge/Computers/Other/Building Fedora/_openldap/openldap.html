@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta charset="UTF-8">
+</head>
+<body>
+<h2><a>Configure OpenLDAP</a></h2>
+
+    
+<a>Starting point for other work with LDAP</a>
+<br>
+<br>
+<a>Save the /etc/hosts file</a>
+<div class="command"><pre>
+mkdir -p /data/Saved/etc
+cp -pr /etc/hosts /data/Saved/etc/hosts
+</pre></div>
+
+<a>Modify the /etc/hosts file</a>
+<div class="command">
+<pre>
+echo -e "$_CURRENT_IP $_CURRENT_FQDN $_HOSTNAME\n127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4" &gt; /etc/hosts
+</pre>
+</div>
+
+<a>Verify the installation of LDAP</a>
+<div class="command"><pre>
+rpm -qa | grep ldap
+</pre></div>
+<a>You should get something like this:</a>
+<div class="output">
+<pre>openldap-<i>version</i></pre>
+</div>
+<a>Install the ldap-servers and ldap-client packages via dnf</a>
+<div class="command"><pre>
+dnf -y install openldap-servers
+dnf -y install openldap-clients
+</pre></div>
+	
+<a>Create the new ldap databases directory</a>
+<div class="command"><pre>
+mkdir -p /data/openldap
+chown -R ldap:ldap /data/openldap
+</pre></div>
+
+<a>Save original openldap</a>
+<div class="command"><pre>
+mkdir -p /data/Saved/etc
+cp -pr /etc/openldap /data/Saved/etc/
+cp -pr /etc/nsswitch.conf /data/Saved/etc/
+</pre></div>
+        
+<a>Setup the DB_CONFIG file</a>
+<div class="command"><pre>
+cat << DBCONFIG > /data/openldap/DB_CONFIG
+set_cachesize           0 150000000 1
+set_lg_regionmax        262144
+set_lg_bsize            2097152
+set_flags               DB_LOG_AUTOREMOVE
+DBCONFIG
+</pre></div>
+
+<div class="command"><pre>
+chown -Rf ldap:ldap /data/openldap
+</pre></div>
+
+Setup logging
+<div class="command"><pre>
+sed -ie '/^local7.*/a \ \n\local4.*                                                /var/log/ldap' /etc/rsyslog.conf
+</pre>
+</div>
+
+Restart the rsyslog daemon
+<div class="command"><pre>
+/bin/systemctl restart rsyslog
+</pre></div>
+
+Check the rsyslog daem/n
+<div class="command"><pre>
+/bin/systemctl status rsyslog
+</pre></div>
+
+<p>You should get something like this:</p>
+<div class="output"><pre>
+<pre>
+rsyslog - System Logging Service
+          Loaded: loaded (/lib/systemd/system/rsyslog; enabled)
+          Active: <font color="green">active (running)</font> since Sat, 26 May 2012 15:01:26 -0500; 8s ago
+         Process: 1192 ExecStartPre=/bin/systemctl stop systemd-kmsg-syslogd (required=exited, status=0/SUCCESS)
+        Main PID: 1193 (rsyslogd)
+          CGroup: name=systemd:/system/rsyslog
+                  � 1193 /sbin/rsyslogd -n -c 5
+</pre>
+</div>
+
+<a>Start the slapd daemon</a>
+<div class="command"><pre>
+/bin/systemctl start slapd
+</pre></div>
+
+<a>Check the slapd daemon</a>
+<div class="command"><pre>
+/bin/systemctl status slapd
+</pre></div>
+
+<a>You should get something like this:</a>
+<div class="output"><pre>
+<pre>
+slapd - LSB: starts and stopd OpenLDAP server daemon
+          Loaded: loaded (/etc/rc.d/init.d/slapd)
+          Active: <font color="green">active (running)</font> since Sat, 26 May 2012 15:01:44 -0500; 5s ago
+         Process: 1201 ExecStart=/etc/rc.d/init.d/slapd start (required=exited, status=0/SUCCESS)
+        Main PID: 1231 (slapd)
+          CGroup: name=systemd:/system/slapd
+                  |_ 1231 /usr/sbin/slapd -h  ldap:/// ldapi:/// -u ldap
+</pre>
+</div>
+<a>You will also get a few lines of the log.</a>
+<br>
+<br>
+<a> configuration of the LDAP Database</a>
+<br>
+<br><a>Check the install prior to changing any of the configs</a>
+<br>
+<br>
+<div class="verification">
+<pre>
+ldapsearch -LLLQY EXTERNAL -H ldapi:/// -b cn=config olcDatabase=\*
+</pre>
+</div>
+
+<a>Change the configuration DIT</a>
+<br><br>
+In OpenLDAP 2.4+ you can't shouldn't the config files by hand, if you do, a slaptest -u will return a checksum error.
+You need to use ldapmodify.<br>
+This can be accomplished 2 ways, one by creating a file and reading it in or another by actually typing commands on the command line.
+<br><br>
+<a>First we need to add schemas that used to be part of the default set</a>
+<div class="command"><pre>
+ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
+ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif
+ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/misc.ldif
+ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif
+ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/openldap.ldif
+</pre></div>
+
+<a>Verify that the schemas were installed</a>
+<div class="verification"><pre>
+ldapsearch -LLLQY EXTERNAL -H ldapi:/// -b cn=config dn
+</pre></div>
+
+<a><a>Set a temp directory for ldap source files</a></a>
+<div class="command"><pre>
+mkdir -p /data/Temp/openldap
+</pre></div>
+
+<!------------------------------------------------------------------------------------------------------------->
+<!-- Global Options -->
+<a>Global Options</a>
+
+<a>Check the original global settings</a>
+<div class="verification"><pre>
+ldapsearch -LLLQY EXTERNAL -H ldapi:/// -b cn=config "(objectClass=olcGlobal)"
+</pre></div>
+
+<a>Change the LogLevel</a>
+<a>In a terminal type:</a>
+<div class="command"><pre>
+ldapmodify -Y EXTERNAL -H ldapi:///
+</pre></div>
+
+<div class="command"><pre>
+dn: cn=config
+changetype: modify
+replace: olcLogLevel
+olcLogLevel: stats
+</pre></div>
+
+<p>Type a carriage return twice, to process the entry</p>
+<p>Type &lt;CTRL-D>, to exit ldapmodify</p>
+
+<a>Now verifiy the entry</a>
+<div class="verification"><pre>
+ldapsearch -LLLQY EXTERNAL -H ldapi:/// -b cn=config "(objectClass=olcGlobal)" | grep olcLogLevel:
+</pre></div>
+
+<!------------------------------------------------------------------------------------------------------------->
+<!-- Global Database Options -->
+<a>Global Database Options</a>
+
+<a>Check the original config database settings</a>
+<div class="verification"><pre>ldapsearch -LLLQY EXTERNAL -H ldapi:/// -b cn=config "(olcDatabase={-1}frontend)"</pre></div>
+
+<p>At this time there are no values to add to the frontend database</p>
+
+<!------------------------------------------------------------------------------------------------------------->
+<!-- Give full access to everything to everybody to manage (Test Only) -->
+<!--
+ldapmodify -Y EXTERNAL -H ldapi:///
+
+dn: olcDatabase={0}config,cn=config
+changetype: modify
+replace: olcAccess
+olcAccess: {0}to * by * manage
+
+dn: olcDatabase={2}mdb,cn=config
+changetype: modify
+replace: olcAccess
+olcAccess: {0}to * by * manage
+
+dn: olcDatabase={1}monitor,cn=config
+changetype: modify
+replace: olcAccess
+olcAccess: {0}to * by * manage
+
+olcDatabase={-1}frontend,cn=config
+add: olcAccess
+olcAccess: {0}to * by * manage
+
+Another one
+
+dn: olcDatabase={2}mdb,cn=config
+changetype: modify
+replace: olcAccess
+olcAccess: {0}to attrs=userPassword,shadowLastChange by dn="cn=Manager,dc=local,dc=graysaustin,dc=com" write by anonymous auth by self write by * none
+olcAccess: {1}to dn.base="" by * read
+olcAccess: {2}to * by dn="cn=Manager,dc=local,dc=graysaustin,dc=com" write by * read
+
+add: olcAccess
+
+dn: olcDatabase={2}mdb,cn=config
+delete: olcAccess
+olcAccess: {0}
+
+-->
+
+<!------------------------------------------------------------------------------------------------------------->
+<!-- MDB Database Options -->
+<a>MDB Database Options</a>
+
+<a>Check the original MDB Ddatabase settings</a>
+<div class="verification"><pre>
+ldapsearch -LLLQY EXTERNAL -H ldapi:/// -b cn=config "(olcDatabase={2}mdb)"
+</pre></div>
+
+<a>Interactively change the Database Directory</a>
+<a>In a terminal type:</a>
+<div class="command"><pre>
+ldapmodify -Y EXTERNAL -H ldapi:///
+</pre></div>
+
+<a>You should get something like this:</a>
+<div class="output"><pre>
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+</pre></div>
+
+<a>At the blank line, type:</a>
+<div class="input"><pre>
+dn: olcDatabase={2}mdb,cn=config
+changetype: modify
+replace: olcDbDirectory
+olcDbDirectory: /data/openldap
+</pre></div>
+
+<a>Type a carriage return twice, to process the entry</a>
+<a>Type &lt;CTRL-D>, to exit ldapmodify</a>
+
+<a>Modify the RootDN and Suffix using a config file</a>
+<a>Create a file</a>
+<div class="command">
+<pre>cat << CONFIG >/data/Temp/openldap/mdb1.ldif
+
+dn: olcDatabase={2}mdb,cn=config
+changetype: modify
+replace: olcRootDN
+olcRootDN: cn=Manager,$_DOMAINNAME
+
+dn: olcDatabase={2}mdb,cn=config
+changetype: modify
+replace: olcSuffix
+olcSuffix: $_DOMAINNAME
+CONFIG</pre>
+</div>
+
+<a>Perform the change with the ldapmodify command using the file.</a>
+<div class="command"><pre>ldapmodify -Y EXTERNAL -H ldapi:/// -f /data/Temp/openldap/mdb1.ldif</pre></div>
+
+<a>Set a default password</a>
+<!-- Setup set a rootpw for the config database so we can bind -->
+<!-- Generate a SSHA password -->
+<div class="command"><pre>
+PASSWORD=`slappasswd -s $_BUILD_PASSWORD`
+</pre></div>
+
+<!-- Create the password LDIF file -->
+<div class="command"><pre>cat << CONFIG > /data/Temp/openldap/mdb2.ldif
+dn: olcDatabase={2}mdb,cn=config
+changetype: modify
+add: olcRootPW
+olcRootPW: $PASSWORD
+CONFIG</pre></div>
+
+<a>Perform the change with the ldapmodify command using the file.</a>
+<div class="command"><pre>
+ldapmodify -Y EXTERNAL -H ldapi:/// -f /data/Temp/openldap/mdb2.ldif
+</pre></div>
+
+<a>Now verifiy the RootDN, Suffix, Database Directory and Password entries</a>
+<div class="verification"><pre>
+ldapsearch -LLLQY EXTERNAL -H ldapi:/// -b cn=config "(olcDatabase={2}mdb)"
+</pre></div>
+
+<a>You should get something like this:</a>
+<div class="output"><pre>
+dn: olcDatabase={2}mdb,cn=config
+objectClass: olcDatabaseConfig
+objectClass: olcMdbConfig
+olcDatabase: {2}mdb
+olcDbIndex: objectClass eq,pres
+olcDbIndex: ou,cn,mail,surname,givenname eq,pres,sub
+olcDbDirectory: /data/openldap
+olcRootDN: cn=Manager,dc=local,dc=graysaustin,dc=com
+olcSuffix: dc=local,dc=graysaustin,dc=com
+olcRootPW: {SSHA}xiqsi8y1oUe1NyNgkdwK7RXVzfMavbTz</pre>
+</div>
+
+<a>Setup olcAccess Rules</a>
+
+<a>Add manager access to the config database</a>
+<div class="command"><pre>
+cat << CONFIG > /data/Temp/openldap/config1.ldif
+dn: olcDatabase={0}config,cn=config
+changetype: modify
+replace: olcAccess
+olcAccess: {0} to * by dn.base="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" manage by dn="cn=Manager,dc=local,dc=graysaustin,dc=com" manage
+CONFIG
+</pre></div>
+
+<a>Perform the change with the ldapmodify command using the file.</a>
+<div class="command"><pre>
+ldapmodify -Y EXTERNAL -H ldapi:/// -f /data/Temp/openldap/config1.ldif
+</pre></div>
+
+<a>Now fix the monitor database access</a>
+<div class="command"><pre>
+cat << CONFIG > /data/Temp/openldap/monitor1.ldif
+dn: olcDatabase={1}monitor,cn=config
+changetype: modify
+replace: olcAccess
+olcAccess: {0} to * by dn.base="gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth" read by dn.base="cn=Manager,dc=local,dc=graysaustin,dc=com" read by * none
+CONFIG
+</pre></div>
+
+<a>Perform the change with the ldapmodify command using the file.</a>
+<div class="command"><pre>
+ldapmodify -Y EXTERNAL -H ldapi:/// -f /data/Temp/openldap/monitor1.ldif
+</pre></div>
+
+<a>Now add rules to the MDB database</a>
+<div class="command"><pre>cat << CONFIG > /data/Temp/openldap/mdb3.ldif
+dn: olcDatabase={2}mdb,cn=config
+add: olcAccess
+olcAccess: {0}to attrs=userPassword,shadowLastChange by dn="cn=Manager,dc=local,dc=graysaustin,dc=com" write by anonymous auth by self write by * none
+olcAccess: {1}to dn.base="" by * read
+olcAccess: {2}to * by dn="cn=Manager,dc=local,dc=graysaustin,dc=com" write by * read
+CONFIG</pre></div>
+
+<a>Perform the change with the ldapmodify command using the file.</a>
+<div class="command"><pre>
+ldapmodify -Y EXTERNAL -H ldapi:/// -f /data/Temp/openldap/mdb3.ldif
+</pre></div>
+
+<a>Check the access to the config and monitor databases that you just changed</a>
+<div class="verification"><pre>
+ldapsearch -LLLQY EXTERNAL -H ldapi:/// -b cn=config olcDatabase=\*
+</pre></div>
+
+<a><a>Setup remainder of LDAP Settings</a></a>
+
+<a>Configure the indices</a>
+
+<div class="command"><pre>
+vi /data/Temp/openldap/mdb4.ldif
+</pre></div>
+
+<div class="command"><pre>
+i
+</pre></div>
+
+<div class="input">
+<pre>dn: olcDatabase={2}mdb,cn=config
+changetype: modify
+replace: olcDbIndex
+olcDbIndex: uidNumber eq
+olcDbIndex: gidNumber eq
+olcDbIndex: loginShell eq
+olcDbIndex: uid eq,pres,sub
+olcDbIndex: memberUid eq,pres,sub
+olcDbIndex: uniqueMember eq,pres
+</pre>
+</div>
+
+<div class="command"><pre>
+ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f /data/Temp/openldap/mdb4.ldif
+</pre></div>
+
+<a>Modify the /etc/ldap.conf file</a>
+
+<div class="command"><pre>vim /etc/ldap.conf</pre></div>
+
+<div class="command"><pre>i</pre></div>
+
+<div class="input"><pre>BASE dc=local,dc=graysaustin,dc=com
+URI ldap://CURRENT_FQDN ldaps://CURRENT_FQDN:636
+TLS_REQCERT allow
+TLS_CACERTDIR /etc/pki/CA/certs
+HOST CURRENT_FQDN
+BIND_POLICY soft
+
+#SIZELIMIT      12
+#TIMELIMIT      15
+#DEREF          never</pre></div>
+
+<div class="command"><pre>sed  -ie s/CURRENT_FQDN/"$_CURRENT_FQDN"/g /etc/ldap.conf</pre></div>
+
+<a>Link the /etc/ldap.conf file to the /etc/openldap.conf file</a>
+<div class="command"><pre>
+rm /etc/openldap/ldap.conf
+ln -s /etc/ldap.conf /etc/openldap/ldap.conf
+</pre></div>
+
+<a>Run a config test</a>
+<div class="verification"><pre>
+slaptest -u
+</pre></div>
+
+<a>Restart the daemon</a>
+<div class="command"><pre>
+/bin/systemctl restart slapd
+</pre></div>
+
+<a>Check the daemon</a>
+<div class="command"><pre>
+netstat -plt --numeric-ports | grep slapd
+</pre></div>
+
+<a>You should get something like this:</a>
+<div class="output"><pre>
+<pre>
+tcp        0      0 0.0.0.0:636             0.0.0.0:*               LISTEN      4007/<font color="red">slapd</font>
+tcp        0      0 0.0.0.0:389             0.0.0.0:*               LISTEN      4007/<font color="red">slapd</font>
+tcp6       0      0 [::]:636                [::]:*                  LISTEN      4007/<font color="red">slapd</font>
+tcp6       0      0 [::]:389                [::]:*                  LISTEN      4007/<font color="red">slapd</font>
+</pre>
+</div>
+
+<a>Setup auto start</a>
+<div class="command"><pre>
+/bin/systemctl enable slapd
+</pre></div>
+
+<a>Check system for ldaps</a>
+<div class="verification"><pre>
+ldapsearch -x -b '' -s base '(objectclass=*)' namingContexts
+</pre></div>
+<p>You should get something like this:</p>
+<div class="output"><pre>
+<pre>
+# extended LDIF
+#
+# LDAPv3
+# base &lt;&gt; with scope baseObject
+# filter: (objectclass=*)
+# requesting: namingContexts 
+#
+
+#
+dn:
+namingContexts: dc=local,dc=graysaustin,dc=com
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 2
+# numEntries: 1
+[root@localhost certs]# 
+</pre>
+</div>
+
+<a>Test manager access</a>
+<div class="verification"><pre>
+ldapsearch -x -w $_BUILD_PASSWORD -D cn=Manager,$_DOMAINNAME -b cn=config olcDatabase=\*</pre></div>
+
+<a>Note this step</a>
+<div class="command"><pre>
+/usr/local/bin/note.sh openldap
+</pre></div>
+
+</body>
+</html>

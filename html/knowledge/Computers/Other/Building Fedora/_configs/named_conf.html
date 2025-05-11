@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen,print"
+      href="/stylesheets/Welcome./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a name href="#Index">/etc/named.conf</a></h2>
+
+    <div class="code">
+      <pre>
+vi /etc/named.conf
+</pre
+      >
+    </div>
+
+    <div class="code">
+      <pre>
+dG
+i
+</pre
+      >
+    </div>
+
+    <div class="code">
+      <pre>
+options {
+        directory       "/var/named";
+        dump-file       "/var/named/data/cache_dump.db";
+        statistics-file "/var/named/data/named_stats.txt";
+        memstatistics-file "/var/named/data/named_mem_stats.txt";
+        managed-keys-directory "/var/named/dynamic";
+        listen-on port 53 { 127.0.0.1; 192.168.190.200; };
+        allow-query     { 127.0.0.1; 192.168.190.0/24; };
+        recursion yes;
+        forward first;
+        forwarders { 209.18.47.61; 209.18.47.62; };
+};
+
+logging {
+        channel default_debug {
+                file "data/named.run";
+                severity dynamic;
+        };
+};
+
+zone "." IN {
+        type hint;
+        file "named.ca";
+};
+
+zone "local.austin.rr.com" IN {
+        type master;
+        file "/var/named/chroot/var/named/data/local.austin.rr.com";
+        allow-update { none; };
+};
+
+zone "190.168.192.in-addr.arpa" IN {
+        type master;
+        file "/var/named/chroot/var/named/data/local.190.168.192";
+        allow-update { none; };
+};
+</pre
+      >
+    </div>
+
+    <!--
+
+<a>Details</a>
+<b>options</b>
+<div class="tab">
+<b>directory</b> &nbsp;
+Pretty much self explanitory. The program will chroot by default, this option sets the directory for the root.
+<b>dump-file</b> &nbsp;
+The pathname of the file the server dumps the database to when it receives SIGINT
+<b>statistics-file</b> &nbsp;
+The pathname of the file the server appends statistics to when it receives SIGILL signal
+<b>memstatistics-file</b> &nbsp;
+The pathname of the file the server dumps the database to when it receives SIGINT
+<b>listen-on</b> &nbsp;
+The interfaces and ports that the server will answer queries from.
+<b>allow-query</b> &nbsp;
+Specifies which hosts are allowed to ask ordinary questions
+<b>recursion</b> &nbsp;
+If yes, and a DNS query requests recursion, then the server will attempt to do all the work required to answer the query
+<b>forward</b> &nbsp;
+A value of first, the default, causes the server to query the forwarders first, 
+<b>forwarders</b> &nbsp;
+Specifies the IP addresses to be used for forwarding 
+</div>
+<b>logging</b>
+<div class="tab">
+</div>
+<b>zone "." IN</b>
+<div class="tab">
+</div>
+<b>zone "local.austin.rr.com"</b>
+<div class="tab">
+</div>
+<b>zone "190.168.192.in-addr.arpa"</b>
+<div class="tab">
+</div>
+-->
+  </body>
+</html>

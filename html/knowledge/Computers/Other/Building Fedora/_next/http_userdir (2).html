@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>Adding userdir access to http</a></h2>
+
+
+Gives testuser the ability to share pages with the url http://$_CURRENT_IP/~testuser/
+
+<a>Login as root</a>
+
+<div class="command"><pre>
+vi /etc/httpd/conf.d/userdir.conf
+</pre></div>
+<div class="command"><pre>
+dG
+i
+</pre></div>
+
+<div class="command"><pre>
+<pre>
+&lt;IfModule mod_userdir.c>
+    UserDir enabled testuser
+    UserDir public_html
+&lt;/IfModule>
+
+&lt;Directory "/data/home/*/public_html">
+    AllowOverride FileInfo AuthConfig Limit Indexes
+    Options MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec
+    Require method GET POST OPTIONS
+&lt;/Directory>
+</pre></div>
+
+<a>Restart service</a>
+<div class="command"><pre>
+systemctl restart httpd
+</pre></div>
+
+<a>Verify it is running</a>
+<div class="command"><pre>
+systemctl status httpd
+</pre></div>
+
+<a>Create a testuser page</a>
+<div class="command"><pre>
+vi /data/home/testuser/public_html/index.html
+</pre></div>
+
+<div class="command"><pre>
+dG
+i
+</pre></div>
+
+<div class="command"><pre>
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+&lt;html>
+&lt;head>
+&lt;title>
+&lt;/title>
+&lt;/head>
+&lt;body>
+&lt;b>Testuser Page&lt;/b>
+&lt;/body>
+&lt;/html>
+</pre></div>
+
+<a href="http://$_CURRENT_IP/~testuser">Test the link to testusers page</a>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh http_user_dir
+</pre></div>
+
+</body>
+</html>

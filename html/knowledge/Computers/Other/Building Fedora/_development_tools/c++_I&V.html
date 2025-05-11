@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+</head>
+<body>
+
+<h2><a>Gcc and G++ Installation, Configuration, and Testing</a></h2>
+
+<a>Install GCC</a></font>
+<div class="command"><pre>
+dnf -y install gcc.x86_64
+</pre></div>
+
+<a>Install G++</a></font>
+<div class="command"><pre>
+dnf -y install gcc-c++.x86_64
+</pre></div>
+
+<a>Install C Development Tools and Libraries</a></font>
+<div class="command"><pre>
+dnf -y group install "C Development Tools and Libraries"
+</pre>
+</div>
+
+<a>Create the testfile</a></fonth5>
+<div class="command"><pre>
+mkdir /data/src/g++
+</pre></div>
+
+<a>Create the testfile</a></fonth5>
+<div class="optional"><pre>
+cd /data/src/g++
+</pre></div>
+
+<div class="optional"><pre>
+vi helloworld.cpp
+</pre></div>
+
+<div class="input"><pre>
+#include &lt;iostream>
+using namespace std;
+int main()
+{
+  cout &lt;&lt; "Hello World!" &lt;&lt; endl;   cout &lt;&lt; "Welcome to C++ Programming" &lt;&lt; endl; }
+</pre></div>
+
+<div class="optional"><pre>
+g++ helloworld.cpp
+</pre></div>
+
+<a>Run the testfile</a></font>
+<div class="optional"><pre>
+./a.out
+</pre></div>
+
+<p>You should get something like this</p>
+<div class="optional"><pre>
+Hello World!
+Welcome to C++ Programming
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh c++IandV
+</pre></div>
+
+</body>
+</html>

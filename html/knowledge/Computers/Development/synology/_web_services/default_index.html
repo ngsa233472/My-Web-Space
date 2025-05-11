@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type="text/css" href="/css/install.css" />
+</head>
+<body>
+<h2><a>Create the demo page</a></h2>
+
+<a>Create the directories</a>
+<div class="command"><pre>
+mkdir -p /data/www/html/unencrypted/private
+mkdir -p /data/www/html/ssl/private
+</pre></div>
+
+<div class="command"><pre>
+vi /data/www/html/unencrypted/private/index.html
+</pre></div>
+
+<div class="command">
+<pre>
+dG
+i
+</pre>
+</div>
+
+<div class="input">
+<pre>
+&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+&lt;meta charset="UTF-8">
+&lt;title>Fedora Server Installation&lt;/title>
+&lt/head>
+&lt;body>
+&lt;h2>&lt;a  href="">Fedora Server Installation Demo Page&lt;/a>&lt;/font>&lt;/h2>
+&lt;a href="http://CURRENT_IP/index.html">Unencrypted Public Index Page&lt;/a>&lt;br>
+&lt;a href="http://CURRENT_IP/test.html">Unencrypted Public Test Page&lt;/a>&lt;br>
+&lt;a href="https://CURRENT_IP/index.html">Encrypted Public Index Page&lt;/a>&lt;br>
+&lt;a href="https://CURRENT_IP/test.html">Encrypted Public Test Page&lt;/a>&lt;br>
+&lt;a href="http://CURRENT_IP/private/index.html">Unencrypted Private Index Page&lt;/a>&lt;br>
+&lt;a href="https://CURRENT_IP/private/index.html">Encrypted Private Index Page&lt;/a>&lt;br>
+&lt;a href="http://CURRENT_IP/~nick/">Nick's Personal Page&lt;/a>&lt;br>
+&lt;a href="http://CURRENT_IP/jstest.html">Nick's JSMath Test Examples&lt;/a>&lt;br>
+&lt;a href="http://CURRENT_IP/maxwell.html">Maxwell's Equations&lt;/a>&lt;br>
+&lt;a href="http://CURRENT_IP/javascript.html">Javascript Test Page&lt;/a>&lt;br>
+&lt;a href="http://CURRENT_IP/jquery.html">JQuery Test Page&lt;/a>&lt;br>
+&lt;a href="http://CURRENT_IP/private/phpinfo.php">Phpinfo page&lt;/a>&lt;br>
+&lt;a href="http://CURRENT_IP/public.php">Unencrypted Public PHP Page&lt;/a>&lt;br>
+&lt;a href="http://CURRENT_IP/private/private.php">Unencrypted Private PHP Page&lt;/a>&lt;br>
+&lt;a href="https://CURRENT_IP/public.php">Encrypted Public PHP Page&lt;/a>&lt;br>
+&lt;a href="https://CURRENT_IP/private/private.php">Encrypted Private PHP Page&lt;/a>&lt;br>
+&lt;a href="http://CURRENT_IP/private/graph_bar.html">PHPGraphLib Test Page&lt;/a>&lt;br>
+&lt;a href="https://CURRENT_IP/phpPgAdmin">phpPgAdmin&lt;/a>&lt;br>
+&lt;a href="https://CURRENT_IP/phpMyAdmin">phpMyAdmin&lt;/a>&lt;br>
+&lt;a href="https://CURRENT_IP/phpldapadmin">phpldapadmin&lt;/a>&lt;br>
+&lt;a href="https://CURRENT_IP/awstats/awstats.pl">AWStats&lt;/a>&lt;br>
+&lt;a href="https://CURRENT_IP/cacti\">Cacti&lt;/a>&lt;br>
+&lt;a href="https://CURRENT_IP/wiki\">Media Wiki&lt;/a>&lt;br>
+&lt;a href="https://CURRENT_IP/wordpress\">Wordpress&lt;/a>&lt;br> 
+    
+&lt;/body>
+&lt;/html>
+</pre>
+</div>
+
+<a  href="">Set to current IP Address</a>
+<div class="command">
+<pre>
+sed -i -e s/\CURRENT_IP/$_CURRENT_IP/ /data/www/html/unencrypted/private/index.html
+</div>
+
+<a>Note this step</a>
+<div class="command">
+<pre>
+/usr/local/bin/note.sh default_index_page
+</pre>
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta status="done">
+</head>
+<body>
+
+<h2><a>Sendmail Milter</a></h2>
+
+<div class="tab">
+<a>a. Purpose </a>
+A milter (portmanteau for mail filter), is an API enables third-party programs to access mail messages as they are being processed by the Mail Transfer Agent (MTA).
+
+<a></a>
+
+<a>c. Check Sendmail for Milter</a>
+<p>Verify that sendmail was compiled and installed with the MILTER option</p>
+<div class="command"><pre>
+sendmail -bt -d0.1 &lt; /dev/null | grep -i milter
+</pre></div>
+
+You should get something like this!:
+<div class="output"><pre>
+<pre>
+		MATCHGECOS <font color="red">MILTER</font> MIME7TO8 MIME8TO7 NAMED_BIND NETINET NETINET6
+</pre>
+</div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh milter
+</pre></div>
+
+</body>
+</html>

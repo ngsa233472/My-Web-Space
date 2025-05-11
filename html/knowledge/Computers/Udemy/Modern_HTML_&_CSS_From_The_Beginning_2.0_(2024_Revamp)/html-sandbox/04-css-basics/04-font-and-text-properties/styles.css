@@ -1,0 +1,31 @@
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: "Poppins", "Arial", "sans-serif";
+  line-height: 1.6;
+}
+
+p {
+  /* font-weight: 300; */
+}
+
+a {
+  text-decoration: none;
+}
+
+/* h2 {
+  /* font-size: x-large;
+  font-weight: 700;
+  font-style: normal;
+  font-variant: normal; */
+
+/* font: italic small-caps 700 26px Arial; */
+
+/* text-transform: capitalize;
+  text-indent: 20px;
+  letter-spacing: 2px;
+  word-spacing: 1px;
+  text-align: left;
+} */

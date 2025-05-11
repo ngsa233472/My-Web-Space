@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a>Puppet</a></h2>
+
+    <a>Purpose</a>
+    Puppet is a configuration management tool!
+
+    <a>Login as root</a>
+
+    <div class="command">
+      <pre>
+yum -y install ruby ruby-libs ruby-shadow
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+yum -y install puppet puppet-server facter
+</pre
+      >
+    </div>
+
+    <a>Add "puppet" alias to host file</a>
+    <div class="command">
+      <pre>
+sed -ie 's/^192.168.122.10.*$/&\ puppet/' /etc/hosts
+</pre
+      >
+    </div>
+
+    <a>Generate an initial puppet.conf file</a>
+    <div class="command">
+      <pre>
+puppetmasterd --genconfig > /etc/puppet/puppet.conf
+</pre
+      >
+    </div>
+
+    <a>Fix the location of the pid file</a>
+    <div class="command">
+      <pre>
+sed -i s/pidfile\ =.*/pidfile\ =\ \\/var\\/run\\/puppet\\/master.pid/ /etc/puppet/puppet.conf
+</pre
+      >
+    </div>
+
+    <a>Create the site.pp manifest</a>
+
+    <div class="command">
+      <pre>
+vi /etc/puppet/manifests/site.pp
+</pre
+      >
+    </div>
+
+    <div class="command">
+      <pre>
+# Create "/tmp/testfile" if it doesn't exist.
+class test_class {
+    file { "/tmp/testfile":
+       ensure => present,
+       mode   => 644,
+       owner  => root,
+       group  => root
+    }
+}
+
+# tell puppet on which client to run the class
+node iona {
+    include test_class
+}
+</pre
+      >
+    </div>
+
+    <a>Make sure puppet owns all the files in /etc/puppet</a>
+    <div class="command">
+      <pre>
+chown -R puppet:puppet /etc/puppet
+</pre
+      >
+    </div>
+
+    <a>Start the puppet service</a>
+    <div class="command">
+      <pre>
+systemctl start puppetmaster
+</pre
+      >
+    </div>
+
+    <a>Run a basic test</a>
+    <div class="command">
+      <pre>
+puppet agent --test
+</pre
+      >
+    </div>
+
+    <a>Check that the operation was successful</a>
+    <div class="command">
+      <pre>
+ll /tmp/testfile
+</pre
+      >
+    </div>
+
+    <!--
+<a>Create the module structure</a>
+<div class="command"><pre>
+mkdir -p /etc/puppet/modules/sudo/{files,templates,manifests}
+touch /etc/puppet/modules/sudo/manifests/init.pp
+</pre></div>
+-->
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh puppet
+</pre
+      >
+    </div>
+  </body>
+</html>

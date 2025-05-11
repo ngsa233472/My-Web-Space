@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta status=incomplete>
+</head>
+<body>
+
+<h2><a>Initial Sendmail Installation</a></h2>
+
+<a>Install Sendmail</a>
+<div class="command"><pre>
+yum -y install sendmail
+</pre></div>
+
+<a>Verify that sendmail was installed</a>
+<div class="command"><pre>
+sendmail -bt -d0.1 &lt; /dev/null
+<pre></pre></div>
+<p>You should get something like this!:</p>
+<div class="output"><pre>
+<pre>
+Version 8.14.5
+ Compiled with: DNSMAP HESIOD HES_GETMAILHOST LDAPMAP LOG MAP_REGEX
+		MATCHGECOS MILTER MIME7TO8 MIME8TO7 NAMED_BIND NETINET NETINET6
+		NETUNIX NEWDB NIS PIPELINING SASLv2 SCANF SOCKETMAP STARTTLS
+		TCPWRAPPERS USERDB USE_LDAP_INIT
+
+============ SYSTEM IDENTITY (after readcf) ============
+      (short domain name) $w = iona
+  (canonical domain name) $j = iona.local.austin.rr.com
+         (subdomain name) $m = local.austin.rr.com
+              (node name) $k = iona.local.austin.rr.com
+========================================================
+
+ADDRESS TEST MODE (ruleset 3 NOT automatically invoked)
+Enter <ruleset> <address>
+</pre>
+</div>
+
+<a>Open sendmail.mc</a>
+<div class="command"><pre>
+vi /etc/mail/sendmail.mc
+</pre></div>
+
+<a>Remove current contents and setup for insertion</a>
+<div class="command"><pre>
+dG
+i
+</pre></div>
+
+<a>Paste new file in place</a>
+<div class="command"><pre>
+include(`/usr/share/sendmail-cf/m4/cf.m4')dnl
+VERSIONID(`@(#)Minimal Sendmail Configuration')dnl
+OSTYPE(`linux')dnl
+MAILER(local)dnl
+</pre></div>
+
+<a>Send a test mail</a>
+<div class="command"><pre>
+su - testuser
+</pre></div><div class="command"><pre>
+echo -e "Subject: This is the subject\nThis is the body" | /usr/lib/sendmail -F mickey.mouse@disney.com -t testuser
+</pre></div>
+<div class="command"><pre>
+mutt
+</pre></div><div class="command"><pre>
+exit
+</pre></div>
+
+<a>Look at the logs</a>
+<div class="command"><pre>
+cat /var/log/maillog
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh testing_mail
+</pre></div>
+
+<a href="./index.html">Back to Index</font></a><br>
+<a href="./">Next</font></a><br>
+
+</body>
+</html>

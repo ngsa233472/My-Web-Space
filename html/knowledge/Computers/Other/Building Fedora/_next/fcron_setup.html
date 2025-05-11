@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>Install FCron</a></h2>
+
+<div class="tab">
+
+
+<a></a>
+
+<a>Install fcron</a>
+<div class="command"><pre>
+dnf -y install fcron
+</pre></div>
+
+Setup logging
+<div class="command"><pre>
+sed -ie '/^local4.*/a \ \ncron.*                                                -/var/log/cron.log' /etc/rsyslog.conf
+</pre>
+</div>
+
+Restart the rsyslog daemon
+<div class="command"><pre>
+/bin/systemctl restart rsyslog
+</pre></div>
+
+Check the rsyslog daemon
+<div class="command"><pre>
+/bin/systemctl status rsyslog
+</pre></div>
+
+<p>You should get something like this:</p>
+<div class="output"><pre>
+<pre>
+rsyslog - System Logging Service
+          Loaded: loaded (/lib/systemd/system/rsyslog; enabled)
+          Active: <font color="green">active (running)</font> since Sat, 26 May 2012 15:01:26 -0500; 8s ago
+         Process: 1192 ExecStartPre=/bin/systemctl stop systemd-kmsg-syslogd (required=exited, status=0/SUCCESS)
+        Main PID: 1193 (rsyslogd)
+          CGroup: name=systemd:/system/rsyslog
+                  � 1193 /sbin/rsyslogd -n -c 5
+</pre>
+</div>
+
+<a>Daemon Setup</a>
+<div class="command"><pre>
+chkconfig fcron on
+</pre></div>
+
+<a>Daemons Startup</a>
+<p>Start the Daemon</p>
+<div class="command"><pre>
+/bin/systemctl start fcron
+</pre></div>
+
+<a>Daemon Verification</a>
+<p>Check that the Daemon is running</p>
+<div class="command"><pre>
+/bin/systemctl status fcron
+</pre></div>
+
+<a>Become testuser</a>
+<div class="command"><pre>
+su - testuser
+</pre></div>
+
+<a>Create a test crontab</a>
+<div class="command"><pre>
+fcrontab -en
+</pre></div>
+
+<div class="command"><pre>
+dG
+i
+</pre></div>
+
+<div class="command"><pre>
+# This can test if fcron is working
+1-59 * * * * touch /home/testuser/fcron_test
+</pre></div>
+
+<a>Wait one minute and verify</a>
+<div class="command"><pre>
+ls -la /home/testuser/fcron_test
+</pre></div>
+
+<a>Disable the crontab</a>
+<div class="command"><pre>
+fcrontab -en
+</pre></div>
+
+<div class="command"><pre>
+dG
+</pre></div>
+
+<a>Exit testuser</a>
+<div class="command"><pre>
+exit
+</pre></div>
+
+<a>Remove anacron</a>
+<div class="command"><pre>
+rpm -e --nodeps cronie-anacron
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh fcron_setup
+</pre></div>
+
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Fedora Server Installation</title>
+<style type = "text/css">
+<!--
+body
+{
+	margin:20px;
+	background:#FFF;
+}
+A               { color: #003366; text-decoration: underline;}
+A:link          { color: #003366; text-decoration: underline;}
+A:visited       { color: #003366; text-decoration: underline;}
+A:active        { color: #999999;}
+A:hover         { color: #999999;}
+#banner
+{
+	font-family:palatino,  georgia, verdana, arial, sans-serif;
+	color:#333;
+	font-size:x-large;
+	font-weight:normal;
+	border-bottom:4px double #666;
+}
+span.cmd{
+			font-family:monospace;
+			font-weight: bold;
+		}
+div.output{
+		    margin:10px;
+			background:#fff;
+			border:1px solid #666;
+			padding:10px;
+		}
+div.required{
+		    margin:10px;
+			background:#e0e0e0;
+			border:1px solid #666;
+			padding:10px;
+		}
+#content
+{
+	background:#FFF;
+	margin-right:50px;
+	margin-left:20px;
+	margin-bottom:20px;
+	font-size:large;
+	border:1px solid #FFF;
+}
+-->
+</style>
+<meta name="Microsoft Theme" content="leaves 111, default">
+<meta name="Microsoft Border" content="none, default">
+<meta status=incomplete>
+</head>
+<body>
+<!-- REAL_OPENSSL -->
+<a name="REAL_OPENSSL"></a>
+<h2><a NAME href="#Index">OpenSSL Configuration using a real CA Cert</a></font></h2>
+
+<a href="">a. Download the CA Certificate</a></font>
+Anyone who is going to sign your certificate, is going to make a CA Certificicate available to you. Find this cert and place it in the directory /usr/share/ssl/certs/ naming it CA.crt
+
+<!-->Openldap Cert<-->
+<a href="">e. Generate a Certificate Signing Request</a></font>
+First we generate an private key
+<div class="command">
+
+cd /usr/share/ssl/private &#38;&#38;
+/usr/bin/openssl genrsa -out hawaii.efficax.net.key 1024
+
+</div>
+Using this key, we generate a Certificate Request (CSR).
+<div class="command">
+
+/usr/bin/openssl req -new -key hawaii.efficax.net.key -out hawaii.efficax.net.csr
+
+</div>
+<div class="output"><pre>
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+
+Country Name (2 letter required) [GB]: <font color="blue">US</font>
+State or Province Name (full name) [Berkshire]: <font color="blue">Texas</font>
+Locality Name (eg, city) [Newbury]: <font color="blue">Cedar Park</font>
+Organization Name (eg, company) [My Company Ltd]: <font color="blue">Efficax</font>
+Organizational Unit Name (eg, section) []:<font color="blue">&lt cr &gt</font>
+Common Name (eg, your name or your server's hostname) []: <font color="blue">hawaii.efficax.net</font>
+
+Email Address []: <font color="blue">nagray@austin.rr.com</font>
+             
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:<font color="blue">&lt cr &gt</font>
+An optional company name []:<font color="blue">&lt cr &gt</font>
+</div>
+
+The key should now be moved to /usr/share/ssl/private and chmoded 0710.
+
+After you have done this, you will send the CSR to the Certificate Authority. They will return a certificate which you will name hawaii.efficax.net.crt and plaace in the /usr/share/ssl/certs directory.
+
+</div>
+<!--msthemeseparator--><p align="center"><img src="../_themes/leaves/alearule.gif" width="600" height="10"></p>
+</font></body>
+</html>

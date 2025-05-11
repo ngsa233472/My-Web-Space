@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>SaslAuthd Configuration</a></h2>
+
+
+
+<a></a>
+
+<a>Set up SASL</a>
+Check the Sendmail.conf file
+<div class="command"><pre>
+cat /etc/sasl2/Sendmail.conf
+</pre></div>
+
+<p>You should get this!:</p>
+<div class="output"><pre><pre>
+pwcheck_method:saslauthd
+</pre></div>
+
+<a>Configure startup</a>
+<div class="command"><pre>
+/bin/systemctl enable saslauthd
+</pre></div>
+
+<div class="command"><pre>
+/bin/systemctl start saslauthd
+</pre></div>
+
+<a>Test saslauthd</a>
+<div class="command"><pre>
+testsaslauthd -u testuser -p rootMe55 -s smtp
+</pre></div>
+
+<p>You should get something like this!:</p>
+<div class="output"><pre><pre>
+0: OK "Success."
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh saslauthd
+</pre></div>
+
+</body>
+</html>

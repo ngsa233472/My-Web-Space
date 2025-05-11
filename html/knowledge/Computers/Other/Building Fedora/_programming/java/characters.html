@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen,print"
+      href="/stylesheets/Welcome./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a>Default</a></h2>
+
+    <!-- PRINTING STARTS HERE -->
+    <div class="content">
+      <h1>Java - Character Class</h1>
+      <div class="topgooglead">
+        <div style="padding-bottom: 5px; padding-left: 10px">
+          Advertisements
+        </div>
+        <script type="text/javascript">
+          <!--
+          google_ad_client = "pub-7133395778201029";
+          google_ad_width = 468;
+          google_ad_height = 60;
+          google_ad_format = "468x60_as";
+          google_ad_type = "image";
+          google_ad_channel = "";
+          //-->
+        </script>
+        <script
+          type="text/javascript"
+          src="http://pagead2.googlesyndication.com/pagead/show_ads.js"
+        ></script>
+      </div>
+      <hr />
+      <div class="pre-btn">
+        <a href="/java/java_numbers.htm">Previous Page</a>
+      </div>
+      <div class="nxt-btn">
+        <a href="/java/java_strings.htm">Next Page</a>
+      </div>
+      <div class="clearer"></div>
+      <hr />
+      <p>
+        Normally, when we work with characters, we use primitive data types
+        char.
+      </p>
+      <h2>Example:</h2>
+      <pre class="prettyprint">
+char ch = 'a';
+
+// Unicode for uppercase Greek omega character
+char uniChar = '\u039A'; 
+
+// an array of chars
+char[] charArray ={ 'a', 'b', 'c', 'd', 'e' }; 
+</pre
+      >
+      <p>
+        However in development we come across situations were we need to use
+        objects instead of primitive data types. In-order to achieve this Java
+        provides wrapper classe <b>Character</b> for primitive data type char.
+      </p>
+      <p>
+        The Character class offers a number of useful class (i.e., static)
+        methods for manipulating characters. You can create a Character object
+        with the Character constructor:
+      </p>
+      <pre class="prettyprint">
+Character ch = new Character('a');
+</pre
+      >
+      <p>
+        The Java compiler will also create a Character object for you under some
+        circumstances. For example, if you pass a primitive char into a method
+        that expects an object, the compiler automatically converts the char to
+        a Character for you. This feature is called autoboxing or unboxing, if
+        the conversion goes the other way.
+      </p>
+      <h2>Example:</h2>
+      <pre class="prettyprint">
+// Here following primitive char 'a'
+// is boxed into the Character object ch
+Character ch = 'a';
+
+// Here primitive 'x' is boxed for method test,
+// return is unboxed to char 'c'
+char c = test('x');
+</pre
+      >
+      <h2>Escape Sequences:</h2>
+      <p>
+        A character preceded by a backslash (\) is an escape sequence and has
+        special meaning to the compiler.
+      </p>
+      <p>
+        The newline character (\n) has been used frequently in this tutorial in
+        System.out.println() statements to advance to the next line after the
+        string is printed.
+      </p>
+      <p>Following table shows the Java escape sequences:</p>
+      <table class="src">
+        <tr>
+          <th>Escape Sequence</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>\t</td>
+          <td>Insert a tab in the text at this point.</td>
+        </tr>
+        <tr>
+          <td>\b</td>
+          <td>Insert a backspace in the text at this point.</td>
+        </tr>
+        <tr>
+          <td>\n</td>
+          <td>Insert a newline in the text at this point.</td>
+        </tr>
+        <tr>
+          <td>\r</td>
+          <td>Insert a carriage return in the text at this point.</td>
+        </tr>
+        <tr>
+          <td>\f</td>
+          <td>Insert a form feed in the text at this point.</td>
+        </tr>
+        <tr>
+          <td>\'</td>
+          <td>Insert a single quote character in the text at this point.</td>
+        </tr>
+        <tr>
+          <td>\"</td>
+          <td>Insert a double quote character in the text at this point.</td>
+        </tr>
+        <tr>
+          <td>\\</td>
+          <td>Insert a backslash character in the text at this point.</td>
+        </tr>
+      </table>
+      <p>
+        When an escape sequence is encountered in a print statement, the
+        compiler interprets it accordingly.
+      </p>
+      <h2>Example:</h2>
+      <p>
+        If you want to put quotes within quotes you must use the escape
+        sequence, \", on the interior quotes:
+      </p>
+      <pre class="prettyprint">
+public class Test {
+
+   public static void main(String args[]) {
+      System.out.println("She said \"Hello!\" to me.");
+   }
+}
+</pre
+      >
+      <p>This would produce following result:</p>
+      <pre class="prettyprint">
+She said "Hello!" to me.
+</pre
+      >
+      <h2>Character Methods:</h2>
+      <p>
+        Here is the list of the important instance methods that all the
+        subclasses of the Character class implement:
+      </p>
+      <table class="src">
+        <tr>
+          <th>SN</th>
+          <th>Methods with Description</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>
+            <a href="/java/character_isletter.htm">isLetter()</a
+            ><br />Determines whether the specified char value is a letter.
+          </td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>
+            <a href="/java/character_isdigit.htm">isDigit()</a><br />Determines
+            whether the specified char value is a digit.
+          </td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>
+            <a href="/java/character_iswhitespace.htm">isWhitespace()</a
+            ><br />Determines whether the specified char value is white space.
+          </td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>
+            <a href="/java/character_isuppercase.htm">isUpperCase()</a
+            ><br />Determines whether the specified char value is uppercase.
+          </td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>
+            <a href="/java/character_islowercase.htm">isLowerCase()</a
+            ><br />Determines whether the specified char value is lowercase.
+          </td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>
+            <a href="/java/character_touppercase.htm">toUpperCase()</a
+            ><br />Returns the uppercase form of the specified char value.
+          </td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>
+            <a href="/java/character_tolowercase.htm">toLowerCase()</a
+            ><br />Returns the lowercase form of the specified char value.
+          </td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>
+            <a href="/java/character_tostring.htm">toString()</a><br />Returns a
+            String object representing the specified character valuethat is, a
+            one-character string.
+          </td>
+        </tr>
+      </table>
+      <p>
+        For a complete list of methods, please refer to the java.lang.Character
+        API specification.
+      </p>
+      <h2>What is Next ?</h2>
+      <p>
+        In the next section we will be going through the String class in Java.
+        You will be learning how to declare and use Strings efficiently as well
+        as some of the important methods in the String class.
+      </p>
+      <br />
+      <hr />
+      <div class="pre-btn">
+        <a href="/java/java_numbers.htm">Previous Page</a>
+      </div>
+      <div class="print-btn">
+        <a href="/cgi-bin/printpage.cgi" target="_blank">Print Version</a>
+      </div>
+      <div class="pdf-btn">
+        <a
+          href="/java/pdf/java_characters.pdf"
+          alt="Java - Character Class"
+          target="_blank"
+          >PDF Version</a
+        >
+      </div>
+      <div class="nxt-btn">
+        <a href="/java/java_strings.htm">Next Page</a>
+      </div>
+      <div class="clearer"></div>
+      <hr />
+    </div>
+    <!-- PRINTING ENDS HERE -->
+  </body>
+</html>

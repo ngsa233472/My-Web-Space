@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/fedora_install.css" />
+    <title>Building Kodi on Dell 3050</title>
+  </head>
+
+  
+    <body>
+      <h1>Building Kodi on Dell 3050</h1>
+      <h2><a>Prerequisites</a></h2>
+      <div class="prerequisites">Wired USB keyboard</div>
+      <div class="prerequisites">5GB+ Data Stick</div>
+      <div class="prerequisites">Bootable ubuntu-24.10-desktop-amd64.iso loaded as bootable on Data Stick</div>
+
+      <h2><a>Installation</a></h2>
+
+      <a>Language</a>
+      <div class="input">
+        <pre>English, English (United States)</pre>
+      </div>
+
+      <a>Time & Date</a>
+      <div class="input">
+        <pre>Americas/Chicago timezone</pre>
+      </div>
+
+      <a>Installation Destination</a>
+      <div class="input">
+        <pre>SDA</pre>
+      </div>
+
+      <a>Network IP and Host Name</a>
+      <div class="input">
+        <pre>
+IP: 172.16.10.203 
+Netmask: 255.255.255.224
+Gateway: 172.16.10.193
+DNS: 172.16.10.193
+Hostname: rotoroa.local.graysaustin.com</pre
+        >
+      </div>
+
+      <a>Root Password</a>
+      <div class="input">
+        <pre>RootMe55</pre>
+      </div>
+
+      <div class="command">
+        <pre>reboot</pre>
+      </div>
+    </body>
+  </html>
+
+  <!-- prevent screen from sleeping and locking up<br />
+  - gsettings set org.gnome.desktop.session<br />
+  - idle-delay 0 - gsettings set org.gnome.desktop.screensaver lock-enabled
+  false -<br />
+  - gsettings set org.gnome.desktop.screensaver idle-activation-enabled false
+  Change<br />
+  Set IP Address to 172.16.24.197 Add/Enable SSH sudo apt update sudo apt
+  install
+  <br />
+  openssh-server sudo systemctl enable ssh sudo systemctl start ssh sudo
+  systemctl<br />
+  status ssh Mount SMB drives sudo apt update sudo apt install cifs-utils vi<br />
+  /etc/kodi_credentials username=nick password=Zephyr!Q@W#E$R5 vi /etc/fstab<br />
+  //172.16.24.196/Movies /media/Movies cifs<br />
+  credentials=/etc/samba_credentials,uid=1000,gid=1000,iocharset=utf8,vers=3.0 0
+  0<br />
+  //172.16.24.196/Television /media/Television cifs<br />
+  credentials=/etc/samba_credentials,uid=1000,gid=1000,iocharset=utf8,vers=3.0 0
+  0<br />
+  //172.16.24.196/MusicVideos /media/MusicVideos cifs<br />
+  credentials=/etc/samba_credentials,uid=1000,gid=1000,iocharset=utf8,vers=3.0 0
+  0<br />
+  //172.16.24.196/Music /media/Music cifs<br />
+  credentials=/etc/samba_credentials,uid=1000,gid=1000,iocharset=utf8,vers=3.0 0
+  0<br />
+  //172.16.24.196/Videos /media/Videos cifs<br />
+  credentials=/etc/samba_credentials,uid=1000,gid=1000,iocharset=utf8,vers=3.0 0
+  0<br />
+  Enable 10' controller<br />
+</html> -->
+</html>
+
+<!-- <body>
+    <div class="container">
+      <h2>Prerequisites</h2>
+      <ol class="styled-list">
+        <li><div class="prerequisites">Wired USB keyboard</div></li>
+        <li>5GB+ Data Stick</li>
+      </ol>
+      <h2>Procedure</h2>
+      <ol class="styled-list">
+        <li>
+          Boot PC and hit the F2 Key to access the BIOS, set the boot order to
+          the USB Data Stick first
+        </li>
+        <li>
+          Install Ubuntu Desktop Disable user need to login with password, User
+          should be kodi
+        </li>
+        <ol>
+          <li><div class="input">Choose "English" as language</div></li>
+          <li>Choose "English Language" as keyboard</li>
+          <li>Choose "Use Wired Connection</li>
+          <li>Choose "English" as language</li>
+          <li>Choose "English" as language</li>
+        </ol>
+        <li>Reboot Remove USB data stikc FRom terminal</li>
+        <li>Build projects and improve coding skills</li>
+        <li>Contribute to open-source communities</li>
+      </ol>
+    </div>
+  </body>
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" href="/css/fedora_install.css" />
+      <title>Fedora Server Installation</title>
+      <meta charset="UTF-8" />
+    </head> -->
+    

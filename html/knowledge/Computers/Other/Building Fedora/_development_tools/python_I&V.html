@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<link rel="stylesheet" type = "text/css" href="./install./css/fedora_install.css" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>Python Installation, Configuration, and Testing</a></h2>
+
+alias python3 to python
+<div class="command"><pre>
+vi /etc/profile.d/python.sh
+</pre></div>
+
+<div class="command"><pre>
+alias python='/usr/bin/python3'
+alias pip=pip3
+</pre></div>
+
+<a>Check the installation</a></font>
+<div class="command"><pre>
+python -V
+</pre></div>
+
+<p>You should get something like this</p>
+<div class="output"><pre>
+Python 3.7.4
+</pre></div>
+
+<a>Create the testfile</a></fonth5>
+<div class="optional"><pre>
+mkdir /data/src/python
+cd /data/src/python
+</pre></div>
+
+<div class="optional"><pre>
+vi helloworld.py
+</pre></div>
+
+<div class="input"><pre>
+#!/bin/python3
+print ("Hello, World!")
+</pre></div>
+
+<div class="optional"><pre>
+chmod 755 helloworld.py
+</pre></div>
+
+<a>Run the testfile</a></font>
+<div class="optional"><pre>
+./helloworld.py
+</pre></div>
+
+<p>You should get something like this</p>
+<div class="output"><pre>
+Hello, World!
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command">
+<pre>/usr/local/bin/note.sh pythonIandV</pre>
+</div>
+
+</body>
+</html>
+

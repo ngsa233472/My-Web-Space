@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Programming Languages</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen,print"
+      href="/stylesheets/Welcome./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <!--
+http://cran.r-project.org/doc/manuals/R-intro.html
+-->
+
+    <h2 class="title">R Tutorial and Basic Programming</h2>
+
+    <pre>
+    An Introduction to R
+    Preface
+    1 Introduction and preliminaries
+        1.1 The R environment
+        1.2 Related software and documentation
+        1.3 R and statistics
+        1.4 R and the window system
+        1.5 Using R interactively
+        1.6 An introductory session
+        1.7 Getting help with functions and features
+        1.8 R commands, case sensitivity, etc.
+        1.9 Recall and correction of previous commands
+        1.10 Executing commands from or diverting output to a file
+        1.11 Data permanency and removing objects 
+    2 Simple manipulations; numbers and vectors
+        2.1 Vectors and assignment
+        2.2 Vector arithmetic
+        2.3 Generating regular sequences
+        2.4 Logical vectors
+        2.5 Missing values
+        2.6 Character vectors
+        2.7 Index vectors; selecting and modifying subsets of a data set
+        2.8 Other types of objects 
+    3 Objects, their modes and attributes
+        3.1 Intrinsic attributes: mode and length
+        3.2 Changing the length of an object
+        3.3 Getting and setting attributes
+        3.4 The class of an object 
+    4 Ordered and unordered factors
+        4.1 A specific example
+        4.2 The function tapply() and ragged arrays
+        4.3 Ordered factors 
+    5 Arrays and matrices
+        5.1 Arrays
+        5.2 Array indexing. Subsections of an array
+        5.3 Index matrices
+        5.4 The array() function
+            5.4.1 Mixed vector and array arithmetic. The recycling rule 
+        5.5 The outer product of two arrays
+        5.6 Generalized transpose of an array
+        5.7 Matrix facilities
+            5.7.1 Matrix multiplication
+            5.7.2 Linear equations and inversion
+            5.7.3 Eigenvalues and eigenvectors
+            5.7.4 Singular value decomposition and determinants
+            5.7.5 Least squares fitting and the QR decomposition 
+        5.8 Forming partitioned matrices, cbind() and rbind()
+        5.9 The concatenation function, c(), with arrays
+        5.10 Frequency tables from factors 
+    6 Lists and data frames
+        6.1 Lists
+        6.2 Constructing and modifying lists
+            6.2.1 Concatenating lists 
+        6.3 Data frames
+            6.3.1 Making data frames
+            6.3.2 attach() and detach()
+            6.3.3 Working with data frames
+            6.3.4 Attaching arbitrary lists
+            6.3.5 Managing the search path 
+    7 Reading data from files
+        7.1 The read.table() function
+        7.2 The scan() function
+        7.3 Accessing builtin datasets
+            7.3.1 Loading data from other R packages 
+        7.4 Editing data 
+    8 Probability distributions
+        8.1 R as a set of statistical tables
+        8.2 Examining the distribution of a set of data
+        8.3 One- and two-sample tests 
+    9 Grouping, loops and conditional execution
+        9.1 Grouped expressions
+        9.2 Control statements
+            9.2.1 Conditional execution: if statements
+            9.2.2 Repetitive execution: for loops, repeat and while 
+    10 Writing your own functions
+        10.1 Simple examples
+        10.2 Defining new binary operators
+        10.3 Named arguments and defaults
+        10.4 The �...� argument
+        10.5 Assignments within functions
+        10.6 More advanced examples
+            10.6.1 Efficiency factors in block designs
+            10.6.2 Dropping all names in a printed array
+            10.6.3 Recursive numerical integration 
+        10.7 Scope
+        10.8 Customizing the environment
+        10.9 Classes, generic functions and object orientation 
+    11 Statistical models in R
+        11.1 Defining statistical models; formulae
+            11.1.1 Contrasts 
+        11.2 Linear models
+        11.3 Generic functions for extracting model information
+        11.4 Analysis of variance and model comparison
+            11.4.1 ANOVA tables 
+        11.5 Updating fitted models
+        11.6 Generalized linear models
+            11.6.1 Families
+            11.6.2 The glm() function 
+        11.7 Nonlinear least squares and maximum likelihood models
+            11.7.1 Least squares
+            11.7.2 Maximum likelihood 
+        11.8 Some non-standard models 
+    12 Graphical procedures
+        12.1 High-level plotting commands
+            12.1.1 The plot() function
+            12.1.2 Displaying multivariate data
+            12.1.3 Display graphics
+            12.1.4 Arguments to high-level plotting functions 
+        12.2 Low-level plotting commands
+            12.2.1 Mathematical annotation
+            12.2.2 Hershey vector fonts 
+        12.3 Interacting with graphics
+        12.4 Using graphics parameters
+            12.4.1 Permanent changes: The par() function
+            12.4.2 Temporary changes: Arguments to graphics functions 
+        12.5 Graphics parameters list
+            12.5.1 Graphical elements
+            12.5.2 Axes and tick marks
+            12.5.3 Figure margins
+            12.5.4 Multiple figure environment 
+        12.6 Device drivers
+            12.6.1 PostScript diagrams for typeset documents
+            12.6.2 Multiple graphics devices 
+        12.7 Dynamic graphics 
+    13 Packages
+        13.1 Standard packages
+        13.2 Contributed packages and CRAN
+        13.3 Namespaces 
+    Appendix A A sample session
+    Appendix B Invoking R
+        B.1 Invoking R from the command line
+        B.2 Invoking R under Windows
+        B.3 Invoking R under Mac OS X
+        B.4 Scripting with R 
+    Appendix C The command-line editor
+        C.1 Preliminaries
+        C.2 Editing actions
+        C.3 Command-line editor summary 
+    Appendix D Function and variable index
+    Appendix E Concept index
+    Appendix F References
+    </pre>
+  </body>
+</html>

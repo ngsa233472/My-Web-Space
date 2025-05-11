@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a>Apache Maven</a></h2>
+
+    None
+
+    <a>Login as root</a>
+    <pre>
+tar zxvf /tmp/apache-maven-3.0.4-bin.tar.gz -C /opt
+cd /opt
+ln -s /opt/apache-maven-3.0.4 /opt/apache-maven
+echo "export PATH=$PATH:/opt/apache-maven/bin > /etc/profile.d/maven.sh
+mvn -version
+</pre
+    >
+
+    <div class="output">
+      <pre>
+Apache Maven 3.0.4 (r1232337; 2012-01-17 02:44:56-0600)
+Maven home: /opt/apache-maven
+Java version: 1.6.0_38, vendor: Sun Microsystems Inc.
+Java home: /usr/java/jdk1.6.0_38/jre
+Default locale: en_US, platform encoding: UTF-8
+OS name: "linux", version: "3.6.10-2.fc17.x86_64", arch: "amd64", family: "unix"
+</pre
+      >
+    </div>
+
+    mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app
+    -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh apache-maven
+</pre
+      >
+    </div>
+  </body>
+</html>

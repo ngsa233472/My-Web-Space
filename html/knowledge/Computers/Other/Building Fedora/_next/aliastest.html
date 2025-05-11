@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="/css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>Default</a></h2>
+
+
+None
+
+<a></a>
+
+Required bubble
+<div class="command"><pre>
+required
+</pre></div>
+
+Checkthis bubble
+<div class="checkthis"><pre>
+checkthis
+</pre></div>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh default
+</pre></div>
+
+mkdir /usr/share/aliastest
+
+cat << ALIASTEST > /etc/httpd/conf.d/aliastest.conf
+Alias /aliastest /usr/share/aliastest
+
+<Directory /usr/share/aliastest>
+   <IfModule mod_authz_core.c>
+      Require all granted
+   </IfModule>
+</Directory>
+ALIASTEST
+
+cat << ALIASTEST > /usr/share/aliastest/index.html
+<!DOCTYPE html>
+<html>
+<head>
+<title>
+</title>
+</head>
+<body>
+<b>Alias Test Index</b>
+</body>
+</html>
+ALIASTEST
+
+systemctl restart httpd
+
+
+</body>
+</html>
+

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta charset="UTF-8">
+</head>
+<body>
+<h2><a>Javascript Installation, Configuration, and Testing</a></h2>
+
+<a>Create the Javascript directory</a>
+<div class="command"><pre>
+mkdir -p /data/www/javascript
+</pre></div>
+
+<div class="command"><pre>
+vi /etc/httpd/conf.d/javascript.conf
+</pre></div>
+
+<div class="command"><pre>
+dG
+i
+</pre></div>
+
+<div class="input"><pre>
+<pre>
+Alias /js /data/www/javascript
+
+&lt;Directory "/data/www/javascript">
+        Options Indexes FollowSymLinks
+        Require all granted
+        AllowOverride None
+&lt;/Directory>
+</pre></div>
+
+<a>Create the testfile</a></fonth5>
+<div class="command"><pre>
+cat << REQUIRED > /data/www/html/unencrypted/javascript.html
+&lt;!DOCTYPE html>
+&lt;html>
+&lt;body>
+
+&lt;h1>My First JavaScript&lt;/h1>
+
+&lt;button type="button"
+onclick="document.getElementById('demo').innerHTML = Date()">
+Click me to display Date and Time.&lt;/button>
+
+&lt;p id="demo">&lt;/p>
+
+&lt;/body>
+&lt;/html>
+
+REQUIRED
+</pre></div>
+
+<a>Fix the ownership of the apache directory</a>
+<div class="command"><pre>
+chown -R apache:apache /data/www
+find /data/www -type d -exec chmod 755 {} \;
+find /data/www -type f -exec chmod 644 {} \;
+</pre></div>
+
+</div>
+<a>Restart the daemon </a></font>
+<div class="command"><pre>
+/bin/systemctl restart httpd
+</pre></div>
+
+</div>
+<a>Check the daemon is running </a></font>
+<div class="command"><pre>
+/bin/systemctl status httpd
+</pre></div>
+
+<a>From the index page, check the "Javascript Test Page"</a>
+<pre>http://$_CURRENT_IP/private</pre>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh javascript_IVandV
+</pre></div>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+<link rel="stylesheet" type="text/css" href="../install.css" />
+<link rel="stylesheet" type="text/css" href="/css/install.css" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>Adding userdir access to http</a></h2>
+
+Gives testuser the ability to share pages with the url http://$_CURRENT_IP/~testuser/
+
+<div class="command"><pre>
+vi /etc/httpd/conf.d/userdir.conf
+</pre></div>
+<div class="command"><pre>
+dG
+i
+</pre></div>
+
+<div class="input"><pre>
+<pre>
+&lt;IfModule mod_userdir.c>
+    UserDir public_html
+&lt;/IfModule>
+
+&lt;Directory "/data/home/*/public_html">
+    AllowOverride FileInfo AuthConfig Limit Indexes
+    Options MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec
+    Require method GET POST OPTIONS
+&lt;/Directory>
+</pre></div>
+
+<a>Restart service</a>
+<div class="command"><pre>
+systemctl restart httpd
+</pre></div>
+
+<a>Verify it is running</a>
+<div class="command"><pre>
+systemctl status httpd
+</pre></div>
+
+<a>Create a testuser page</a>
+Since you have created the public_html/index/html as part of the skeleton profile and logged in to the testuser account, there will already be a default html page in place
+
+<a>From the index page, check the "Test User's Personal Page"</a>
+<pre>http://$_CURRENT_IP/private</pre>
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh http_user_dir
+</pre></div>
+
+</body>
+</html>

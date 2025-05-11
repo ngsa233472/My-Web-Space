@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fedora Server Installation</title>
+
+
+<link rel="stylesheet" type = "text/css" href="../install./css/fedora_install.css" />
+<link rel="stylesheet" type = "text/css" href = "/css/fedora_install.css" media = " all" />
+<meta charset="UTF-8">
+</head>
+<body>
+
+<h2><a>Procmail Configuration and Testing</a></h2>
+
+<a>Purpose</a>
+
+<a></a>
+
+<a>Modify the /etc/procmailrc file</a>
+<div class="tab">
+	<a href="./configs/procmailrc.html">link to /etc/procmailrc file</a>
+</div></div>
+
+<!--
+<a>Configure test Maildir</a>
+<div class="command"><pre>
+vi /root/mail.txt
+</pre></div>
+
+<a>Test Procmail</a>
+<div class="command"><pre>
+vi /root/mail.txt
+</pre></div>
+
+-->
+
+<h4><a>Note this step</a></h4>
+<div class="command"><pre>
+/usr/local/bin/note.sh procmail
+</pre></div>
+
+<!--
+<div class="command"><pre>
+dG
+i
+</pre></div>
+
+<div class="command"><pre>
+	From: me@example.com
+	To: me@example.com (self test)
+	X-info: I'm just testing
+	
+	BODY OF MESSAGE SEPARATED BY EMPTY LINE
+	txt txt txt txt txt txt txt txt txt txt    
+</pre></div>
+</body>
+</html>
+
+
+<a>Dry run testing </a>
+<p> Dry run testing is when you use the procmail tool on a file outside the mailserver stream.<p>
+An example message would be
+<pre>
+	From: me@example.com
+	To: me@example.com (self test)
+	X-info: I'm just testing
+	
+	BODY OF MESSAGE SEPARATED BY EMPTY LINE
+	txt txt txt txt txt txt txt txt txt txt    
+</pre><font face="Arial, Arial, Helvetica">
+
+If this is saved to a file named mail.txt, Then the following command would run procmail using test.rc as a recipe on the respective message.
+<div class="command"><pre>
+procmail ./test.rc &lt;./test.mail
+</pre></div>
+-->

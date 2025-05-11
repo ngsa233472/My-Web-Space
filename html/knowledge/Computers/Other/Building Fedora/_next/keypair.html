@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a>Authentication via public/private keys</a></h2>
+
+    <h4><a>Purpose </a></h4>
+    Make it so that nick on the mac can log into the root account on the server
+    and vice versa without a password
+
+    <h4><a>Allow Mac to login to Server</a></h4>
+
+    <a>On Mac generate a key</a>
+    <div class="command">
+      <pre>
+ssh-keygen -t dsa
+</pre
+      >
+    </div>
+
+    <a>Copy key over to root on Server</a>
+    <div class="command">
+      <pre>
+scp /Users/nick/.ssh/id_dsa.pub root@192.168.122.10:.ssh/authorized_keys
+</pre
+      >
+    </div>
+
+    <a>Test</a>
+    <div class="command">
+      <pre>
+ssh root@192.168.122.10
+</pre
+      >
+    </div>
+
+    <a>Copy key over to nick on Server</a>
+    <div class="command">
+      <pre>
+scp /Users/nick/.ssh/id_dsa.pub nick@192.168.122.10:.ssh/authorized_keys
+</pre
+      >
+    </div>
+
+    <a>Test</a>
+    <div class="command">
+      <pre>
+ssh nick@192.168.122.10
+</pre
+      >
+    </div>
+
+    <h4><a>Allow Server to login to Mac</a></h4>
+
+    <a>Login as root</a>
+
+    <a>Generate a key</a>
+    <div class="command">
+      <pre>
+ssh-keygen -t dsa
+</pre
+      >
+    </div>
+
+    <a>Copy key over to Mac</a>
+    <div class="command">
+      <pre>
+scp /root/.ssh/id_dsa.pub nick@192.168.122.10:.ssh/authorized_keys
+</pre
+      >
+    </div>
+
+    <a>Test</a>
+    <div class="command">
+      <pre>
+ssh nick@192.168.122.10
+</pre
+      >
+    </div>
+
+    <a>Exit root</a>
+    <div class="command">
+      <pre>
+exit
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh keypair
+</pre
+      >
+    </div>
+  </body>
+</html>

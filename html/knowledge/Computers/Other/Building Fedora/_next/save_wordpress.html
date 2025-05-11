@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a href="">Backup wordpress database</a></h2>
+
+    <a href="">Purpose </a>
+
+    <a href=""> On current server </a>
+
+    <a href="">Login as root</a>
+
+    <div class="command">
+      <pre>
+cd /data
+mysqldump --add-drop-table -u root -p wordpress > wordpress.sql
+</pre
+      >
+    </div>
+
+    <a href="">Exit root</a>
+    <div class="command">
+      <pre>
+exit
+</pre
+      >
+    </div>
+  </body>
+</html>

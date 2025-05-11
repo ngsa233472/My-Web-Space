@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Fedora Server Installation</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen,print"
+      href="/stylesheets/Welcome./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/stylesheets/install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <meta status="incomplete" />
+  </head>
+  <body>
+    <h2><a name href="#Index">/etc/procmailrc</a></h2>
+
+    <div class="code">
+      <pre>
+vi /etc/procmailrc
+</pre
+      >
+    </div>
+
+    <div class="code">
+      <pre>
+i
+</pre
+      >
+    </div>
+
+    <div class="code">
+      <pre>
+# My config
+# file: /etc/procmailrc
+# system-wide settings for procmail
+FORMAIL="/usr/bin/formail"
+SHELL="/bin/bash"
+SENDMAIL="/usr/sbin/sendmail -oi -t"
+LOGFILE="/var/log/procmail.log"
+DELIVER="/usr/libexec/dovecot/deliver"
+FGREP="/bin/fgrep"
+PATH="/usr/bin:$PATH:/usr/local/bin"
+LOGABSTRACT=all
+VERBOSE="on"
+WHITELIST="$HOME/.whitelist"
+BLACKLIST="$HOME/.blacklist"
+MAILLIST="$HOME/.maillist"
+# Use the following if you get "destination user parameter (-d user) not given":
+DROPPRIVS="YES"
+# fallback:
+DEFAULT="$HOME/Maildir/"
+MAILDIR="$HOME/Maildir/"
+# Check against whitelist
+:0
+* ? $FORMAIL -xFrom: | $FGREP -q -f $WHITELIST
+{
+    :0f
+    | /usr/bin/formail -A "X-Whitelist: Yes"
+    :0fwh
+    | sed -e 's/subject:\ \[SPAM\]/subject: /'
+    :0fwh
+    | /usr/bin/formail -IX-Spam-
+    DROPPRIVS=yes
+    SWITCHRC=/dev/null
+}
+
+# Check against blacklist
+:0
+* ? $FORMAIL -xFrom: | $FGREP -q -f $BLACKLIST
+{
+    :0f
+    | /usr/bin/formail -A "X-Blacklist: Yes"
+    DROPPRIVS=yes
+    SWITCHRC=/dev/null
+}
+<!--
+# Check against mailinglist
+:0
+* ? $FORMAIL -xTo: -xCc: -xBcc: | $FGREP -q -f $MAILLIST
+{
+    :0f
+    | /usr/bin/formail -A "X-Maillist: Yes"
+    DROPPRIVS=yes
+    SWITCHRC=/dev/null
+}-->
+
+INCLUDERC=$HOME/.procmailrc
+
+:0 w
+* ^X-Spam-Flag: YES
+| $DELIVER -m SPAM
+
+:0 w
+| $DELIVER
+</pre>
+    </div>
+  </body>
+</html>

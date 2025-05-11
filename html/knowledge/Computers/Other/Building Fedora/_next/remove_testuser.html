@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fedora Server Installation</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../install./css/fedora_install.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/css/fedora_install.css"
+      media=" all"
+    />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h2><a>Remove Testuser</a></h2>
+
+    Remove the testuser and all his access
+
+    <a></a>
+
+    <a>Remove user "tempuser" from ldap</a>
+    <div class="command">
+      <pre>
+ldapdelete -x -h 127.0.0.1 -D "cn=Manager,dc=local,dc=graysaustin,dc=com" 'uid=tempuser,ou=People,dc=local,dc=graysaustin,dc=com' -w rootMe55
+</pre
+      >
+    </div>
+
+    <a>Remove group "tempuser" from ldap</a>
+    <div class="command">
+      <pre>
+ldapdelete -x -h 127.0.0.1 -D "cn=Manager,dc=local,dc=graysaustin,dc=com" 'cn=tempuser,ou=Group,dc=local,dc=graysaustin,dc=com' -w rootMe55
+</pre
+      >
+    </div>
+
+    <a>Remove "tempuser" from sudo</a>
+    <div class="command">
+      <pre>
+sed -ie '/tempuser/d' /etc/sudoers
+</pre
+      >
+    </div>
+
+    <a>Disable "tempuser" in Samba</a>
+    Samba's ability to remove a user from it's database is broken, but you can
+    disable the account
+    <div class="command">
+      <pre>
+smbpasswd -d tempuser<!-- smbpasswd -x tempuser -->
+</pre>
+    </div>
+
+    <a>Delete tempuser's home</a>
+    <div class="command">
+      <pre>
+rm -r /data/home/tempuser
+</pre
+      >
+    </div>
+
+    <h4><a>Note this step</a></h4>
+    <div class="command">
+      <pre>
+/usr/local/bin/note.sh remove_tempuser
+</pre
+      >
+    </div>
+  </body>
+</html>
